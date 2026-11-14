@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gabriel Lima Leite — Desenvolvimento e Cibersegurança</title>
-<meta name="description" content="Estudante de Engenharia de Software com foco em C/C++, SOC e segurança ofensiva. Brasília, DF.">
+<meta name="description" content="Estudante de Engenharia de Software buscando estágio em desenvolvimento, SOC ou pentest. Brasília, DF.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&family=Manrope:wght@500;600&display=swap" rel="stylesheet">
@@ -114,13 +114,15 @@ tailwind.config = { theme: { extend: {
 
   /* ---- Lightbox de certificados ---- */
   dialog#cert { background:none; border:0; padding:0; margin:auto; width:min(94vw,1100px); max-width:none; overflow:visible; color:#C6C8AE; }
-  dialog#cert::backdrop { background:rgba(9,14,11,.88); backdrop-filter:blur(4px); }
-  dialog#cert[open] { animation:certIn 400ms var(--ease); }
-  dialog#cert[open]::backdrop { animation:fadeIn 400ms var(--ease); }
+  dialog#cert::backdrop, dialog#project-preview::backdrop { background:rgba(9,14,11,.88); backdrop-filter:blur(4px); }
+  dialog#cert[open], dialog#project-preview[open] { animation:certIn 400ms var(--ease); }
+  dialog#cert[open]::backdrop, dialog#project-preview[open]::backdrop { animation:fadeIn 400ms var(--ease); }
   @keyframes certIn { from { opacity:0; transform:translateY(12px) scale(.98); } to { opacity:1; transform:none; } }
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
   .cert-x { display:block; margin:0 0 .75rem auto; font:500 .85rem Manrope,sans-serif; color:#E5E3D7; }
   #cert img { display:block; margin:0 auto; width:auto; height:auto; max-width:100%; max-height:78vh; border-radius:6px; background:#fff; }
+  dialog#project-preview { background:none; border:0; padding:0; margin:auto; width:min(94vw,1200px); max-width:none; overflow:visible; color:#C6C8AE; }
+  #project-preview img { display:block; margin:0 auto; width:auto; height:auto; max-width:100%; max-height:78vh; object-fit:contain; border-radius:6px; background:#111713; }
 
 
   /* ---- Header com fundo após o hero ---- */
@@ -132,7 +134,18 @@ tailwind.config = { theme: { extend: {
   .project-choice { border-radius:0; }
   .project-choice > span:first-child { font:400 1.3rem/1.2 'Instrument Serif',serif; }
   @media (min-width:768px) { .project-choice[aria-current="true"] { transform:none; } }
-  .fig { margin-top:1.75rem; border:1px solid rgba(135,151,122,.25); border-radius:4px; background:#151E18; align-self:start; }
+  .fig { position:relative; margin-top:1.75rem; border:1px solid rgba(135,151,122,.25); border-radius:4px; background:#151E18; align-self:start; }
+  .fig img { display:block; width:100%; aspect-ratio:16/10; object-fit:contain; background:#111713; }
+  .fig img[hidden] { display:none; }
+  .fig.has-photo { transition:transform 350ms var(--ease),border-color 350ms var(--ease),filter 350ms var(--ease); transform-origin:center; }
+  .fig.has-photo:hover { transform:scale(1.025); border-color:rgba(198,200,174,.58); filter:brightness(1.1); }
+  .fig img[role="button"] { cursor:pointer; transition:filter 350ms var(--ease); }
+  .fig img[role="button"]:hover { filter:brightness(1.06); }
+  .fig img[role="button"]:focus-visible { outline:2px solid #A78C6B; outline-offset:-3px; }
+  .fig .photo-caption { display:none; }
+  .fig.has-photo .photo-caption { display:block; }
+  .fig.has-photo > figcaption:not(.photo-caption) { display:none; }
+  .fig.has-photo pre { display:none; }
   .fig figcaption { padding:.55rem 1rem; border-bottom:1px solid rgba(135,151,122,.2); font:400 .66rem 'JetBrains Mono',monospace; color:#87977A; }
   .fig pre { padding:1.1rem 1rem 1.25rem; font:400 .76rem/1.85 'JetBrains Mono',monospace; color:#C6C8AE; overflow-x:auto; }
   .fig b { color:#E5E3D7; font-weight:400; } .fig i { color:#87977A; font-style:normal; } .fig em { color:#A78C6B; font-style:normal; }
@@ -201,10 +214,67 @@ tailwind.config = { theme: { extend: {
   .cr button { font:500 .85rem Manrope,sans-serif; color:var(--c-ivory); justify-self:start; }
   #ciberseguranca .photo::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(105deg,transparent 52%,rgba(131,175,161,.07) 58%,transparent 64%); }
 
+  /* ---- Navegação de conhecimentos (push-in) ---- */
+  .kn-trail { display:flex; overflow-x:auto; scrollbar-width:none; padding-top:4px; }
+  .kn-trail::-webkit-scrollbar { display:none; }
+  .kn-trail button { position:relative; flex:1 0 auto; min-width:9.5rem; padding:.95rem 1.25rem .95rem 0; text-align:left; border-top:1px solid var(--c-forest); color:var(--c-sage); transition:color 300ms var(--ease), border-color 300ms var(--ease); }
+  .kn-trail button::before { content:""; position:absolute; left:0; top:-3px; width:5px; height:5px; background:var(--c-forest); transition:background 300ms var(--ease); }
+  .kn-trail button:hover { color:var(--c-ivory); }
+  .kn-trail button[aria-current="step"] { color:var(--c-ivory); border-top-color:var(--c-cyan); }
+  .kn-trail button[aria-current="step"]::before { background:var(--c-cyan); }
+  .kn-trail .n { display:block; font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-cyan); }
+  .kn-trail .t { display:block; margin-top:.2rem; font:600 .85rem/1.3 Manrope,sans-serif; }
+  .kstage { display:grid; margin-top:2.25rem; perspective:900px; }
+  .kp { grid-area:1 / 1; visibility:hidden; transform-origin:50% 60%; }
+  .kp.on { visibility:visible; }
+  .kp-tag { font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
+  .kp-h { margin-top:.6rem; font:400 clamp(2rem,4.2vw,3rem)/1.05 'Instrument Serif',serif; color:var(--c-ivory); }
+  .kp-d { margin-top:.9rem; max-width:50ch; color:var(--c-stone,#C6C8AE); }
+  .kp-l { margin-top:1.5rem; }
+  .kp-l > div { display:grid; gap:.4rem 1.5rem; padding:.9rem 0; border-top:1px dashed rgba(135,151,122,.3); }
+  @media (min-width:640px) { .kp-l > div { grid-template-columns:9rem 1fr; } }
+  .kp-l dt { font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
+  .kp-l dd { font-size:.9rem; max-width:58ch; } .kp-l .tags { display:flex; flex-wrap:wrap; gap:.5rem; }
+  .kn-ctl { display:flex; align-items:center; justify-content:space-between; margin-top:1.75rem; padding-top:1rem; border-top:1px solid var(--c-forest); font:400 .75rem 'JetBrains Mono',monospace; }
+  .kn-ctl button { padding:.4rem 0; color:var(--c-ivory); transition:opacity 300ms; } .kn-ctl button[disabled] { opacity:.3; cursor:default; }
+  .kn-count { color:var(--c-cyan); }
+  /* ---- Certificates & Learning ---- */
+  .cl { display:grid; gap:.4rem 1.25rem; padding:1.15rem .75rem; margin:0 -.75rem; border-top:1px solid var(--c-forest); transition:background 300ms var(--ease); }
+  .cl:last-child { border-bottom:1px solid var(--c-forest); }
+  @media (min-width:768px) { .cl { grid-template-columns:6.5rem 1fr auto; align-items:baseline; } }
+  .cl[data-cert] { cursor:pointer; } .cl[data-cert]:hover { background:rgba(135,151,122,.06); }
+  .cl-d { font:400 .72rem 'JetBrains Mono',monospace; color:var(--c-sage); }
+  .cl h4 { font:600 1rem/1.35 Manrope,sans-serif; color:var(--c-ivory); }
+  .cl-m { margin-top:.2rem; font:400 .72rem 'JetBrains Mono',monospace; color:var(--c-sage); }
+  .cl-a { justify-self:start; font:500 .8rem Manrope,sans-serif; color:var(--c-ivory); }
+  .cl-a::after { content:"+"; margin-left:.5rem; color:var(--c-cyan); }
+
+  /* Hero: a foto acompanha o mouse (JS define --mx/--my) */
+  #top.photo::before { inset:-10% -5%; transform:translate3d(var(--mx,0px), calc(var(--py,0px) + var(--my,0px)), 0); }
+
+  /* ---- Dica de rolagem ---- */
+  .scroll-cue { position:absolute; right:1.5rem; bottom:2rem; z-index:2; display:flex; flex-direction:column; align-items:center; gap:.9rem; font:400 .68rem 'JetBrains Mono',monospace; color:#87977A; }
+  .scroll-cue span { writing-mode:vertical-rl; letter-spacing:.12em; transition:color 300ms var(--ease); }
+  .scroll-cue:hover span { color:#E5E3D7; }
+  .scroll-cue i { position:relative; display:block; width:1px; height:3.5rem; background:rgba(135,151,122,.35); overflow:hidden; }
+  .scroll-cue i::after { content:""; position:absolute; left:0; top:-40%; width:1px; height:40%; background:#83AFA1; animation:cue 2.4s var(--ease) infinite; }
+  @keyframes cue { to { top:100%; } }
+
+  /* ---- Detalhes "tecnologia" da foto do Sobre ---- */
+  .tk { position:absolute; pointer-events:none; z-index:1; }
+  .tk-c { width:16px; height:16px; border:1px solid rgba(131,175,161,.6); }
+  .tk-c.tl { left:-9px; top:-9px; border-right:0; border-bottom:0; } .tk-c.tr { right:-9px; top:-9px; border-left:0; border-bottom:0; }
+  .tk-c.bl { left:-9px; bottom:-9px; border-right:0; border-top:0; } .tk-c.br { right:-9px; bottom:-9px; border-left:0; border-top:0; }
+  .tk-r { right:-18px; top:10%; bottom:10%; width:7px; background:repeating-linear-gradient(to bottom,rgba(135,151,122,.55) 0 1px,transparent 1px 12px); }
+  .tk-l { left:0; bottom:-2.2rem; display:flex; align-items:center; gap:.6rem; font:400 .68rem 'JetBrains Mono',monospace; color:#87977A; }
+  .tk-l b { width:6px; height:6px; background:#83AFA1; animation:pulse 3.2s ease-in-out infinite; }
+  @media (max-width:767px) { .tk-r { display:none; } }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
     .hero-in > *, .reveal { opacity:1; transform:none; }
   }
+
 </style>
 </head>
 <body class="font-sans antialiased leading-relaxed">
@@ -218,6 +288,7 @@ tailwind.config = { theme: { extend: {
       <li><a class="link-u" href="#sobre">Sobre</a></li>
       <li><a class="link-u" href="#desenvolvimento">Desenvolvimento</a></li>
       <li><a class="link-u" href="#ciberseguranca">Cibersegurança</a></li>
+      <li><a class="link-u" href="#certificados">Certificados</a></li>
       <li><a class="link-u" href="#contato">Contato</a></li>
     </ul>
     <div class="flex items-center gap-4"><button id="language-toggle" class="lang-toggle" type="button" aria-label="Mudar idioma para inglês">PT / EN</button><button id="open" class="md:hidden font-head" aria-expanded="false" aria-controls="menu">Menu</button></div>
@@ -226,7 +297,7 @@ tailwind.config = { theme: { extend: {
 <div id="menu" class="closed fixed inset-0 z-50 bg-bg/95 backdrop-blur flex flex-col justify-center px-10" role="dialog" aria-modal="true" aria-label="Menu">
   <button id="close" class="absolute top-7 right-6 font-head text-ivory">Fechar</button>
   <ul class="font-serif text-4xl text-ivory space-y-5">
-    <li><a href="#sobre">Sobre</a></li><li><a href="#desenvolvimento">Desenvolvimento</a></li><li><a href="#ciberseguranca">Cibersegurança</a></li><li><a href="#contato">Contato</a></li>
+    <li><a href="#sobre">Sobre</a></li><li><a href="#desenvolvimento">Desenvolvimento</a></li><li><a href="#ciberseguranca">Cibersegurança</a></li><li><a href="#certificados">Certificados</a></li><li><a href="#contato">Contato</a></li>
   </ul>
 </div>
 
@@ -238,17 +309,27 @@ tailwind.config = { theme: { extend: {
   <div class="relative max-w-6xl mx-auto w-full px-6 pb-28 md:pb-32 hero-in">
     <p class="font-mono text-xs text-sage mb-6">Brasília, DF · Engenharia de Software, UCB</p>
     <h1 class="font-serif text-ivory text-[3.6rem] sm:text-8xl lg:text-[9.5rem] leading-[.92] tracking-tight">Gabriel<br>Lima Leite</h1>
-    <p class="mt-8 max-w-md text-stone text-lg">Desenvolvimento em C/C++, Java e Python, com foco em detecção e resposta a incidentes de segurança.</p>
+    <p class="mt-8 max-w-xl text-stone text-lg">Estudante de Engenharia de Software buscando estágio em desenvolvimento, SOC ou pentest.</p>
     <a href="#desenvolvimento" class="btn mt-10 inline-block border border-ivory/40 text-ivory font-head text-sm px-7 py-3 rounded-sm hover:bg-ivory hover:text-bg">Ver projetos</a>
   </div>
+  <!-- DICA DE ROLAGEM (canto inferior direito do hero): para remover, apague este <a> -->
+  <a href="#sobre" class="scroll-cue" aria-label="Rolar para a seção Sobre"><span>role para explorar</span><i aria-hidden="true"></i></a>
   </section>
 
 <!-- SOBRE -->
-<section id="sobre" class="py-28 md:py-40 overflow-hidden">
+<section id="sobre" class="pt-28 md:pt-40 pb-10 md:pb-12 overflow-hidden">
   <div class="max-w-6xl mx-auto px-6">
     <div class="mt-10 grid md:grid-cols-12 gap-12 md:gap-16 items-center">
-      <div class="about-frame relative md:col-span-5 md:col-start-2 reveal">
-        <div class="photo fallback aspect-[4/5] rounded-sm" data-parallax role="img" aria-label="Código-fonte exibido em uma tela, em tons escuros de verde" style="--img:url('img/code.jpeg')"><div class="pines far"></div><div class="pines"></div></div>
+      <div class="about-frame relative md:col-span-6 md:col-start-1 reveal">
+        <div class="photo fallback aspect-[4/5] md:aspect-[24/25] rounded-sm" data-parallax role="img" aria-label="Código-fonte exibido em uma tela, em tons escuros de verde" style="--img:url('img/code.jpeg')"><div class="pines far"></div><div class="pines"></div></div>
+        <!-- ===== DETALHES "TECNOLOGIA" AO REDOR DA FOTO ===================================
+             Para remover tudo: apague este bloco até o comentário de fechamento.
+             (Estilos correspondentes: procure por ".tk" no <style>.)
+             =============================================================================== -->
+        <span class="tk tk-c tl" aria-hidden="true"></span><span class="tk tk-c tr" aria-hidden="true"></span><span class="tk tk-c bl" aria-hidden="true"></span><span class="tk tk-c br" aria-hidden="true"></span>
+        <span class="tk tk-r" aria-hidden="true"></span>
+        <p class="tk tk-l" aria-hidden="true"><b></b><span>// Code</span></p>
+        <!-- ===== FIM DOS DETALHES "TECNOLOGIA" ===== -->
       </div>
       <div class="md:col-span-5 md:col-start-8 reveal">
         <h2 class="font-serif text-ivory text-4xl md:text-6xl leading-[1.02]">Entender como as coisas funcionam. Construir com cuidado. Proteger o que importa.</h2>
@@ -257,23 +338,19 @@ tailwind.config = { theme: { extend: {
           <p>Desenvolvimento e cibersegurança são duas perspectivas que me interessam: criar sistemas e investigar como torná-los mais confiáveis. Tenho explorado essas ideias em projetos próprios, trabalhos acadêmicos e trilhas de estudo.</p>
           <p>Busco uma oportunidade de estágio em desenvolvimento, pentest ou SOC para aprender em equipe e contribuir com soluções bem pensadas.</p>
         </div>
-        <div class="mt-8"><ul class="flex flex-wrap gap-2">
-          <li><button type="button" class="tag" data-cert="img/certificados/tic-git-github.jpg" data-title="Git e GitHub · TIC em Trilhas, UCB">Git e GitHub</button></li>
-          <li><button type="button" class="tag" data-cert="img/certificados/tic-colaborativo-github.jpg" data-title="Desenvolvimento Colaborativo em GitHub · TIC em Trilhas, UCB">Desenvolvimento Colaborativo em GitHub</button></li>
-          <li><button type="button" class="tag" data-cert="img/certificados/tic-ciencia-dados.jpg" data-title="Ciência de Dados: Fundamentos · TIC em Trilhas, UCB">Ciência de Dados: Fundamentos</button></li></ul></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- DESENVOLVIMENTO -->
-<section id="desenvolvimento" class="pt-28 md:pt-40 pb-10 md:pb-12">
+<section id="desenvolvimento" class="pt-9 pb-10 md:pb-12">
   <div class="max-w-6xl mx-auto px-6">
     <div class="grid md:grid-cols-12 gap-8 items-end reveal">
-      <h2 class="mt-5 md:col-span-8 font-serif text-ivory text-5xl md:text-8xl leading-[.95] tracking-tight">The art of building</h2>
+      <h2 class="mt-5 md:col-span-8 font-serif text-ivory text-5xl md:text-8xl leading-[.95] tracking-tight">A arte de construir</h2>
       <p class="md:col-span-4 font-serif italic text-xl text-sage">Código que escrevi em C, Java, Dart e SQL.</p>
     </div>
-    <p class="mt-6 max-w-xl text-sm md:text-base text-stone reveal">Projetos da faculdade e pessoais, alguns feitos em grupo.</p>
+    <div class="mt-8 max-w-[54ch] reveal"><p class="text-lg md:text-xl leading-relaxed text-ivory/90">Gosto de transformar uma ideia em algo que funciona. Começo pela lógica: como os dados se organizam, onde o programa pode falhar e como deixar o código claro para quem vier depois.</p><p class="mt-4 text-base leading-relaxed text-sage">Estudo Engenharia de Software e construo, sobretudo, projetos da faculdade e pessoais, alguns em grupo. Me interessa a arquitetura de um sistema tanto quanto a interface que a pessoa usa: código organizado costuma dar uma experiência que simplesmente funciona.</p></div>
 
     <div class="mt-20 md:mt-28 reveal">
       <div class="flex flex-wrap items-end justify-between gap-5">
@@ -292,33 +369,33 @@ tailwind.config = { theme: { extend: {
           <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="banco-dados" aria-current="false"><span class="block font-head text-sm">Gestão bancária (SQL)</span><span class="block mt-1 font-mono text-[.65rem] text-sage">MySQL · Em grupo</span></button>
         </nav>
         <div class="md:col-span-8 min-h-64">
-          <article class="project-panel" data-panel="error-log"><p class="font-mono text-xs text-earth">FERRAMENTA · ANÁLISE DE EVENTOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Error Log Analyzer</h4><p class="mt-4 max-w-[58ch]">Lê e organiza logs de eventos do Windows (via wevtutil) ou de caminhos informados, facilitando a investigação de falhas. Inclui filtros por severidade para erros, avisos e eventos críticos.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">wevtutil</span><span class="tag">Parsing de logs</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/Error-Log-Analyzer" target="_blank" rel="noopener">Abrir repositório ↗</a><figure class="fig"><figcaption>saída sintética de exemplo</figcaption><pre><code><i>severidade  origem          id</i>
+          <article class="project-panel" data-panel="error-log"><p class="font-mono text-xs text-earth">FERRAMENTA · ANÁLISE DE EVENTOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Error Log Analyzer</h4><p class="mt-4 max-w-[58ch]">Lê e organiza logs de eventos do Windows (via wevtutil) ou de caminhos informados, facilitando a investigação de falhas. Inclui filtros por severidade para erros, avisos e eventos críticos.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">wevtutil</span><span class="tag">Parsing de logs</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/Error-Log-Analyzer" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/error-log-analyzer.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/error-log-analyzer.png" alt="Captura do Error Log Analyzer em execução" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>saída sintética de exemplo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><i>severidade  origem          id</i>
 <em>crítico</em>      Kernel-Power    41
 <em>erro</em>         Disk            7
 <b>aviso</b>        Dhcp            1002
 <i>filtro ativo:</i> erro + crítico</code></pre></figure></article>
-          <article class="project-panel" data-panel="pin" hidden><p class="font-mono text-xs text-earth">PROJETO PRÓPRIO · SEGURANÇA</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Simulador de brute-force de PIN</h4><p class="mt-4 max-w-[58ch]">Simulador educacional que ataca por força bruta um PIN numérico de 4 dígitos e compara dois cenários: sem proteção e com bloqueio após tentativas erradas. Mostra, com tempo e número de tentativas, por que delays e lockouts importam.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Lockout</span><span class="tag">time.h</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/PIN-Brute-Force-Simulator" target="_blank" rel="noopener">Abrir repositório ↗</a><figure class="fig"><figcaption>esquema ilustrativo</figcaption><pre><code><b>sem proteção</b>
+          <article class="project-panel" data-panel="pin" hidden><p class="font-mono text-xs text-earth">PROJETO PRÓPRIO · SEGURANÇA</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Simulador de brute-force de PIN</h4><p class="mt-4 max-w-[58ch]">Simulador educacional que ataca por força bruta um PIN numérico de 4 dígitos e compara dois cenários: sem proteção e com bloqueio após tentativas erradas. Mostra, com tempo e número de tentativas, por que delays e lockouts importam.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Lockout</span><span class="tag">time.h</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/PIN-Brute-Force-Simulator" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/pin-brute-force.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/pin-brute-force.png" alt="Captura do simulador de brute-force de PIN em execução" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>sem proteção</b>
 <i>0000 ─▶ 9999</i>  tentativas ilimitadas
 
 <b>com bloqueio</b>
 <i>erro × N ─▶</i> <em>conta travada</em></code></pre></figure></article>
-          <article class="project-panel" data-panel="navegacao" hidden><p class="font-mono text-xs text-earth">PROJETO ACADÊMICO · ALGORITMOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Navegação robótica</h4><p class="mt-4 max-w-[58ch]">Calcula e gerencia rotas para um robô cartesiano, aplicando estruturas de dados e gerenciamento manual de memória.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Listas encadeadas</span><span class="tag">Alocação dinâmica</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/Navega-oRob-tica" target="_blank" rel="noopener">Abrir repositório ↗</a><figure class="fig"><figcaption>esquema ilustrativo</figcaption><pre><code><i>origem</i> ─▶ <b>nó</b> ─▶ <b>nó</b> ─▶ <i>destino</i>
+          <article class="project-panel" data-panel="navegacao" hidden><p class="font-mono text-xs text-earth">PROJETO ACADÊMICO · ALGORITMOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Navegação robótica</h4><p class="mt-4 max-w-[58ch]">Calcula e gerencia rotas para um robô cartesiano, aplicando estruturas de dados e gerenciamento manual de memória.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Listas encadeadas</span><span class="tag">Alocação dinâmica</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/Navega-oRob-tica" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/navegacao-robotica.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/navegacao-robotica.png" alt="Captura ou diagrama do projeto de navegação robótica" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><i>origem</i> ─▶ <b>nó</b> ─▶ <b>nó</b> ─▶ <i>destino</i>
  (0,0)    (2,0)   (2,3)    (5,3)
 
 <em>malloc</em>() ao criar a rota
 <em>free</em>()   ao liberá-la</code></pre></figure></article>
-          <article class="project-panel" data-panel="banco" hidden><p class="font-mono text-xs text-earth">PROJETO ACADÊMICO · SISTEMA BANCÁRIO</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Banco Malvader</h4><p class="mt-4 max-w-[58ch]">Sistema em C para gerenciamento bancário que simula contas, saques e depósitos.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Estruturação de dados</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/BANCO-MALVADER" target="_blank" rel="noopener">Abrir repositório ↗</a><figure class="fig"><figcaption>esquema ilustrativo</figcaption><pre><code><b>conta</b> ─┬─ depositar(valor)
+          <article class="project-panel" data-panel="banco" hidden><p class="font-mono text-xs text-earth">PROJETO ACADÊMICO · SISTEMA BANCÁRIO</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Banco Malvader</h4><p class="mt-4 max-w-[58ch]">Sistema em C para gerenciamento bancário que simula contas, saques e depósitos.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Estruturação de dados</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/BANCO-MALVADER" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/banco-malvader.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/banco-malvader.png" alt="Captura do sistema Banco Malvader em execução" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>conta</b> ─┬─ depositar(valor)
        ├─ sacar(valor)
        └─ <i>saldo suficiente?</i></code></pre></figure></article>
-          <article class="project-panel" data-panel="truco" hidden><p class="font-mono text-xs text-earth">APLICATIVO MOBILE</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Marcador de pontos de Truco</h4><p class="mt-4 max-w-[58ch]">Aplicativo para acompanhar a pontuação das equipes durante partidas de Truco.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Mobile</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/MarcadorPontosTruco" target="_blank" rel="noopener">Abrir repositório ↗</a><figure class="fig"><figcaption>esquema ilustrativo</figcaption><pre><code><b>Equipe A</b>   ▮▮▮▮▮  <em>5</em>
+          <article class="project-panel" data-panel="truco" hidden><p class="font-mono text-xs text-earth">APLICATIVO MOBILE</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Marcador de pontos de Truco</h4><p class="mt-4 max-w-[58ch]">Aplicativo para acompanhar a pontuação das equipes durante partidas de Truco.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Mobile</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/MarcadorPontosTruco" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/marcador-truco.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/marcador-truco.png" alt="Captura da interface do aplicativo Marcador de Truco" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>Equipe A</b>   ▮▮▮▮▮  <em>5</em>
 <b>Equipe B</b>   ▮▮▮    <em>3</em>
 
 <i>+  /  −  por equipe</i></code></pre></figure></article>
-          <article class="project-panel" data-panel="livraria" hidden><p class="font-mono text-xs text-earth">PROJETO EM GRUPO · APLICAÇÃO DESKTOP</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Sistema de Livraria</h4><p class="mt-4 max-w-[58ch]">Aplicação desktop em Java para cadastro e consulta de clientes e funcionários de uma livraria, com interface Swing e dados em MySQL via JDBC. Valida CPF único e bloqueia exclusões que apagariam o histórico de compras.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">Java</span><span class="tag">Swing</span><span class="tag">JDBC</span><span class="tag">MySQL</span><span class="tag">Maven</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/FlashTR5/Sistema-de-Livraria" target="_blank" rel="noopener">Abrir repositório ↗</a><figure class="fig"><figcaption>esquema ilustrativo</figcaption><pre><code><b>Cliente</b> 1 ─── N <b>Compra</b> N ─── 1 <b>Funcionário</b>
+          <article class="project-panel" data-panel="livraria" hidden><p class="font-mono text-xs text-earth">PROJETO EM GRUPO · APLICAÇÃO DESKTOP</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Sistema de Livraria</h4><p class="mt-4 max-w-[58ch]">Aplicação desktop em Java para cadastro e consulta de clientes e funcionários de uma livraria, com interface Swing e dados em MySQL via JDBC. Valida CPF único e bloqueia exclusões que apagariam o histórico de compras.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">Java</span><span class="tag">Swing</span><span class="tag">JDBC</span><span class="tag">MySQL</span><span class="tag">Maven</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/FlashTR5/Sistema-de-Livraria" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/sistema-livraria.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/sistema-livraria.png" alt="Captura da aplicação Sistema de Livraria" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>Cliente</b> 1 ─── N <b>Compra</b> N ─── 1 <b>Funcionário</b>
 
 <i>CPF único</i>
 <i>exclusão bloqueada se há histórico</i></code></pre></figure></article>
-          <article class="project-panel" data-panel="banco-dados" hidden><p class="font-mono text-xs text-earth">PROJETO EM GRUPO · MODELAGEM DE DADOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Gestão de contas e operações bancárias</h4><p class="mt-4 max-w-[58ch]">Banco de dados relacional para um sistema bancário, cobrindo clientes, contas, cartões, transações e empréstimos. Inclui normalização até a 3FN, restrições de integridade e documentação com dicionário de dados.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">SQL</span><span class="tag">MySQL 8</span><span class="tag">Modelagem relacional</span><span class="tag">3FN</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/FlashTR5/Sistema-de-Gestao-de-Contas-e-Operacoes-Bancarias" target="_blank" rel="noopener">Abrir repositório ↗</a><figure class="fig"><figcaption>esquema ilustrativo</figcaption><pre><code><b>cliente</b> ─&lt; <b>conta</b> ─&lt; <b>transação</b>
+          <article class="project-panel" data-panel="banco-dados" hidden><p class="font-mono text-xs text-earth">PROJETO EM GRUPO · MODELAGEM DE DADOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Gestão de contas e operações bancárias</h4><p class="mt-4 max-w-[58ch]">Banco de dados relacional para um sistema bancário, cobrindo clientes, contas, cartões, transações e empréstimos. Inclui normalização até a 3FN, restrições de integridade e documentação com dicionário de dados.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">SQL</span><span class="tag">MySQL 8</span><span class="tag">Modelagem relacional</span><span class="tag">3FN</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/FlashTR5/Sistema-de-Gestao-de-Contas-e-Operacoes-Bancarias" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/gestao-bancaria.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/gestao-bancaria.png" alt="Diagrama ou captura do projeto de gestão bancária em SQL" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>cliente</b> ─&lt; <b>conta</b> ─&lt; <b>transação</b>
 <b>conta</b> ─&lt; <b>cartão</b>
 <b>cliente</b> ─&lt; <b>empréstimo</b>
 
@@ -340,8 +417,8 @@ tailwind.config = { theme: { extend: {
     <pre class="asc asc-main" aria-hidden="true"></pre>
     <div class="absolute inset-x-0 top-0 pointer-events-none">
       <div class="max-w-6xl mx-auto px-6 pt-28 md:pt-36 grid md:grid-cols-12 gap-6 items-end reveal">
-        <h2 class="md:col-span-8 font-serif text-ivory text-5xl md:text-8xl leading-[.95] tracking-tight">Beyond the surface</h2>
-        <p class="md:col-span-4 font-serif italic text-xl" style="color:var(--c-cyan)">Protecting what we build.</p>
+        <h2 class="md:col-span-8 font-serif text-ivory text-5xl md:text-8xl leading-[.95] tracking-tight">Além da superfície</h2>
+        <p class="md:col-span-4 font-serif italic text-xl" style="color:var(--c-cyan)">Proteger o que construímos.</p>
       </div>
     </div>
   </div>
@@ -351,7 +428,7 @@ tailwind.config = { theme: { extend: {
     <div class="grid md:grid-cols-12 gap-14 items-center mb-20 reveal">
       <div class="md:col-span-7">
         <p class="mt-5 font-serif text-ivory text-3xl md:text-5xl leading-tight">Segurança começa com boas perguntas sobre sistemas, eventos e acessos.</p>
-        <p class="mt-5 max-w-[56ch] text-sm md:text-base">Meu interesse está em operações de segurança (SOC) e segurança ofensiva. Abaixo, o que estudo e o que concluí. Os projetos de segurança estão em Desenvolvimento.</p>
+        <p class="mt-5 max-w-[56ch] text-sm md:text-base">Meu interesse está em operações de segurança (SOC) e segurança ofensiva. Abaixo, o que estudo. Os projetos de segurança estão em Desenvolvimento e os certificados na seção seguinte.</p>
       </div>
       <div class="md:col-span-5"><svg id="dg" viewBox="0 0 400 360" class="w-full h-auto" role="img" aria-label="Diagrama: logs, rede, acesso, código e estudo convergem para detecção e resposta a incidentes">
           <g fill="none" stroke="var(--c-forest)"><circle cx="200" cy="180" r="70"/><circle class="ring" cx="200" cy="180" r="130" stroke-dasharray="2 6"/></g>
@@ -368,24 +445,49 @@ tailwind.config = { theme: { extend: {
     </div>
 
     <div class="grp reveal">
-      <div class="grp-h"><p class="ev-h"><span class="dot hollow"></span>Conhecimentos em estudo</p><p class="mt-3 text-sm">Fundamentos que venho estudando.</p></div>
-      <div class="est">
-        <div><h3>Redes</h3><div><p>Fundamentos de TCP/IP, portas e serviços.</p></div></div>
-        <div><h3>Firewall e controle de acesso</h3><div><p>Conceitos de firewall e de controle de acesso.</p></div></div>
-        <div><h3>Sistemas e permissões</h3><div><p>Gerenciamento básico de usuários e permissões, e boas práticas de segurança.</p></div></div>
-        <div><h3>Sistemas operacionais</h3><div><p>Fundamentos de sistemas operacionais.</p></div></div>
-        <div><h3>Ferramentas de segurança</h3><div><p>Ferramentas apresentadas na trilha Cyber Security 101.</p><div class="mt-3 flex flex-wrap gap-2"><span class="tag">Nmap</span><span class="tag">Wireshark</span><span class="tag">Metasploit</span></div></div></div>
+      <div class="grp-h"><p class="ev-h"><span class="dot hollow"></span>Conhecimentos em estudo</p><p class="mt-3 text-sm">Fundamentos que venho estudando.</p><p class="mt-2 text-sm">Use as categorias ou as setas para navegar.</p></div>
+      <!-- ============ CONHECIMENTOS EM ESTUDO: COMO ATUALIZAR ============
+     Cada categoria tem 2 partes que andam juntas, na mesma ordem:
+       1) um botao dentro de <div class="kn-trail">  (item da trilha: numero + nome)
+       2) um painel <div class="kp"> dentro de <div class="kstage">  (conteudo)
+     ADICIONAR: copie um botao e um painel, aumente o data-i (0, 1, 2, ...) nos dois e ajuste o numero (01, 02, ...) do botao.
+     EDITAR: nome em <h3 class="kp-h">, descricao em <p class="kp-d"> e as linhas de <dl class="kp-l">
+       (Conhecimentos / Ferramentas / Relacionado). Apague a linha <div> do <dl> que nao quiser mostrar.
+     CONTADOR: o script calcula "01 / 0N" sozinho. So o texto inicial do <span class="kn-count"> e fixo: atualize para "01 / 0N".
+     INGLES: acrescente cada texto novo no dicionario "translations" (procure por "const translations") no formato 'texto em PT':'text in EN'.
+     SCRIPT: nao precisa mudar (procure por "Conhecimentos em estudo: navegacao com push-in"). Funciona com ate 9 categorias.
+     Inclua so conhecimentos e ferramentas que voce realmente estudou ou usou.
+     ================================================================== -->
+      <div id="kn" aria-label="Conhecimentos em estudo">
+        <div class="kn-trail"><button type="button" data-i="0" aria-current="step"><span class="n">01</span><span class="t">Redes</span></button><button type="button" data-i="1"><span class="n">02</span><span class="t">Firewall e Controle de Acesso</span></button><button type="button" data-i="2"><span class="n">03</span><span class="t">Sistemas e Permissões</span></button><button type="button" data-i="3"><span class="n">04</span><span class="t">Sistemas Operacionais</span></button><button type="button" data-i="4"><span class="n">05</span><span class="t">Ferramentas de Segurança</span></button></div>
+        <div class="kstage">
+          <div class="kp on" data-i="0" role="group" aria-label="1 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Redes</h3><p class="kp-d">Como os dispositivos se comunicam e quais serviços ficam expostos.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">TCP/IP</span><span class="tag">Portas e serviços</span></div></dd></div></dl></div>
+          <div class="kp" data-i="1" role="group" aria-label="2 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Firewall e Controle de Acesso</h3><p class="kp-d">Quem pode acessar o quê, e como regras e credenciais limitam esse acesso.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">Conceitos de firewall</span><span class="tag">Controle de acesso</span></div></dd></div><div><dt>Relacionado</dt><dd><p>Simulador de brute-force de PIN, projeto próprio sobre a importância de credenciais robustas.</p></dd></div></dl></div>
+          <div class="kp" data-i="2" role="group" aria-label="3 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Sistemas e Permissões</h3><p class="kp-d">Como usuários e permissões definem o que cada conta pode fazer.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">Usuários e permissões</span><span class="tag">Boas práticas de segurança</span></div></dd></div></dl></div>
+          <div class="kp" data-i="3" role="group" aria-label="4 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Sistemas Operacionais</h3><p class="kp-d">O ambiente onde tudo executa e onde ficam os registros do que acontece.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">Fundamentos de sistemas operacionais</span><span class="tag">Logs de eventos do Windows</span></div></dd></div><div><dt>Ferramentas</dt><dd><div class="tags"><span class="tag">wevtutil</span></div></dd></div><div><dt>Relacionado</dt><dd><p>Error Log Analyzer, projeto próprio em C que lê e filtra eventos do Windows por severidade.</p></dd></div></dl></div>
+          <div class="kp" data-i="4" role="group" aria-label="5 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Ferramentas de Segurança</h3><p class="kp-d">Ferramentas apresentadas na trilha Cyber Security 101, em contexto de estudo.</p><dl class="kp-l"><div><dt>Ferramentas</dt><dd><div class="tags"><span class="tag">Nmap</span><span class="tag">Wireshark</span><span class="tag">Metasploit</span></div></dd></div><div><dt>Relacionado</dt><dd><p>Cyber Security 101, trilha da TryHackMe.</p></dd></div></dl></div>
+          </div>
+        <div class="kn-ctl"><button type="button" data-prev disabled><span aria-hidden="true">←</span> <span>Anterior</span></button><span class="kn-count" aria-live="polite">01 / 05</span><button type="button" data-next><span>Próxima</span> <span aria-hidden="true">→</span></button></div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="grp reveal">
-      <div class="grp-h"><p class="ev-h"><span class="dot"></span>Trilhas e cursos concluídos</p><p class="mt-3 text-sm">Certificados abrem na própria página, quando disponíveis.</p></div>
-      <div>
-        <div class="cr" data-cert="img/certificados/thm-pre-security.jpg" data-title="Pre Security · TryHackMe"><div><span class="src">TryHackMe</span><span class="kd">trilha educacional</span></div><div><h4>Pre Security</h4><p class="meta">Concluída em fevereiro de 2026 · 7h38</p></div><button type="button" class="link-u">Ver certificado</button></div>
-        <div class="cr"><div><span class="src">TryHackMe</span><span class="kd">trilha educacional</span></div><div><h4>Cyber Security 101</h4><p>Trilha da TryHackMe com ferramentas como Nmap, Wireshark e Metasploit.</p></div><span></span></div>
-        <div class="cr" data-cert="img/certificados/opswat-icip.png" data-title="Introduction to Critical Infrastructure Protection · OPSWAT"><div><span class="src">OPSWAT</span><span class="kd">curso</span></div><div><h4>Introduction to Critical Infrastructure Protection</h4><p>Proteção de infraestrutura crítica.</p><p class="meta">Concluído em maio de 2026</p></div><button type="button" class="link-u">Ver certificado</button></div>
-      </div>
-    </div>
+<!-- CERTIFICATES & LEARNING -->
+<section id="certificados" class="cyber pb-24 md:pb-32 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 md:gap-14">
+    <div class="md:col-span-4 reveal"><div class="md:sticky md:top-24">
+      <h2 class="font-serif text-ivory text-4xl md:text-5xl leading-[1.02] tracking-tight">Certificados e Aprendizado</h2>
+      <p class="mt-4 text-sm max-w-[34ch]">Trilhas e certificados concluídos. Selecione um item para abrir o certificado, quando disponível.</p>
+    </div></div>
+    <div class="md:col-span-8 reveal">
+        <div class="cl" data-cert="img/certificados/tic-git-github.jpg" data-title="Git e GitHub · TIC em Trilhas, UCB"><span class="cl-d">10 set 2026</span><div><h4>Git e GitHub</h4><p class="cl-m"><span>TIC em Trilhas, UCB</span> · <span>30 h</span> · <span>Desenvolvimento</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
+        <div class="cl" data-cert="img/certificados/tic-colaborativo-github.jpg" data-title="Desenvolvimento Colaborativo em GitHub · TIC em Trilhas, UCB"><span class="cl-d">15 jun 2026</span><div><h4>Desenvolvimento Colaborativo em GitHub</h4><p class="cl-m"><span>TIC em Trilhas, UCB</span> · <span>30 h</span> · <span>Desenvolvimento</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
+        <div class="cl" data-cert="img/certificados/opswat-icip.png" data-title="Introduction to Critical Infrastructure Protection · OPSWAT"><span class="cl-d">20 mai 2026</span><div><h4>Introduction to Critical Infrastructure Protection</h4><p class="cl-m"><span>OPSWAT</span> · <span>Cibersegurança</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
+        <div class="cl" data-cert="img/certificados/thm-pre-security.jpg" data-title="Pre Security · TryHackMe"><span class="cl-d">8 fev 2026</span><div><h4>Pre Security</h4><p class="cl-m"><span>TryHackMe</span> · <span>7h38</span> · <span>Cibersegurança</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
+        <div class="cl"><span class="cl-d">—</span><div><h4>Cyber Security 101</h4><p class="cl-m"><span>TryHackMe</span> · <span>Cibersegurança</span></p></div><span></span></div>
+        <div class="cl" data-cert="img/certificados/tic-ciencia-dados.jpg" data-title="Ciência de Dados: Fundamentos · TIC em Trilhas, UCB"><span class="cl-d">4 jul 2025</span><div><h4>Ciência de Dados: Fundamentos</h4><p class="cl-m"><span>TIC em Trilhas, UCB</span> · <span>30 h</span> · <span>Dados</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
+        </div>
   </div>
 </section>
 
@@ -397,7 +499,6 @@ tailwind.config = { theme: { extend: {
     <a href="mailto:gabe.limtee@gmail.com" class="btn mt-10 inline-block bg-ivory text-bg font-head text-sm px-8 py-3.5 rounded-sm hover:bg-stone">gabe.limtee@gmail.com</a>
     <ul class="mt-10 flex gap-8 font-head text-sm">
       <li><a class="link-u" href="https://github.com/limnte" target="_blank" rel="noopener">GitHub</a></li>
-      <!-- Confira: seu currículo e seu GitHub apontam para URLs diferentes do LinkedIn -->
       <li><a class="link-u" href="https://www.linkedin.com/in/gabelimte/" target="_blank" rel="noopener">LinkedIn</a></li>
     </ul>
     <div class="mt-16 border-t border-sage/20 pt-9">
@@ -431,6 +532,12 @@ tailwind.config = { theme: { extend: {
   <p data-cap class="mt-3 text-center font-mono text-xs text-sage"></p>
 </dialog>
 
+<dialog id="project-preview" aria-label="Imagem do projeto ampliada">
+  <button type="button" data-close-project class="cert-x">Fechar</button>
+  <img alt="">
+  <p id="project-preview-caption" class="mt-3 text-center font-mono text-xs text-sage"></p>
+</dialog>
+
 <script>
   // Menu mobile
   const menu = document.getElementById('menu'), openBtn = document.getElementById('open');
@@ -445,12 +552,17 @@ tailwind.config = { theme: { extend: {
   // Alternância de idioma: traduz a interface e o conteúdo editorial disponível.
   const languageButton = document.getElementById('language-toggle');
   const translations = {
+    'Pre Security · TryHackMe':'Pre Security · TryHackMe','Introduction to Critical Infrastructure Protection · OPSWAT':'Introduction to Critical Infrastructure Protection · OPSWAT',
+    'A arte de construir':'The art of building','Além da superfície':'Beyond the surface','Proteger o que construímos.':'Protecting what we build.','Certificados e Aprendizado':'Certificates & Learning','Ir para o conteúdo':'Skip to content','Java · SQL · Em grupo':'Java · SQL · Group project','MySQL · Em grupo':'MySQL · Group project','Parsing de logs':'Log parsing','PROJETO PRÓPRIO · SEGURANÇA':'PERSONAL PROJECT · SECURITY','Simulador de brute-force de PIN':'PIN brute-force simulator','Simulador educacional que ataca por força bruta um PIN numérico de 4 dígitos e compara dois cenários: sem proteção e com bloqueio após tentativas erradas. Mostra, com tempo e número de tentativas, por que delays e lockouts importam.':'Educational simulator that brute-forces a 4-digit numeric PIN and compares two scenarios: without protection and with lockout after failed attempts. It shows, with time and number of attempts, why delays and lockouts matter.','Alocação dinâmica':'Dynamic allocation','Estruturação de dados':'Data structuring','Gestão de contas e operações bancárias':'Account management and banking operations','código':'code','detecção':'detection','e resposta':'and response','Certificado':'Certificate','Rolar para a seção Sobre':'Scroll to the About section','Código-fonte exibido em uma tela, em tons escuros de verde':'Source code shown on a screen, in dark green tones','Paisagem de montanhas e floresta ao entardecer, desenhada com caracteres de texto':'Landscape of mountains and forest at dusk, drawn with text characters','Diagrama: logs, rede, acesso, código e estudo convergem para detecção e resposta a incidentes':'Diagram: logs, network, access, code and study converge into incident detection and response','Git e GitHub · TIC em Trilhas, UCB':'Git and GitHub · TIC em Trilhas, UCB','Desenvolvimento Colaborativo em GitHub · TIC em Trilhas, UCB':'Collaborative Development with GitHub · TIC em Trilhas, UCB','Ciência de Dados: Fundamentos · TIC em Trilhas, UCB':'Data Science: Fundamentals · TIC em Trilhas, UCB',
+    'role para explorar':'scroll to explore',
+    'Certificados':'Certificates',
+    'Gosto de transformar uma ideia em algo que funciona. Começo pela lógica: como os dados se organizam, onde o programa pode falhar e como deixar o código claro para quem vier depois.':'I like turning an idea into something that works. I start with the logic: how the data is organized, where the program can fail and how to leave the code clear for whoever comes next.','Estudo Engenharia de Software e construo, sobretudo, projetos da faculdade e pessoais, alguns em grupo. Me interessa a arquitetura de um sistema tanto quanto a interface que a pessoa usa: código organizado costuma dar uma experiência que simplesmente funciona.':'I study Software Engineering and mostly build university and personal projects, some in teams. I care about a system’s architecture as much as the interface people use: organized code tends to give an experience that simply works.','Como os dispositivos se comunicam e quais serviços ficam expostos.':'How devices communicate and which services are exposed.','TCP/IP':'TCP/IP','Portas e serviços':'Ports and services','Conhecimentos':'Knowledge','Firewall e Controle de Acesso':'Firewalls and Access Control','Quem pode acessar o quê, e como regras e credenciais limitam esse acesso.':'Who can access what, and how rules and credentials limit that access.','Conceitos de firewall':'Firewall concepts','Controle de acesso':'Access control','Simulador de brute-force de PIN, projeto próprio sobre a importância de credenciais robustas.':'PIN brute-force simulator, a personal project on the importance of strong credentials.','Relacionado':'Related','Sistemas e Permissões':'Systems and Permissions','Como usuários e permissões definem o que cada conta pode fazer.':'How users and permissions define what each account can do.','Usuários e permissões':'Users and permissions','Boas práticas de segurança':'Security best practices','Sistemas Operacionais':'Operating Systems','O ambiente onde tudo executa e onde ficam os registros do que acontece.':'The environment where everything runs and where records of what happens are kept.','Fundamentos de sistemas operacionais':'Operating systems fundamentals','Logs de eventos do Windows':'Windows event logs','Ferramentas':'Tools','Error Log Analyzer, projeto próprio em C que lê e filtra eventos do Windows por severidade.':'Error Log Analyzer, a personal project in C that reads and filters Windows events by severity.','Ferramentas de Segurança':'Security Tools','Ferramentas apresentadas na trilha Cyber Security 101, em contexto de estudo.':'Tools introduced in the Cyber Security 101 learning path, as part of my studies.','Cyber Security 101, trilha da TryHackMe.':'Cyber Security 101, a TryHackMe learning path.','em estudo':'in study','Anterior':'Previous','Próxima':'Next','Use as categorias ou as setas para navegar.':'Use the categories or the arrows to navigate.','Dados':'Data','Git e GitHub':'Git and GitHub','10 set 2026':'10 Sep 2026','15 jun 2026':'15 Jun 2026','20 mai 2026':'20 May 2026','8 fev 2026':'8 Feb 2026','4 jul 2025':'4 Jul 2025','Trilhas e certificados concluídos. Selecione um item para abrir o certificado, quando disponível.':'Completed learning paths and certificates. Select an item to open the certificate, when available.',
     'Firewall e controle de acesso':'Firewalls and access control','Conceitos de firewall e de controle de acesso.':'Firewall and access control concepts.','Fundamentos de TCP/IP, portas e serviços.':'Fundamentals of TCP/IP, ports and services.','Sistemas operacionais':'Operating systems','Fundamentos de sistemas operacionais.':'Operating systems fundamentals.',
     'Ferramentas de segurança':'Security tools','Ferramentas apresentadas na trilha Cyber Security 101.':'Tools introduced in the Cyber Security 101 learning path.','Certificados abrem na própria página, quando disponíveis.':'Certificates open on this page, when available.',
     'Concluída em fevereiro de 2026 · 7h38':'Completed in February 2026 · 7h38','Concluído em maio de 2026':'Completed in May 2026','Proteção de infraestrutura crítica.':'Critical infrastructure protection.',
     'Sobre':'About','Desenvolvimento':'Development','Cibersegurança':'Cybersecurity','Contato':'Contact','Menu':'Menu','Fechar':'Close',
     'Brasília, DF · Engenharia de Software, UCB':'Brasília, Brazil · Software Engineering, UCB',
-    'Desenvolvimento em C/C++, Java e Python, com foco em detecção e resposta a incidentes de segurança.':'Software development with C/C++, Java and Python, focused on security incident detection and response.',
+    'Estudante de Engenharia de Software buscando estágio em desenvolvimento, SOC ou pentest.':'Software Engineering student seeking an internship in software development, a SOC or pentesting.',
     'Ver projetos':'Explore projects','01 / SOBRE MIM':'01 / ABOUT ME',
     'Entender como as coisas funcionam. Construir com cuidado. Proteger o que importa.':'Understand how things work. Build with care. Protect what matters.',
     'Sou estudante do 4º semestre de Engenharia de Software na Universidade Católica de Brasília. Em C, gosto de trabalhar perto da memória, das estruturas de dados e dos arquivos.':'I am a fourth-semester Software Engineering student at the Catholic University of Brasília. In C, I enjoy working close to memory, data structures and files.',
@@ -479,7 +591,7 @@ tailwind.config = { theme: { extend: {
     'Fundamentos de TCP/IP, portas e serviços, firewall e controle de acesso.':'Fundamentals of TCP/IP, ports and services, firewalls and access control.',
     'Projetos próprios':'Personal projects','Código que escrevi, com repositório público.':'Code I wrote, with a public repository.','Conhecimentos em estudo':'Knowledge in study','Fundamentos que venho estudando.':'Fundamentals I am studying.','Trilhas e cursos concluídos':'Completed paths and courses','Objetivo':'Goal','Método':'Method',
 'Acelerar a investigação de falhas lendo eventos do Windows em um só lugar.':'Speed up troubleshooting by reading Windows events in one place.','Lê logs via wevtutil ou de um caminho informado e filtra por severidade: erros, avisos e eventos críticos.':'Reads logs through wevtutil or from a given path and filters by severity: errors, warnings and critical events.','Estudar a importância de credenciais robustas e de limites de tentativas.':'Study the importance of strong credentials and attempt limits.','Ataca por força bruta um PIN de 4 dígitos e compara a execução sem proteção com a execução com bloqueio após tentativas erradas.':'Brute-forces a four-digit PIN and compares an unprotected run with one that locks out after failed attempts.',
-'Meu interesse está em operações de segurança (SOC) e segurança ofensiva. Abaixo, o que estudo e o que concluí. Os projetos de segurança estão em Desenvolvimento.':'My interests are security operations (SOC) and offensive security. Below, what I study and what I completed. Security projects are under Development.','Vistas na trilha Cyber Security 101.':'Covered in the Cyber Security 101 learning path.','Trilhas TIC em Trilhas, UCB · 30 h cada':'TIC em Trilhas learning paths, UCB · 30 h each','Desenvolvimento Colaborativo em GitHub':'Collaborative Development with GitHub','Ciência de Dados: Fundamentos':'Data Science: Fundamentals',
+'Meu interesse está em operações de segurança (SOC) e segurança ofensiva. Abaixo, o que estudo. Os projetos de segurança estão em Desenvolvimento e os certificados na seção seguinte.':'My interests are security operations (SOC) and offensive security. Below, what I study. Security projects are under Development and certificates in the next section.','Vistas na trilha Cyber Security 101.':'Covered in the Cyber Security 101 learning path.','Trilhas TIC em Trilhas, UCB · 30 h cada':'TIC em Trilhas learning paths, UCB · 30 h each','Desenvolvimento Colaborativo em GitHub':'Collaborative Development with GitHub','Ciência de Dados: Fundamentos':'Data Science: Fundamentals',
 'Engenharia de Software, UCB':'Software Engineering, UCB','2025 a 2028':'2025 to 2028','4º semestre':'4th semester','Código que escrevi em C, Java, Dart e SQL.':'Code I wrote in C, Java, Dart and SQL.','Projetos da faculdade e pessoais, alguns feitos em grupo.':'University and personal projects, some built in teams.','Currículo':'Resume','Paisagem em caracteres, desenho próprio.':'Landscape drawn in text characters, my own drawing.',
 'Ferramentas vistas na trilha Cyber Security 101.':'Tools covered in the Cyber Security 101 learning path.','Aplicado em projeto':'Applied in projects','Em estudo':'In study','saída sintética de exemplo':'synthetic sample output','esquema ilustrativo':'illustrative diagram',
     'Gerenciamento básico de usuários e permissões, e boas práticas de segurança.':'Basic user and permissions management, and security best practices.',
@@ -489,7 +601,7 @@ tailwind.config = { theme: { extend: {
     'Proteção de infraestrutura crítica, concluído em maio de 2026.':'Critical infrastructure protection, completed in May 2026.',
     'Análise de logs de eventos do Windows com filtros por severidade.':'Windows event log analysis with severity filters.',
     'Projetos acadêmicos':'Academic projects','Projeto próprio':'Personal project','projeto em grupo':'team project',
-    'Navegação robótica':'Robotic navigation','Banco Malvader':'Malvader Bank','Marcador de pontos de Truco':'Truco scorekeeper',
+    'Navegação robótica':'Robotic navigation','Banco Malvader':'Malvader Bank','Marcador de pontos de Truco':'Truco point scorekeeper',
     'Pre Security e Cyber Security 101':'Pre Security and Cyber Security 101','Introduction to Critical Infrastructure Protection':'Introduction to Critical Infrastructure Protection',
     'curso':'course','trilha UCB':'UCB learning path','trilha educacional':'learning path','No GitHub':'On GitHub','Todos os repositórios':'All repositories',
     'no Error Log Analyzer.':'in the Error Log Analyzer.','Fundamentos de TCP/IP, portas e serviços, firewall e controle de acesso.':'Fundamentals of TCP/IP, ports and services, firewalls and access control.',
@@ -498,16 +610,22 @@ tailwind.config = { theme: { extend: {
     'Escrito em C, com baixo uso de memória':'Written in C with low memory use','Filtros por severidade: erros, avisos e eventos críticos':'Severity filters: errors, warnings and critical events',
     'Clique para ver o certificado.':'Select to view the certificate.','Clique em uma tecnologia para destacar os projetos que a usam.':'Select a technology to highlight projects that use it.',
     'usado em projetos':'used in projects','Brasília, DF':'Brasília, Brazil','Bacharelado':'Bachelor’s degree','Em andamento':'In progress',
-    'Pensamento analítico · Resolução estruturada de problemas · Aprendizado rápido':'Analytical thinking · Structured problem-solving · Fast learner'
+    'Pensamento analítico · Resolução estruturada de problemas · Aprendizado rápido':'Analytical thinking · Structured problem-solving · Fast learner',
+    'Captura do projeto':'Project screenshot'
   };
-  const originalTranslations = new Map(Object.entries(translations).map(([pt, en]) => [en, pt]));
+  const originalTranslations = new Map(); // pares idênticos (nomes oficiais) só protegem o texto; nunca sobrescrevem uma tradução real
+  Object.entries(translations).forEach(([pt, en]) => { if (pt !== en || !originalTranslations.has(en)) originalTranslations.set(en, pt); });
   let currentLanguage = 'pt';
   languageButton.addEventListener('click', () => {
     currentLanguage = currentLanguage === 'pt' ? 'en' : 'pt';
     const dictionary = currentLanguage === 'en' ? translations : originalTranslations;
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(node => { let value = node.nodeValue; const pairs = dictionary instanceof Map ? [...dictionary.entries()] : Object.entries(dictionary); pairs.sort((a,b) => b[0].length - a[0].length).forEach(([from,to]) => { value = value.split(from).join(to); }); node.nodeValue = value; });
+    const map = new Map(dictionary instanceof Map ? [...dictionary.entries()] : Object.entries(dictionary));
+    const rx = new RegExp([...map.keys()].sort((a,b) => b.length - a.length).map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g'); // uma única passada: evita traduzir de novo o que já foi traduzido
+    const swap = v => { const t = v.trim(); return map.has(t) ? v.replace(t, map.get(t)) : v.replace(rx, m => map.get(m)); };
+    nodes.forEach(node => { node.nodeValue = swap(node.nodeValue); });
+    document.querySelectorAll('[aria-label],[data-title],[alt]').forEach(el => { if (el.id === 'language-toggle') return; ['aria-label', 'data-title', 'alt'].forEach(a => { const v = el.getAttribute(a); if (v && v.trim()) el.setAttribute(a, swap(v)); }); });
     document.documentElement.lang = currentLanguage === 'en' ? 'en' : 'pt-BR';
     languageButton.setAttribute('aria-label', currentLanguage === 'en' ? 'Change language to Portuguese' : 'Mudar idioma para inglês');
     document.title = currentLanguage === 'en' ? 'Gabriel Lima Leite — Development and Cybersecurity' : 'Gabriel Lima Leite — Desenvolvimento e Cibersegurança';
@@ -616,7 +734,16 @@ tailwind.config = { theme: { extend: {
   const select = choice => {
     choices.forEach(c => c.setAttribute('aria-current', String(c === choice)));
     panels.forEach(p => { p.hidden = p.dataset.panel !== choice.dataset.project; });
+    const activePanel = panels.find(p => p.dataset.panel === choice.dataset.project);
+    const proofImage = activePanel?.querySelector('.fig img[data-src]');
+    if (proofImage && !proofImage.dataset.requested) {
+      proofImage.dataset.requested = 'true';
+      proofImage.loading = 'eager';
+      proofImage.src = proofImage.dataset.src;
+    }
   };
+  const initialChoice = choices.find(c => c.getAttribute('aria-current') === 'true');
+  if (initialChoice) select(initialChoice);
   choices.forEach((c, i) => {
     c.addEventListener('click', () => select(c));
     c.addEventListener('keydown', e => {
@@ -641,11 +768,77 @@ tailwind.config = { theme: { extend: {
   let lastFocus = null;
   document.querySelectorAll('[data-cert]').forEach(r => r.addEventListener('click', () => {
     lastFocus = document.activeElement;
-    cimg.src = r.dataset.cert; cimg.alt = 'Certificado: ' + r.dataset.title; ccap.textContent = r.dataset.title;
+    cimg.src = r.dataset.cert; cimg.alt = (document.documentElement.lang === 'en' ? 'Certificate: ' : 'Certificado: ') + r.dataset.title; ccap.textContent = r.dataset.title;
     dlg.showModal();
   }));
   dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('[data-close]')) dlg.close(); });
   dlg.addEventListener('close', () => { if (lastFocus) lastFocus.focus(); });
+
+  // Capturas dos projetos usam o mesmo visualizador animado dos certificados.
+  const projectPreview = document.getElementById('project-preview');
+  const previewImage = projectPreview.querySelector('img');
+  const previewCaption = projectPreview.querySelector('#project-preview-caption');
+  let lastProjectImage = null;
+  const showProjectImage = image => {
+    lastProjectImage = image;
+    previewImage.src = image.currentSrc || image.src;
+    previewImage.alt = image.alt;
+    previewCaption.textContent = image.closest('.project-panel').querySelector('h4').textContent;
+    projectPreview.showModal();
+  };
+  document.querySelectorAll('.project-panel .fig img[data-src]').forEach(image => {
+    image.addEventListener('load', () => {
+      image.tabIndex = 0;
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-label', (document.documentElement.lang === 'en' ? 'Enlarge image: ' : 'Ampliar imagem: ') + image.alt);
+    });
+    image.addEventListener('click', () => showProjectImage(image));
+    image.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); showProjectImage(image); }
+    });
+    if (image.complete && image.naturalWidth) image.dispatchEvent(new Event('load'));
+  });
+  projectPreview.addEventListener('click', event => {
+    if (event.target === projectPreview || event.target.closest('[data-close-project]')) projectPreview.close();
+  });
+  projectPreview.addEventListener('close', () => { if (lastProjectImage) lastProjectImage.focus(); });
+
+  // Conhecimentos em estudo: navegacao com push-in (para adicionar categorias, veja o comentario "COMO ATUALIZAR" no HTML)
+  (() => {
+    const kn = document.getElementById('kn'); if (!kn) return;
+    const bt = [...kn.querySelectorAll('.kn-trail button')], ps = [...kn.querySelectorAll('.kp')];
+    const prev = kn.querySelector('[data-prev]'), next = kn.querySelector('[data-next]'), cnt = kn.querySelector('.kn-count');
+    let idx = 0, busy = false, pend = null;
+    const ui = () => { bt.forEach((b, i) => i === idx ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
+      prev.disabled = idx === 0; next.disabled = idx === ps.length - 1; cnt.textContent = '0' + (idx + 1) + ' / 0' + ps.length; };
+    const swap = (o, n) => { o.classList.remove('on'); n.classList.add('on'); };
+    function go(n) {
+      if (n === idx || n < 0 || n >= ps.length) return;
+      if (busy) { pend = n; return; }
+      const dir = n > idx ? 1 : -1, out = ps[idx], inn = ps[n]; idx = n; ui();
+      if (calm) return swap(out, inn);
+      busy = true;
+      out.animate([{ opacity: 1, transform: 'none', filter: 'blur(0)' }, { opacity: 0, transform: dir > 0 ? 'scale(1.07) translateY(-10px)' : 'scale(.95) translateY(14px)', filter: 'blur(2px)' }], { duration: 220, easing: 'ease-in' }).finished
+        .then(() => { swap(out, inn); return inn.animate([{ opacity: 0, transform: dir > 0 ? 'scale(.93) translateY(22px)' : 'scale(1.06) translateY(-14px)', filter: 'blur(2px)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }], { duration: 480, easing: 'cubic-bezier(.22,1,.36,1)' }).finished; })
+        .catch(() => swap(out, inn)).finally(() => { busy = false; if (pend !== null) { const p = pend; pend = null; go(p); } });
+    }
+    bt.forEach((b, i) => b.addEventListener('click', () => go(i)));
+    prev.addEventListener('click', () => go(idx - 1)); next.addEventListener('click', () => go(idx + 1));
+    kn.addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(idx + 1); else if (e.key === 'ArrowLeft') go(idx - 1); });
+  })();
+
+  // Hero: movimento suave da foto com o mouse (só em telas com mouse e sem prefers-reduced-motion)
+  (() => {
+    const hero = document.getElementById('top');
+    if (!hero || calm || !matchMedia('(pointer:fine)').matches) return;
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    const step = () => { raf = 0; cx += (tx - cx) * .06; cy += (ty - cy) * .06;
+      hero.style.setProperty('--mx', cx.toFixed(2) + 'px'); hero.style.setProperty('--my', cy.toFixed(2) + 'px');
+      if (Math.abs(tx - cx) > .05 || Math.abs(ty - cy) > .05) raf = requestAnimationFrame(step); };
+    const run = () => { if (!raf) raf = requestAnimationFrame(step); };
+    hero.addEventListener('pointermove', e => { const r = hero.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width - .5) * -30; ty = ((e.clientY - r.top) / r.height - .5) * -18; run(); });
+    hero.addEventListener('pointerleave', () => { tx = ty = 0; run(); });
+  })();
 
   // Diagrama: linhas só animam quando visíveis
   const dg = document.getElementById('dg');
