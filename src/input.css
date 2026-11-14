@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #111713;
+  --color-bg2: #151E18;
+  --color-surface: #19231C;
+  --color-elev: #202B23;
+  --color-forest: #26382B;
+  --color-moss: #536B50;
+  --color-sage: #87977A;
+  --color-stone: #C6C8AE;
+  --color-ivory: #E5E3D7;
+  --color-earth: #A78C6B;
+
+  --font-serif: "Instrument Serif", serif;
+  --font-head: "Manrope", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
