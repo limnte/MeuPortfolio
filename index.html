@@ -158,8 +158,9 @@
   .row:hover { background:rgba(135,151,122,.06); }
   .row h4 { font-size:1.1rem; }
   .kind { }
-  .grp { display:grid; gap:1.25rem; padding:2.25rem 0; border-top:1px solid var(--c-forest); }
-  @media (min-width:768px) { .grp { grid-template-columns:3fr 9fr; gap:3rem; } .grp-h { position:sticky; top:6rem; align-self:start; } }
+  .grp { display:grid; grid-template-columns:minmax(0,1fr); gap:1.25rem; padding:2.25rem 0; border-top:1px solid var(--c-forest); }
+  .grp > * { min-width:0; }
+  @media (min-width:768px) { .grp { grid-template-columns:minmax(0,3fr) minmax(0,9fr); gap:3rem; } .grp-h { position:sticky; top:6rem; align-self:start; } }
   .pj h4 { font:400 1.75rem/1.15 'Instrument Serif',serif; color:var(--c-ivory); }
   .pj dt { margin-top:1rem; font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
   .pj dd { margin-top:.2rem; font-size:.9rem; }
@@ -264,6 +265,63 @@
   .tk-l b { width:6px; height:6px; background:#83AFA1; animation:pulse 3.2s ease-in-out infinite; }
   @media (max-width:767px) { .tk-r { display:none; } }
 
+  /* ============ RESPONSIVIDADE: celulares e tablets ============
+     Causa do "só dá pra ver diminuindo o zoom": uma coluna de grid (.grp) crescia até a largura do
+     conteúdo da trilha "Conhecimentos em estudo" (~784 px) e alargava a página inteira.
+     Os ajustes abaixo ficam aqui no <style> (não precisam rebuildar o dist/output.css). */
+  html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body { overflow-x:clip; }
+  /* Navegação: com 5 links + logo + PT/EN o menu horizontal não cabe entre 768 e 1023 px; usa o menu mobile */
+  @media (max-width:1023px) {
+    header nav > ul { display:none; }
+    #open { display:inline-flex; align-items:center; justify-content:center; }
+  }
+  /* Áreas de toque confortáveis (mínimo ~44 px) */
+  @media (max-width:1023px), (pointer:coarse) {
+    header nav > a { display:inline-flex; align-items:center; min-height:44px; }
+    #open, #close { min-height:44px; min-width:44px; font-size:1rem; }
+    #close { top:1.25rem; right:1rem; }
+    .lang-toggle { min-height:44px; padding:.45rem .9rem; }
+    .link-u { position:relative; }
+    .link-u::before { content:""; position:absolute; inset:-.85rem -.4rem; }
+    .kn-ctl button, .project-choice, .kn-trail button { min-height:44px; }
+    .cl-a { display:inline-flex; align-items:center; min-height:44px; }
+    .cert-x { min-height:44px; min-width:44px; padding:.5rem .75rem; font-size:1rem; }
+    .scroll-cue { right:.5rem; bottom:1rem; padding:.9rem 1rem; }
+    #cert img, #project-preview img { max-height:calc(100dvh - 8rem); }
+  }
+  /* Texto técnico nunca abaixo de 12 px em telas pequenas */
+  @media (max-width:767px) {
+    [class*="text-[.6"], [class*="text-[.7"], .tag, .kp-tag, .kp-l dt, .pj dt, .kn-trail .n, .cl-d, .cl-m, .cl-a, .kn-ctl, .scroll-cue, .tk-l, .ev-h, .lang-toggle, .fig figcaption, .fig pre { font-size:.75rem; }
+    .swipe-hint { display:block; margin-top:.25rem; font:400 .75rem 'JetBrains Mono',monospace; color:#87977A; }
+    .kn-trail.has-more { -webkit-mask-image:linear-gradient(to right,#000 82%,transparent); mask-image:linear-gradient(to right,#000 82%,transparent); }
+    .project-menu.has-more { -webkit-mask-image:linear-gradient(to right,#000 80%,transparent); mask-image:linear-gradient(to right,#000 80%,transparent); }
+  }
+  .swipe-hint { display:none; }
+  /* Nenhuma coluna de grid pode ficar mais larga que a tela por causa do conteúdo (texto mono, <pre>, tags) */
+  @media (max-width:639px) { .grid { grid-template-columns:minmax(0,1fr); } }
+  @media (max-width:1023px) { .grid > *, .project-panel > * { min-width:0; max-width:100%; } .fig pre { max-width:100%; } }
+  /* Tablet (768-1023 px): Sobre, grupos da Cibersegurança e Certificados em uma coluna, para o texto não ficar espremido */
+  @media (min-width:768px) and (max-width:1023px) {
+    .grp { grid-template-columns:minmax(0,1fr); gap:1.25rem; } .grp-h { position:static; }
+    #sobre .grid { grid-template-columns:minmax(0,1fr); } #sobre .grid > * { grid-column:1 / -1; } .about-frame { max-width:30rem; }
+    #certificados .grid { grid-template-columns:minmax(0,1fr); } #certificados .grid > * { grid-column:1 / -1; } #certificados .grid > div > div { position:static; }
+  }
+  /* Conhecimentos: sem o vão vazio de painéis mais curtos em telas menores */
+  @media (max-width:1023px) { .kp:not(.on) { display:none; } }
+  .lang-toggle { white-space:nowrap; }
+  header nav > a { white-space:nowrap; font-size:clamp(1.1rem,5.4vw,1.5rem); }
+  @media (max-width:420px) { header nav > div { gap:.5rem; } }
+  /* Dica de rolagem do hero vira horizontal no celular, para não cobrir o texto */
+  @keyframes cueX { to { left:100%; } }
+  @media (max-width:767px) {
+    .scroll-cue { flex-direction:row; right:1.5rem; bottom:.75rem; gap:.6rem; padding:.75rem .25rem; }
+    .scroll-cue span { writing-mode:horizontal-tb; letter-spacing:.06em; }
+    .scroll-cue i { width:2.5rem; height:1px; }
+    .scroll-cue i::after { top:0; left:-40%; width:40%; height:1px; animation:cueX 2.4s var(--ease) infinite; }
+  }
+  @media (max-width:420px) { .kn-trail button { min-width:8.5rem; } .cl { margin-inline:0; padding-inline:0; } }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
     .hero-in > *, .reveal { opacity:1; transform:none; }
@@ -362,6 +420,7 @@
           <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="livraria" aria-current="false"><span class="block font-head text-sm">Sistema de Livraria</span><span class="block mt-1 font-mono text-[.65rem] text-sage">Java · SQL · Em grupo</span></button>
           <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="banco-dados" aria-current="false"><span class="block font-head text-sm">Gestão bancária (SQL)</span><span class="block mt-1 font-mono text-[.65rem] text-sage">MySQL · Em grupo</span></button>
         </nav>
+        <p class="swipe-hint" aria-hidden="true">Deslize para ver mais projetos →</p>
         <div class="md:col-span-8 min-h-64">
           <article class="project-panel" data-panel="error-log"><p class="font-mono text-xs text-earth">FERRAMENTA · ANÁLISE DE EVENTOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Error Log Analyzer</h4><p class="mt-4 max-w-[58ch]">Lê e organiza logs de eventos do Windows (via wevtutil) ou de caminhos informados, facilitando a investigação de falhas. Inclui filtros por severidade para erros, avisos e eventos críticos.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">wevtutil</span><span class="tag">Parsing de logs</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/Error-Log-Analyzer" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/error-log-analyzer.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/error-log-analyzer.png" alt="Captura do Error Log Analyzer em execução" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>saída sintética de exemplo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><i>severidade  origem          id</i>
 <em>crítico</em>      Kernel-Power    41
@@ -546,6 +605,7 @@
   // Alternância de idioma: traduz a interface e o conteúdo editorial disponível.
   const languageButton = document.getElementById('language-toggle');
   const translations = {
+    'Deslize para ver mais projetos →':'Swipe to see more projects →',
     'Pre Security · TryHackMe':'Pre Security · TryHackMe','Introduction to Critical Infrastructure Protection · OPSWAT':'Introduction to Critical Infrastructure Protection · OPSWAT',
     'A arte de construir':'The art of building','Além da superfície':'Beyond the surface','Proteger o que construímos.':'Protecting what we build.','Certificados e Aprendizado':'Certificates & Learning','Ir para o conteúdo':'Skip to content','Java · SQL · Em grupo':'Java · SQL · Group project','MySQL · Em grupo':'MySQL · Group project','Parsing de logs':'Log parsing','PROJETO PRÓPRIO · SEGURANÇA':'PERSONAL PROJECT · SECURITY','Simulador de brute-force de PIN':'PIN brute-force simulator','Simulador educacional que ataca por força bruta um PIN numérico de 4 dígitos e compara dois cenários: sem proteção e com bloqueio após tentativas erradas. Mostra, com tempo e número de tentativas, por que delays e lockouts importam.':'Educational simulator that brute-forces a 4-digit numeric PIN and compares two scenarios: without protection and with lockout after failed attempts. It shows, with time and number of attempts, why delays and lockouts matter.','Alocação dinâmica':'Dynamic allocation','Estruturação de dados':'Data structuring','Gestão de contas e operações bancárias':'Account management and banking operations','código':'code','detecção':'detection','e resposta':'and response','Certificado':'Certificate','Rolar para a seção Sobre':'Scroll to the About section','Código-fonte exibido em uma tela, em tons escuros de verde':'Source code shown on a screen, in dark green tones','Paisagem de montanhas e floresta ao entardecer, desenhada com caracteres de texto':'Landscape of mountains and forest at dusk, drawn with text characters','Diagrama: logs, rede, acesso, código e estudo convergem para detecção e resposta a incidentes':'Diagram: logs, network, access, code and study converge into incident detection and response','Git e GitHub · TIC em Trilhas, UCB':'Git and GitHub · TIC em Trilhas, UCB','Desenvolvimento Colaborativo em GitHub · TIC em Trilhas, UCB':'Collaborative Development with GitHub · TIC em Trilhas, UCB','Ciência de Dados: Fundamentos · TIC em Trilhas, UCB':'Data Science: Fundamentals · TIC em Trilhas, UCB',
     'role para explorar':'scroll to explore',
@@ -837,6 +897,14 @@
   // Diagrama: linhas só animam quando visíveis
   const dg = document.getElementById('dg');
   if (dg && !calm) new IntersectionObserver(([e]) => dg.classList.toggle('live', e.isIntersecting)).observe(dg);
+
+  // Menu de projetos e trilha de conhecimentos (celular): indica que há mais itens à direita
+  (() => {
+    document.querySelectorAll('.project-menu, .kn-trail').forEach(nav => {
+      const upd = () => nav.classList.toggle('has-more', nav.scrollWidth - nav.clientWidth - nav.scrollLeft > 6);
+      nav.addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+    });
+  })();
 </script>
 </body>
 </html>
