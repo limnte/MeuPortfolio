@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobre | Gabriel Lima Leite</title>
+<meta name="description" content="Trajetória, forma de aprender e competências de Gabriel Lima Leite, estudante de Engenharia de Software.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+<style type="text/tailwindcss">
+@theme {
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --color-deep: #101010;
+  --color-base: #141414;
+  --color-raised: #1a1a1a;
+  --color-surface: #202020;
+  --color-line: #292929;
+  --color-edge: #333333;
+  --color-ink: #f5f5f5;
+  --color-soft: #a1a1aa;
+  --color-quiet: #8a8a8a;
+  --color-accent: #6d28d9;
+  --color-accent-text: #a78bfa;
+}
+@view-transition { navigation: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { background: var(--color-base); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; border-radius: 4px; }
+.rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+dialog::backdrop { background: rgb(0 0 0 / .6); }
+dialog[open] { animation: rise .25s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, dialog[open] { animation: none; }
+  * { transition: none !important; }
+  @view-transition { navigation: none; }
+}
+</style>
+</head>
+<body class="font-sans antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2">Ir para o conteúdo</a>
+
+<header class="sticky top-0 z-40 border-b border-line bg-base/90 backdrop-blur">
+  <div class="mx-auto flex min-h-14 max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-5 py-2">
+    <a href="index.html" class="font-semibold tracking-tight">Gabriel Lima Leite</a>
+    <nav aria-label="Principal" class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-soft">
+      <a class="text-ink underline decoration-accent-text decoration-2 underline-offset-8" href="about.html" aria-current="page">Sobre</a><a class="hover:text-ink" href="development.html">Development</a><a class="hover:text-ink" href="cybersecurity.html">Cybersecurity</a><a class="hover:text-ink" href="projects.html">Projects</a><a class="hover:text-ink" href="contact.html">Contato</a>
+      <button id="open-term" type="button" aria-label="Abrir terminal de navegação (atalho: /)" class="rounded border border-edge px-2 py-1 font-mono text-xs text-accent-text transition-colors hover:border-accent-text">&gt;_</button>
+      <span class="font-mono text-xs text-quiet"><span class="text-ink" lang="pt-BR">PT</span> / <a class="hover:text-ink" href="en/about.html" hreflang="en" lang="en">EN</a></span>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="relative overflow-hidden bg-deep">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(50rem_24rem_at_15%_0%,rgb(109_40_217/.12),transparent_70%)]" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl px-5 pb-20 pt-20 md:pt-28">
+      <h1 class="rise max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl" style="--i:0">Estudante de Engenharia de Software, curioso por sistemas e segurança.</h1>
+      <p class="rise mt-6 max-w-xl text-lg text-soft" style="--i:1">Terminei o ensino médio em 2023 e hoje estou no 4º semestre de Engenharia de Software na UCB. Aprendo construindo: estruturas de dados em C, aplicações com Java e SQL e exercícios de segurança com logs e autenticação.</p>
+    </div>
+  </section>
+  <div class="mx-auto max-w-6xl px-5 py-16">
+    <div class="grid gap-6 border-t border-line py-12 md:grid-cols-[15rem_1fr] md:gap-12"><h2 class="text-2xl font-semibold tracking-tight">Trajetória</h2><dl class="space-y-5 text-soft"><div><dt class="font-mono text-xs text-quiet">2023</dt><dd class="mt-1">Ensino médio completo, no Objetivo.</dd></div><div><dt class="font-mono text-xs text-quiet">2025 a 2028</dt><dd class="mt-1">Graduação em Engenharia de Software na Universidade Católica de Brasília (UCB). Cursando o 4º semestre.</dd></div></dl></div>
+    <div class="grid gap-6 border-t border-line py-12 md:grid-cols-[15rem_1fr] md:gap-12"><h2 class="text-2xl font-semibold tracking-tight">Como aprendo</h2><p class="max-w-xl text-soft">Transformo o que estudo em projetos pequenos que eu mesmo consigo explicar. Fora da faculdade, estudo segurança nas trilhas Pre Security e Cyber Security 101 da TryHackMe e no curso de proteção de infraestrutura crítica da OPSWAT, e desenvolvimento em cursos de Git, GitHub e fundamentos de ciência de dados.</p></div>
+    <div class="grid gap-6 border-t border-line py-12 md:grid-cols-[15rem_1fr] md:gap-12"><h2 class="text-2xl font-semibold tracking-tight">O que busco</h2><p class="max-w-xl text-soft">Um estágio em desenvolvimento, ou em Security Operations Center (SOC) e segurança ofensiva, contribuindo com o monitoramento e a melhoria contínua da detecção e resposta a incidentes. Também tenho interesse em suporte de TI e infraestrutura.</p></div>
+    <div class="grid gap-6 border-t border-line py-12 md:grid-cols-[15rem_1fr] md:gap-12"><h2 class="text-2xl font-semibold tracking-tight">Como trabalho</h2><ul class="space-y-2 text-soft"><li>Pensamento analítico e investigativo</li><li>Resolução estruturada de problemas</li><li>Organização e disciplina técnica</li><li>Capacidade de aprendizado rápido</li></ul></div>
+    <div class="grid gap-6 border-t border-line py-12 md:grid-cols-[15rem_1fr] md:gap-12"><h2 class="text-2xl font-semibold tracking-tight">Competências por área</h2><dl class="space-y-6 text-soft"><div><dt class="font-medium text-ink">Linguagens</dt><dd class="mt-1">C/C++, Java, Dart (Flutter) e SQL</dd></div><div><dt class="font-medium text-ink">Banco de dados</dt><dd class="mt-1">SQL, com MySQL em um projeto acadêmico em grupo</dd></div><div><dt class="font-medium text-ink">Redes e sistemas</dt><dd class="mt-1">Fundamentos de TCP/IP, portas e serviços, firewall e controle de acesso, usuários e permissões, logs de eventos do Windows</dd></div><div><dt class="font-medium text-ink">Segurança</dt><dd class="mt-1">Boas práticas de segurança, simulação de autenticação, análise de logs</dd></div><div><dt class="font-medium text-ink">Ferramentas</dt><dd class="mt-1">Git e GitHub, versionamento e documentação técnica em README</dd></div></dl></div>
+  </div>
+  <section class="mx-auto max-w-6xl px-5 py-24">
+    <h2 class="text-3xl font-semibold tracking-tight">Vamos conversar</h2>
+    <p class="mt-3 max-w-xl text-soft">Se algo aqui interessa à sua equipe, escreva para mim.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="mailto:gabe.limtee@gmail.com" class="rounded bg-accent px-5 py-2.5 font-medium text-white transition-colors hover:bg-[#7c3aed]">Enviar e-mail</a>
+      <a href="curriculo.pdf" class="rounded border border-edge px-5 py-2.5 transition-colors hover:border-accent-text">Baixar currículo</a>
+    </div>
+  </section>
+</main>
+<footer class="border-t border-line py-8 text-center text-sm text-quiet">Gabriel Lima Leite · Brasília, DF</footer>
+
+<dialog id="term" aria-label="Terminal de navegação" class="m-auto w-[min(32rem,92vw)] rounded-lg border border-edge bg-deep p-5 text-ink">
+  <form id="term-form" autocomplete="off" class="font-mono text-sm">
+    <label for="term-in" class="flex items-center gap-2"><span class="text-accent-text" aria-hidden="true">$</span><span class="sr-only">Comando</span>
+      <input id="term-in" class="w-full bg-transparent outline-none" placeholder="digite help" spellcheck="false"></label>
+    <p id="term-out" class="mt-4 whitespace-pre-wrap text-soft" aria-live="polite">Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help. Esc fecha.</p>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const d = document.getElementById('term'), i = document.getElementById('term-in'), o = document.getElementById('term-out');
+  const go = { home: 'index.html', sobre: 'about.html', dev: 'development.html', cyber: 'cybersecurity.html', projetos: 'projects.html', contato: 'contact.html', curriculo: 'curriculo.pdf' };
+  const open = () => { d.showModal(); i.value = ''; i.focus(); };
+  document.getElementById('open-term').addEventListener('click', open);
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !d.open && !/input|textarea/i.test(e.target.tagName)) { e.preventDefault(); open(); }
+  });
+  d.addEventListener('click', e => { if (e.target === d) d.close(); });
+  document.getElementById('term-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const c = i.value.trim().toLowerCase();
+    if (go[c]) { d.close(); location.href = go[c]; }
+    else o.textContent = c === 'help' || c === '' ? 'Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help.' : 'Comando não encontrado: ' + c + '. Digite help.';
+    i.value = '';
+  });
+})();
+</script>
+</body>
+</html>

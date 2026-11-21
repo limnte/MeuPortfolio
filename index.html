@@ -1,910 +1,115 @@
-<!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gabriel Lima Leite — Desenvolvimento e Cibersegurança</title>
-<meta name="description" content="Estudante de Engenharia de Software buscando estágio em desenvolvimento, SOC ou pentest. Brasília, DF.">
+<title>Development and security | Gabriel Lima Leite</title>
+<meta name="description" content="Student of Software Engineering at UCB looking for an internship in development, SOC, IT support and cybersecurity.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&family=Manrope:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="dist/output.css">
-<style>
-  :root { --ease: cubic-bezier(.22,.61,.36,1); }
-  body { background:#111713; color:#C6C8AE; }
-  ::selection { background:#536B50; color:#E5E3D7; }
-  :focus-visible { outline:2px solid #A78C6B; outline-offset:3px; border-radius:4px; }
-
-  /* ---- Imagens ----
-     Para usar fotos reais: defina --img em cada .photo, ex.:
-     style="--img:url('img/floresta.jpg')". Sem foto, aparece o gradiente atmosférico. */
-  .photo { --img:url('img/woodland.jpg'); position:relative; overflow:hidden; background:#19231C; }
-  .photo::before { content:""; position:absolute; inset:-12% 0; background:var(--img) center/cover; will-change:transform; transform:translateY(var(--py,0px)); filter:saturate(.7) contrast(1.05); }
-  .photo.fallback::before { background:
-      var(--img) center/cover,
-      radial-gradient(ellipse 40% 60% at 70% 20%, rgba(198,200,174,.28), transparent 60%),
-      linear-gradient(105deg, transparent 40%, rgba(229,227,215,.07) 46%, transparent 52%),
-      linear-gradient(115deg, transparent 55%, rgba(229,227,215,.05) 60%, transparent 66%),
-      linear-gradient(180deg, #26382B 0%, #1b2a1f 55%, #111713 100%); }
-  .pines { position:absolute; inset:auto 0 0 0; height:55%; opacity:.9; pointer-events:none;
-    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='200' viewBox='0 0 240 200'><g fill='%23111713'><path d='M30 200V150L10 150 30 110 16 110 32 70 22 70 40 20 58 70 48 70 64 110 50 110 70 150 50 150V200z'/><path d='M120 200V130L96 130 120 80 104 80 124 30 144 80 128 80 152 130 130 130V200z' opacity='.8'/><path d='M200 200V160L186 160 202 120 192 120 206 84 220 120 210 120 226 160 212 160V200z'/></g></svg>") bottom/240px 200px repeat-x; }
-  /* Silhuetas de pinheiros: ocultas porque agora há foto real. Remova esta linha para reativá-las. */
-  .pines { display:none; }
-  .pines.far { opacity:.45; height:70%; background-size:360px 300px; filter:blur(1.5px); }
-
-  /* Entrada do hero (momento único) */
-  @keyframes rise { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
-  .hero-in > * { opacity:0; animation:rise 900ms var(--ease) forwards; }
-  .hero-in > *:nth-child(2){animation-delay:150ms} .hero-in > *:nth-child(3){animation-delay:300ms} .hero-in > *:nth-child(4){animation-delay:450ms}
-  @keyframes drip { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
-  .scroll-line { animation:drip 2.8s var(--ease) infinite; }
-
-  /* Reveal sutil */
-  .reveal { opacity:0; transition:opacity 700ms var(--ease); }
-  .reveal.on { opacity:1; transform:none; }
-
-  .link-u { background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat; transition:background-size 400ms var(--ease), color 300ms; }
-  .link-u:hover { background-size:100% 1px; color:#E5E3D7; }
-  .tag { font-family:'JetBrains Mono',monospace; font-size:.72rem; padding:.2rem .6rem; border:1px solid rgba(135,151,122,.28); border-radius:3px; color:#87977A; }
-  .btn { transition:background 300ms var(--ease), color 300ms var(--ease), transform 300ms var(--ease), border-color 300ms; }
-  .proj .photo::before { transition:filter 600ms var(--ease); }
-  .proj:hover .photo::before { filter:saturate(.95) contrast(1.05) brightness(1.08); }
-
-  #menu { transition:opacity 400ms var(--ease), visibility 400ms; }
-  #menu.closed { opacity:0; visibility:hidden; }
-
-
-  /* ---- Desenvolvimento: tags interativas ---- */
-  button.tag { cursor:pointer; background:none; transition:background 300ms var(--ease), color 300ms var(--ease), border-color 300ms; }
-  .tag-use { border-color:rgba(83,107,80,.7); color:#E5E3D7; background:rgba(83,107,80,.18); }
-  button.tag:hover, button.tag[aria-pressed="true"] { background:#536B50; color:#E5E3D7; border-color:#536B50; }
-  .proj { transition:opacity 500ms var(--ease); }
-  .proj.dim { opacity:.3; }
-
-  /* Projetos: seletor com painel de detalhes */
-  .project-menu { scrollbar-width:thin; scrollbar-color:#536B50 #151E18; }
-  .project-choice { border-left:2px solid rgba(135,151,122,.25); transition:background 300ms var(--ease), border-color 300ms, color 300ms, opacity 300ms, transform 400ms var(--ease); }
-  .project-choice:hover { background:rgba(83,107,80,.12); }
-  .project-choice[aria-current="true"] { border-color:#A78C6B; background:rgba(83,107,80,.2); color:#E5E3D7; }
-  .project-choice.dim { opacity:.4; }
-  @media (min-width:768px) { .project-choice[aria-current="true"] { transform:translateX(6px); } }
-  .project-panel[hidden] { display:none; }
-  @keyframes panelIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
-  .project-panel:not([hidden]) > * { animation:panelIn 600ms var(--ease) both; }
-  .project-panel:not([hidden]) > *:nth-child(2) { animation-delay:70ms; }
-  .project-panel:not([hidden]) > *:nth-child(3) { animation-delay:140ms; }
-  .project-panel:not([hidden]) > *:nth-child(4) { animation-delay:210ms; }
-  .project-panel:not([hidden]) > *:nth-child(5) { animation-delay:280ms; }
-  .about-frame { isolation:isolate; }
-  .about-frame::after { content:""; position:absolute; inset:12% -8% -7% 18%; border:1px solid rgba(135,151,122,.38); z-index:-1; border-radius:4px; }
-  .about-note { writing-mode:vertical-rl; }
-  .lang-toggle { border:1px solid rgba(135,151,122,.4); border-radius:3px; padding:.45rem .75rem; color:#E5E3D7; font:400 .7rem 'JetBrains Mono',monospace; transition:background 300ms,color 300ms; }
-  .lang-toggle:hover { background:#536B50; }
-
-  /* ---- Cibersegurança: variação de tokens ---- */
-  .cyber { --c-bg:#0D1511; --c-surface:#15221A; --c-forest:#263F30; --c-moss:#536B50; --c-sage:#87977A; --c-cyan:#83AFA1; --c-ivory:#E5E3D7; background:var(--c-bg); }
-  .photo.night::before { filter:saturate(.6) brightness(.7); }
-  .photo.night.fallback::before { background:
-      var(--img) center/cover,
-      radial-gradient(ellipse 35% 45% at 75% 15%, rgba(131,175,161,.22), transparent 65%),
-      linear-gradient(180deg, #15221A 0%, #0f1a14 60%, #0D1511 100%); }
-  .photo.night .pines { filter:brightness(.5); }
-  .dot { width:.5rem; height:.5rem; border-radius:999px; background:var(--c-cyan); flex:none; }
-  .dot.hollow { background:none; border:1px solid var(--c-sage); }
-  .st { margin-left:.6rem; font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  :root { --c-forest:#26382B; --c-ivory:#E5E3D7; --c-sage:#87977A; }
-  .row { display:grid; grid-template-columns:9.5rem 1fr auto; gap:1.5rem; align-items:baseline; padding:1.25rem 0; border-top:1px solid var(--c-forest); }
-  .row:last-child { border-bottom:1px solid var(--c-forest); }
-  .row h4 { font:600 1rem Manrope,sans-serif; color:var(--c-ivory); }
-  .row p { font-size:.875rem; margin-top:.25rem; }
-  .row a, .row button { font:500 .85rem Manrope,sans-serif; color:var(--c-ivory); }
-  .kind { font:400 .7rem 'JetBrains Mono',monospace; color:var(--kind,#A78C6B); }
-  .cyber { --kind:#83AFA1; }
-  .row[data-cert] { cursor:pointer; transition:background 300ms var(--ease); }
-  .row[data-cert]:hover { background:rgba(135,151,122,.07); }
-  @media (max-width:640px) { .row { grid-template-columns:1fr; gap:.4rem; } }
-  @keyframes flow { to { stroke-dashoffset:-48; } }
-  #dg.live .dg-f { animation:flow 6s linear infinite; }
-
-  /* ---- Lightbox de certificados ---- */
-  dialog#cert { background:none; border:0; padding:0; margin:auto; width:min(94vw,1100px); max-width:none; overflow:visible; color:#C6C8AE; }
-  dialog#cert::backdrop, dialog#project-preview::backdrop { background:rgba(9,14,11,.88); backdrop-filter:blur(4px); }
-  dialog#cert[open], dialog#project-preview[open] { animation:certIn 400ms var(--ease); }
-  dialog#cert[open]::backdrop, dialog#project-preview[open]::backdrop { animation:fadeIn 400ms var(--ease); }
-  @keyframes certIn { from { opacity:0; transform:translateY(12px) scale(.98); } to { opacity:1; transform:none; } }
-  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-  .cert-x { display:block; margin:0 0 .75rem auto; font:500 .85rem Manrope,sans-serif; color:#E5E3D7; }
-  #cert img { display:block; margin:0 auto; width:auto; height:auto; max-width:100%; max-height:78vh; border-radius:6px; background:#fff; }
-  dialog#project-preview { background:none; border:0; padding:0; margin:auto; width:min(94vw,1200px); max-width:none; overflow:visible; color:#C6C8AE; }
-  #project-preview img { display:block; margin:0 auto; width:auto; height:auto; max-width:100%; max-height:78vh; object-fit:contain; border-radius:6px; background:#111713; }
-
-
-  /* ---- Header com fundo após o hero ---- */
-  header { border-bottom:1px solid transparent; transition:background 300ms var(--ease), border-color 300ms; }
-  header.solid { background:rgba(13,21,17,.93); border-color:rgba(135,151,122,.18); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
-
-  /* ---- Desenvolvimento: editorial clássico ---- */
-  .stage { border-top:1px solid rgba(135,151,122,.25); border-bottom:1px solid rgba(135,151,122,.25); padding:2.5rem 0; }
-  .project-choice { border-radius:0; }
-  .project-choice > span:first-child { font:400 1.3rem/1.2 'Instrument Serif',serif; }
-  @media (min-width:768px) { .project-choice[aria-current="true"] { transform:none; } }
-  .fig { position:relative; margin-top:1.75rem; border:1px solid rgba(135,151,122,.25); border-radius:4px; background:#151E18; align-self:start; }
-  .fig img { display:block; width:100%; aspect-ratio:16/10; object-fit:contain; background:#111713; }
-  .fig img[hidden] { display:none; }
-  .fig.has-photo { transition:transform 350ms var(--ease),border-color 350ms var(--ease),filter 350ms var(--ease); transform-origin:center; }
-  .fig.has-photo:hover { transform:scale(1.025); border-color:rgba(198,200,174,.58); filter:brightness(1.1); }
-  .fig img[role="button"] { cursor:pointer; transition:filter 350ms var(--ease); }
-  .fig img[role="button"]:hover { filter:brightness(1.06); }
-  .fig img[role="button"]:focus-visible { outline:2px solid #A78C6B; outline-offset:-3px; }
-  .fig .photo-caption { display:none; }
-  .fig.has-photo .photo-caption { display:block; }
-  .fig.has-photo > figcaption:not(.photo-caption) { display:none; }
-  .fig.has-photo pre { display:none; }
-  .fig figcaption { padding:.55rem 1rem; border-bottom:1px solid rgba(135,151,122,.2); font:400 .66rem 'JetBrains Mono',monospace; color:#87977A; }
-  .fig pre { padding:1.1rem 1rem 1.25rem; font:400 .76rem/1.85 'JetBrains Mono',monospace; color:#C6C8AE; overflow-x:auto; }
-  .fig b { color:#E5E3D7; font-weight:400; } .fig i { color:#87977A; font-style:normal; } .fig em { color:#A78C6B; font-style:normal; }
-  @media (min-width:1024px) {
-    .project-panel:not([hidden]) { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.95fr); column-gap:2.5rem; align-content:start; }
-    .project-panel > * { grid-column:1; } .project-panel > .fig { grid-column:2; grid-row:1 / span 5; margin-top:0; }
-  }
-  .project-panel:not([hidden]) > .fig { animation-delay:200ms; }
-
-  /* ---- Refinos: Cibersegurança ---- */
-  .ev { border:1px solid var(--c-forest); border-radius:10px; padding:1.5rem 1.5rem .5rem; background:linear-gradient(170deg,rgba(21,34,26,.9),rgba(13,21,17,.6)); }
-  .ev-h { display:flex; align-items:center; gap:.6rem; font:400 .72rem 'JetBrains Mono',monospace; color:var(--c-cyan); }
-  .ev ul { margin-top:1rem; } .ev li { padding:1rem 0; border-top:1px solid var(--c-forest); }
-  .ev h3 { font:600 .95rem Manrope,sans-serif; color:var(--c-ivory); } .ev li p { margin-top:.3rem; font-size:.85rem; }
-  .row { padding:1.5rem .75rem; margin:0 -.75rem; border-radius:6px; transition:background 300ms var(--ease); }
-  .row:hover { background:rgba(135,151,122,.06); }
-  .row h4 { font-size:1.1rem; }
-  .kind { }
-  .grp { display:grid; grid-template-columns:minmax(0,1fr); gap:1.25rem; padding:2.25rem 0; border-top:1px solid var(--c-forest); }
-  .grp > * { min-width:0; }
-  @media (min-width:768px) { .grp { grid-template-columns:minmax(0,3fr) minmax(0,9fr); gap:3rem; } .grp-h { position:sticky; top:6rem; align-self:start; } }
-  .pj h4 { font:400 1.75rem/1.15 'Instrument Serif',serif; color:var(--c-ivory); }
-  .pj dt { margin-top:1rem; font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  .pj dd { margin-top:.2rem; font-size:.9rem; }
-  .si h3 { font:600 .95rem Manrope,sans-serif; color:var(--c-ivory); }
-  .si p { margin-top:.5rem; font-size:.85rem; }
-  /* ---- Paisagem em ASCII (gerada por JS, ocupa a tela inteira) ---- */
-  #asc-hero { position:relative; height:100svh; min-height:520px; overflow:hidden; }
-  .asc { position:absolute; left:0; bottom:0; width:100%; margin:0; overflow:hidden; white-space:pre; font-family:'JetBrains Mono',monospace; color:#536B50; }
-  #asc-hero .asc-clouds { top:0; bottom:auto; left:-12%; width:124%; color:#87977A; opacity:.2; animation:drift 140s ease-in-out infinite alternate; }
-  @keyframes drift { from { transform:translateX(-3%); } to { transform:translateX(3%); } }
-  @keyframes layerIn { from { opacity:0; } }
-  @keyframes sweep { 0%,24%,100% { color:var(--c0); } 12% { color:var(--c1); } }
-  @keyframes twinkle { 0%,100% { opacity:.12; } 50% { opacity:.75; } }
-  @keyframes blink { 0%,100% { opacity:.1; } 50% { opacity:1; } }
-  @keyframes pulse { 0%,100% { opacity:.35; } 50% { opacity:1; } }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  .asc span { transition:color 600ms var(--ease); }
-  .asc .p0 { --c0:#2a4032; --c1:#3f5d47; color:var(--c0); animation:layerIn 1.6s ease both, sweep 20s linear infinite; animation-delay:.2s, calc(var(--x,0) * -.1s); }
-  .asc .p1 { --c0:#3b5640; --c1:#5b7b62; color:var(--c0); animation:layerIn 1.6s ease both, sweep 20s linear infinite; animation-delay:.7s, calc(var(--x,0) * -.1s); }
-  .asc .p2 { color:#536B50; animation:layerIn 1.6s ease both 1.2s; }
-  .asc .p3 { color:#87977A; opacity:.85; animation:layerIn 1.6s ease both 1.7s; }
-  .asc .st { color:#E5E3D7; animation:twinkle 7s ease-in-out infinite; }
-  .asc .ff { color:#83AFA1; animation:blink 6s ease-in-out infinite; }
-  .asc .mn { color:#83AFA1; animation:layerIn 2s ease both 1s; }
-  .asc .p2:hover { color:#87977A; } .asc .p3:hover { color:#C6C8AE; }
-  .cur { color:#83AFA1; animation:blink 1.4s steps(2,jump-none) infinite; }
-  .ev-h .dot:not(.hollow) { animation:pulse 3.2s ease-in-out infinite; }
-  #dg.live .core { animation:pulse 4s ease-in-out infinite; }
-  #dg.live .ring { transform-origin:200px 180px; animation:spin 160s linear infinite; }
-  /* Em estudo: lista editorial com linha tracejada (em andamento) */
-  .est > div { display:grid; gap:.3rem 2rem; padding:1.05rem 0; border-top:1px dashed rgba(135,151,122,.35); }
-  .est > div:last-child { border-bottom:1px dashed rgba(135,151,122,.35); }
-  @media (min-width:640px) { .est > div { grid-template-columns:13rem 1fr; } }
-  .est h3 { font:600 .95rem Manrope,sans-serif; color:var(--c-ivory); }
-  .est p { font-size:.9rem; max-width:58ch; }
-  /* Concluídos: linha contínua, título em serifa, ação à direita */
-  .cr { display:grid; gap:.6rem 2rem; padding:1.5rem .75rem; margin:0 -.75rem; border-top:1px solid var(--c-forest); border-radius:2px; transition:background 300ms var(--ease); }
-  .cr:last-child { border-bottom:1px solid var(--c-forest); }
-  @media (min-width:768px) { .cr { grid-template-columns:8.5rem 1fr auto; align-items:start; } }
-  .cr[data-cert] { cursor:pointer; } .cr[data-cert]:hover { background:rgba(135,151,122,.06); }
-  .cr h4 { font:400 1.7rem/1.15 'Instrument Serif',serif; color:var(--c-ivory); }
-  .cr .src { font:400 .72rem 'JetBrains Mono',monospace; color:var(--c-cyan); }
-  .cr .kd { display:block; margin-top:.2rem; font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  .cr .meta { margin-top:.5rem; font:400 .72rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  .cr p { margin-top:.4rem; font-size:.9rem; max-width:56ch; }
-  .cr button { font:500 .85rem Manrope,sans-serif; color:var(--c-ivory); justify-self:start; }
-  #ciberseguranca .photo::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(105deg,transparent 52%,rgba(131,175,161,.07) 58%,transparent 64%); }
-
-  /* ---- Navegação de conhecimentos (push-in) ---- */
-  .kn-trail { display:flex; overflow-x:auto; scrollbar-width:none; padding-top:4px; }
-  .kn-trail::-webkit-scrollbar { display:none; }
-  .kn-trail button { position:relative; flex:1 0 auto; min-width:9.5rem; padding:.95rem 1.25rem .95rem 0; text-align:left; border-top:1px solid var(--c-forest); color:var(--c-sage); transition:color 300ms var(--ease), border-color 300ms var(--ease); }
-  .kn-trail button::before { content:""; position:absolute; left:0; top:-3px; width:5px; height:5px; background:var(--c-forest); transition:background 300ms var(--ease); }
-  .kn-trail button:hover { color:var(--c-ivory); }
-  .kn-trail button[aria-current="step"] { color:var(--c-ivory); border-top-color:var(--c-cyan); }
-  .kn-trail button[aria-current="step"]::before { background:var(--c-cyan); }
-  .kn-trail .n { display:block; font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-cyan); }
-  .kn-trail .t { display:block; margin-top:.2rem; font:600 .85rem/1.3 Manrope,sans-serif; }
-  .kstage { display:grid; margin-top:2.25rem; perspective:900px; }
-  .kp { grid-area:1 / 1; visibility:hidden; transform-origin:50% 60%; }
-  .kp.on { visibility:visible; }
-  .kp-tag { font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  .kp-h { margin-top:.6rem; font:400 clamp(2rem,4.2vw,3rem)/1.05 'Instrument Serif',serif; color:var(--c-ivory); }
-  .kp-d { margin-top:.9rem; max-width:50ch; color:var(--c-stone,#C6C8AE); }
-  .kp-l { margin-top:1.5rem; }
-  .kp-l > div { display:grid; gap:.4rem 1.5rem; padding:.9rem 0; border-top:1px dashed rgba(135,151,122,.3); }
-  @media (min-width:640px) { .kp-l > div { grid-template-columns:9rem 1fr; } }
-  .kp-l dt { font:400 .68rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  .kp-l dd { font-size:.9rem; max-width:58ch; } .kp-l .tags { display:flex; flex-wrap:wrap; gap:.5rem; }
-  .kn-ctl { display:flex; align-items:center; justify-content:space-between; margin-top:1.75rem; padding-top:1rem; border-top:1px solid var(--c-forest); font:400 .75rem 'JetBrains Mono',monospace; }
-  .kn-ctl button { padding:.4rem 0; color:var(--c-ivory); transition:opacity 300ms; } .kn-ctl button[disabled] { opacity:.3; cursor:default; }
-  .kn-count { color:var(--c-cyan); }
-  /* ---- Certificates & Learning ---- */
-  .cl { display:grid; gap:.4rem 1.25rem; padding:1.15rem .75rem; margin:0 -.75rem; border-top:1px solid var(--c-forest); transition:background 300ms var(--ease); }
-  .cl:last-child { border-bottom:1px solid var(--c-forest); }
-  @media (min-width:768px) { .cl { grid-template-columns:6.5rem 1fr auto; align-items:baseline; } }
-  .cl[data-cert] { cursor:pointer; } .cl[data-cert]:hover { background:rgba(135,151,122,.06); }
-  .cl-d { font:400 .72rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  .cl h4 { font:600 1rem/1.35 Manrope,sans-serif; color:var(--c-ivory); }
-  .cl-m { margin-top:.2rem; font:400 .72rem 'JetBrains Mono',monospace; color:var(--c-sage); }
-  .cl-a { justify-self:start; font:500 .8rem Manrope,sans-serif; color:var(--c-ivory); }
-  .cl-a::after { content:"+"; margin-left:.5rem; color:var(--c-cyan); }
-
-  /* Hero: a foto acompanha o mouse (JS define --mx/--my) */
-  #top.photo::before { inset:-10% -5%; transform:translate3d(var(--mx,0px), calc(var(--py,0px) + var(--my,0px)), 0); }
-
-  /* ---- Dica de rolagem ---- */
-  .scroll-cue { position:absolute; right:1.5rem; bottom:2rem; z-index:2; display:flex; flex-direction:column; align-items:center; gap:.9rem; font:400 .68rem 'JetBrains Mono',monospace; color:#87977A; }
-  .scroll-cue span { writing-mode:vertical-rl; letter-spacing:.12em; transition:color 300ms var(--ease); }
-  .scroll-cue:hover span { color:#E5E3D7; }
-  .scroll-cue i { position:relative; display:block; width:1px; height:3.5rem; background:rgba(135,151,122,.35); overflow:hidden; }
-  .scroll-cue i::after { content:""; position:absolute; left:0; top:-40%; width:1px; height:40%; background:#83AFA1; animation:cue 2.4s var(--ease) infinite; }
-  @keyframes cue { to { top:100%; } }
-
-  /* ---- Detalhes "tecnologia" da foto do Sobre ---- */
-  .tk { position:absolute; pointer-events:none; z-index:1; }
-  .tk-c { width:16px; height:16px; border:1px solid rgba(131,175,161,.6); }
-  .tk-c.tl { left:-9px; top:-9px; border-right:0; border-bottom:0; } .tk-c.tr { right:-9px; top:-9px; border-left:0; border-bottom:0; }
-  .tk-c.bl { left:-9px; bottom:-9px; border-right:0; border-top:0; } .tk-c.br { right:-9px; bottom:-9px; border-left:0; border-top:0; }
-  .tk-r { right:-18px; top:10%; bottom:10%; width:7px; background:repeating-linear-gradient(to bottom,rgba(135,151,122,.55) 0 1px,transparent 1px 12px); }
-  .tk-l { left:0; bottom:-2.2rem; display:flex; align-items:center; gap:.6rem; font:400 .68rem 'JetBrains Mono',monospace; color:#87977A; }
-  .tk-l b { width:6px; height:6px; background:#83AFA1; animation:pulse 3.2s ease-in-out infinite; }
-  @media (max-width:767px) { .tk-r { display:none; } }
-
-  /* ============ RESPONSIVIDADE: celulares e tablets ============
-     Causa do "só dá pra ver diminuindo o zoom": uma coluna de grid (.grp) crescia até a largura do
-     conteúdo da trilha "Conhecimentos em estudo" (~784 px) e alargava a página inteira.
-     Os ajustes abaixo ficam aqui no <style> (não precisam rebuildar o dist/output.css). */
-  html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
-  body { overflow-x:clip; }
-  /* Navegação: com 5 links + logo + PT/EN o menu horizontal não cabe entre 768 e 1023 px; usa o menu mobile */
-  @media (max-width:1023px) {
-    header nav > ul { display:none; }
-    #open { display:inline-flex; align-items:center; justify-content:center; }
-  }
-  /* Áreas de toque confortáveis (mínimo ~44 px) */
-  @media (max-width:1023px), (pointer:coarse) {
-    header nav > a { display:inline-flex; align-items:center; min-height:44px; }
-    #open, #close { min-height:44px; min-width:44px; font-size:1rem; }
-    #close { top:1.25rem; right:1rem; }
-    .lang-toggle { min-height:44px; padding:.45rem .9rem; }
-    .link-u { position:relative; }
-    .link-u::before { content:""; position:absolute; inset:-.85rem -.4rem; }
-    .kn-ctl button, .project-choice, .kn-trail button { min-height:44px; }
-    .cl-a { display:inline-flex; align-items:center; min-height:44px; }
-    .cert-x { min-height:44px; min-width:44px; padding:.5rem .75rem; font-size:1rem; }
-    .scroll-cue { right:.5rem; bottom:1rem; padding:.9rem 1rem; }
-    #cert img, #project-preview img { max-height:calc(100dvh - 8rem); }
-  }
-  /* Texto técnico nunca abaixo de 12 px em telas pequenas */
-  @media (max-width:767px) {
-    [class*="text-[.6"], [class*="text-[.7"], .tag, .kp-tag, .kp-l dt, .pj dt, .kn-trail .n, .cl-d, .cl-m, .cl-a, .kn-ctl, .scroll-cue, .tk-l, .ev-h, .lang-toggle, .fig figcaption, .fig pre { font-size:.75rem; }
-    .swipe-hint { display:block; margin-top:.25rem; font:400 .75rem 'JetBrains Mono',monospace; color:#87977A; }
-    .kn-trail.has-more { -webkit-mask-image:linear-gradient(to right,#000 82%,transparent); mask-image:linear-gradient(to right,#000 82%,transparent); }
-    .project-menu.has-more { -webkit-mask-image:linear-gradient(to right,#000 80%,transparent); mask-image:linear-gradient(to right,#000 80%,transparent); }
-  }
-  .swipe-hint { display:none; }
-  /* Nenhuma coluna de grid pode ficar mais larga que a tela por causa do conteúdo (texto mono, <pre>, tags) */
-  @media (max-width:639px) { .grid { grid-template-columns:minmax(0,1fr); } }
-  @media (max-width:1023px) { .grid > *, .project-panel > * { min-width:0; max-width:100%; } .fig pre { max-width:100%; } }
-  /* Tablet (768-1023 px): Sobre, grupos da Cibersegurança e Certificados em uma coluna, para o texto não ficar espremido */
-  @media (min-width:768px) and (max-width:1023px) {
-    .grp { grid-template-columns:minmax(0,1fr); gap:1.25rem; } .grp-h { position:static; }
-    #sobre .grid { grid-template-columns:minmax(0,1fr); } #sobre .grid > * { grid-column:1 / -1; } .about-frame { max-width:30rem; }
-    #certificados .grid { grid-template-columns:minmax(0,1fr); } #certificados .grid > * { grid-column:1 / -1; } #certificados .grid > div > div { position:static; }
-  }
-  /* Conhecimentos: sem o vão vazio de painéis mais curtos em telas menores */
-  @media (max-width:1023px) { .kp:not(.on) { display:none; } }
-  .lang-toggle { white-space:nowrap; }
-  header nav > a { white-space:nowrap; font-size:clamp(1.1rem,5.4vw,1.5rem); }
-  @media (max-width:420px) { header nav > div { gap:.5rem; } }
-  /* Dica de rolagem do hero vira horizontal no celular, para não cobrir o texto */
-  @keyframes cueX { to { left:100%; } }
-  @media (max-width:767px) {
-    .scroll-cue { flex-direction:row; right:1.5rem; bottom:.75rem; gap:.6rem; padding:.75rem .25rem; }
-    .scroll-cue span { writing-mode:horizontal-tb; letter-spacing:.06em; }
-    .scroll-cue i { width:2.5rem; height:1px; }
-    .scroll-cue i::after { top:0; left:-40%; width:40%; height:1px; animation:cueX 2.4s var(--ease) infinite; }
-  }
-  @media (max-width:420px) { .kn-trail button { min-width:8.5rem; } .cl { margin-inline:0; padding-inline:0; } }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
-    .hero-in > *, .reveal { opacity:1; transform:none; }
-  }
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+<style type="text/tailwindcss">
+@theme {
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --color-deep: #101010;
+  --color-base: #141414;
+  --color-raised: #1a1a1a;
+  --color-surface: #202020;
+  --color-line: #292929;
+  --color-edge: #333333;
+  --color-ink: #f5f5f5;
+  --color-soft: #a1a1aa;
+  --color-quiet: #8a8a8a;
+  --color-accent: #6d28d9;
+  --color-accent-text: #a78bfa;
+}
+@view-transition { navigation: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { background: var(--color-base); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; border-radius: 4px; }
+.rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+dialog::backdrop { background: rgb(0 0 0 / .6); }
+dialog[open] { animation: rise .25s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, dialog[open] { animation: none; }
+  * { transition: none !important; }
+  @view-transition { navigation: none; }
+}
 </style>
 </head>
-<body class="font-sans antialiased leading-relaxed">
-<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-ivory focus:text-bg focus:px-4 focus:py-2 focus:rounded">Ir para o conteúdo</a>
+<body class="font-sans antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2">Skip to content</a>
 
-<!-- NAVBAR -->
-<header class="fixed top-0 inset-x-0 z-40">
-  <nav class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between font-head text-sm text-ivory" aria-label="Principal">
-    <a href="#top" class="font-serif text-2xl tracking-tight">Gabriel Lima Leite</a>
-    <ul class="hidden md:flex gap-10">
-      <li><a class="link-u" href="#sobre">Sobre</a></li>
-      <li><a class="link-u" href="#desenvolvimento">Desenvolvimento</a></li>
-      <li><a class="link-u" href="#ciberseguranca">Cibersegurança</a></li>
-      <li><a class="link-u" href="#certificados">Certificados</a></li>
-      <li><a class="link-u" href="#contato">Contato</a></li>
-    </ul>
-    <div class="flex items-center gap-4"><button id="language-toggle" class="lang-toggle" type="button" aria-label="Mudar idioma para inglês">PT / EN</button><button id="open" class="md:hidden font-head" aria-expanded="false" aria-controls="menu">Menu</button></div>
-  </nav>
+<header class="sticky top-0 z-40 border-b border-line bg-base/90 backdrop-blur">
+  <div class="mx-auto flex min-h-14 max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-5 py-2">
+    <a href="index.html" class="font-semibold tracking-tight">Gabriel Lima Leite</a>
+    <nav aria-label="Main" class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-soft">
+      <a class="hover:text-ink" href="about.html">About</a><a class="hover:text-ink" href="development.html">Development</a><a class="hover:text-ink" href="cybersecurity.html">Cybersecurity</a><a class="hover:text-ink" href="projects.html">Projects</a><a class="hover:text-ink" href="contact.html">Contact</a>
+      <button id="open-term" type="button" aria-label="Open navigation terminal (shortcut: /)" class="rounded border border-edge px-2 py-1 font-mono text-xs text-accent-text transition-colors hover:border-accent-text">&gt;_</button>
+      <span class="font-mono text-xs text-quiet"><a class="hover:text-ink" href="../index.html" hreflang="pt-BR" lang="pt-BR">PT</a> / <span class="text-ink">EN</span></span>
+    </nav>
+  </div>
 </header>
-<div id="menu" class="closed fixed inset-0 z-50 bg-bg/95 backdrop-blur flex flex-col justify-center px-10" role="dialog" aria-modal="true" aria-label="Menu">
-  <button id="close" class="absolute top-7 right-6 font-head text-ivory">Fechar</button>
-  <ul class="font-serif text-4xl text-ivory space-y-5">
-    <li><a href="#sobre">Sobre</a></li><li><a href="#desenvolvimento">Desenvolvimento</a></li><li><a href="#ciberseguranca">Cibersegurança</a></li><li><a href="#certificados">Certificados</a></li><li><a href="#contato">Contato</a></li>
-  </ul>
-</div>
-
 <main id="main">
-<!-- HERO -->
-<section id="top" class="photo fallback min-h-[100svh] flex items-end" data-parallax>
-  <div class="pines far"></div><div class="pines"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/30 to-bg/50"></div>
-  <div class="relative max-w-6xl mx-auto w-full px-6 pb-28 md:pb-32 hero-in">
-    <p class="font-mono text-xs text-sage mb-6">Brasília, DF · Engenharia de Software, UCB</p>
-    <h1 class="font-serif text-ivory text-[3.6rem] sm:text-8xl lg:text-[9.5rem] leading-[.92] tracking-tight">Gabriel<br>Lima Leite</h1>
-    <p class="mt-8 max-w-xl text-stone text-lg">Estudante de Engenharia de Software buscando estágio em desenvolvimento, SOC ou pentest.</p>
-    <a href="#desenvolvimento" class="btn mt-10 inline-block border border-ivory/40 text-ivory font-head text-sm px-7 py-3 rounded-sm hover:bg-ivory hover:text-bg">Ver projetos</a>
-  </div>
-  <!-- DICA DE ROLAGEM (canto inferior direito do hero): para remover, apague este <a> -->
-  <a href="#sobre" class="scroll-cue" aria-label="Rolar para a seção Sobre"><span>role para explorar</span><i aria-hidden="true"></i></a>
+  <section class="relative overflow-hidden bg-deep">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_30rem_at_15%_0%,rgb(109_40_217/.14),transparent_70%)]" aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-6xl gap-12 px-5 pb-24 pt-20 md:grid-cols-[1fr_16rem] md:pt-28">
+      <div>
+        <p class="rise text-soft" style="--i:0">Gabriel Lima Leite</p>
+        <h1 class="rise mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl" style="--i:1">Development and security, from code to logs.</h1>
+        <p class="rise mt-4 text-lg text-quiet sm:text-2xl" style="--i:2">Software engineering with a security mindset.</p>
+        <p class="rise mt-8 max-w-xl text-soft" style="--i:3">I study Software Engineering and build tools in C, Java and SQL. I'm looking for an internship in development, SOC, IT support or cybersecurity, where I can learn from a team and contribute early.</p>
+        <div class="rise mt-10 flex flex-wrap gap-3" style="--i:4"><a href="#projects" class="rounded bg-accent px-5 py-2.5 font-medium text-white transition-colors hover:bg-[#7c3aed]">View projects</a><a href="../curriculo.pdf" class="rounded border border-edge px-5 py-2.5 transition-colors hover:border-accent-text">Download résumé (PDF, Portuguese)</a><a href="contact.html" class="rounded px-5 py-2.5 text-soft transition-colors hover:text-ink">Get in touch</a></div>
+      </div>
+      <dl class="rise space-y-5 self-end border-l border-line pl-5 font-mono text-xs" style="--i:5">
+        <div><dt class="text-quiet">education</dt><dd class="mt-1 text-ink">Software Engineering, UCB, 4th semester</dd></div>
+        <div><dt class="text-quiet">location</dt><dd class="mt-1 text-ink">Brasília, DF, Brazil</dd></div>
+        <div><dt class="text-quiet">status</dt><dd class="mt-1 flex items-center gap-2 text-ink"><span class="size-2 rounded-full bg-emerald-500" aria-hidden="true"></span>Looking for an internship</dd></div>
+      </dl>
+    </div>
   </section>
-
-<!-- SOBRE -->
-<section id="sobre" class="pt-28 md:pt-40 pb-10 md:pb-12 overflow-hidden">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mt-10 grid md:grid-cols-12 gap-12 md:gap-16 items-center">
-      <div class="about-frame relative md:col-span-6 md:col-start-1 reveal">
-        <div class="photo fallback aspect-[4/5] md:aspect-[24/25] rounded-sm" data-parallax role="img" aria-label="Código-fonte exibido em uma tela, em tons escuros de verde" style="--img:url('img/code.jpeg')"><div class="pines far"></div><div class="pines"></div></div>
-        <!-- ===== DETALHES "TECNOLOGIA" AO REDOR DA FOTO ===================================
-             Para remover tudo: apague este bloco até o comentário de fechamento.
-             (Estilos correspondentes: procure por ".tk" no <style>.)
-             =============================================================================== -->
-        <span class="tk tk-c tl" aria-hidden="true"></span><span class="tk tk-c tr" aria-hidden="true"></span><span class="tk tk-c bl" aria-hidden="true"></span><span class="tk tk-c br" aria-hidden="true"></span>
-        <span class="tk tk-r" aria-hidden="true"></span>
-        <p class="tk tk-l" aria-hidden="true"><b></b><span>// Code</span></p>
-        <!-- ===== FIM DOS DETALHES "TECNOLOGIA" ===== -->
-      </div>
-      <div class="md:col-span-5 md:col-start-8 reveal">
-        <h2 class="font-serif text-ivory text-4xl md:text-6xl leading-[1.02]">Entender como as coisas funcionam. Construir com cuidado. Proteger o que importa.</h2>
-        <div class="mt-8 space-y-5 max-w-[58ch]">
-          <p>Sou estudante do 4º semestre de Engenharia de Software na Universidade Católica de Brasília. Em C, gosto de trabalhar perto da memória, das estruturas de dados e dos arquivos.</p>
-          <p>Desenvolvimento e cibersegurança são duas perspectivas que me interessam: criar sistemas e investigar como torná-los mais confiáveis. Tenho explorado essas ideias em projetos próprios, trabalhos acadêmicos e trilhas de estudo.</p>
-          <p>Busco uma oportunidade de estágio em desenvolvimento, pentest ou SOC para aprender em equipe e contribuir com soluções bem pensadas.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DESENVOLVIMENTO -->
-<section id="desenvolvimento" class="pt-9 pb-10 md:pb-12">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="grid md:grid-cols-12 gap-8 items-end reveal">
-      <h2 class="mt-5 md:col-span-8 font-serif text-ivory text-5xl md:text-8xl leading-[.95] tracking-tight">A arte de construir</h2>
-      <p class="md:col-span-4 font-serif italic text-xl text-sage">Código que escrevi em C, Java, Dart e SQL.</p>
-    </div>
-    <div class="mt-8 max-w-[54ch] reveal"><p class="text-lg md:text-xl leading-relaxed text-ivory/90">Gosto de transformar uma ideia em algo que funciona. Começo pela lógica: como os dados se organizam, onde o programa pode falhar e como deixar o código claro para quem vier depois.</p><p class="mt-4 text-base leading-relaxed text-sage">Estudo Engenharia de Software e construo, sobretudo, projetos da faculdade e pessoais, alguns em grupo. Me interessa a arquitetura de um sistema tanto quanto a interface que a pessoa usa: código organizado costuma dar uma experiência que simplesmente funciona.</p></div>
-
-    <div class="mt-20 md:mt-28 reveal">
-      <div class="flex flex-wrap items-end justify-between gap-5">
-        <h3 class="font-serif text-ivory text-3xl md:text-4xl">Projetos selecionados</h3>
-        <a class="link-u font-head text-sm text-sage" href="https://github.com/limnte?tab=repositories" target="_blank" rel="noopener">Todos os repositórios ↗</a>
-      </div>
-      <p class="mt-3 text-sm">Explore cada projeto para ver um resumo e as tecnologias utilizadas.</p>
-      <div class="stage mt-9 grid md:grid-cols-12 gap-8 md:gap-12">
-        <nav class="project-menu md:col-span-4 flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-3 md:pb-0" aria-label="Projetos selecionados">
-          <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="error-log" aria-current="true"><span class="block font-head text-sm">Error Log Analyzer</span><span class="block mt-1 font-mono text-[.65rem] text-sage">C · Segurança</span></button>
-          <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="pin" aria-current="false"><span class="block font-head text-sm">Simulador de brute-force</span><span class="block mt-1 font-mono text-[.65rem] text-sage">C · Segurança</span></button>
-          <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="navegacao" aria-current="false"><span class="block font-head text-sm">Navegação robótica</span><span class="block mt-1 font-mono text-[.65rem] text-sage">C · Acadêmico</span></button>
-          <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="banco" aria-current="false"><span class="block font-head text-sm">Banco Malvader</span><span class="block mt-1 font-mono text-[.65rem] text-sage">C · Acadêmico</span></button>
-          <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="truco" aria-current="false"><span class="block font-head text-sm">Marcador de Truco</span><span class="block mt-1 font-mono text-[.65rem] text-sage">Flutter · Mobile</span></button>
-          <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="livraria" aria-current="false"><span class="block font-head text-sm">Sistema de Livraria</span><span class="block mt-1 font-mono text-[.65rem] text-sage">Java · SQL · Em grupo</span></button>
-          <button class="project-choice shrink-0 md:w-full text-left px-4 py-3 rounded-r-md" data-project="banco-dados" aria-current="false"><span class="block font-head text-sm">Gestão bancária (SQL)</span><span class="block mt-1 font-mono text-[.65rem] text-sage">MySQL · Em grupo</span></button>
-        </nav>
-        <p class="swipe-hint" aria-hidden="true">Deslize para ver mais projetos →</p>
-        <div class="md:col-span-8 min-h-64">
-          <article class="project-panel" data-panel="error-log"><p class="font-mono text-xs text-earth">FERRAMENTA · ANÁLISE DE EVENTOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Error Log Analyzer</h4><p class="mt-4 max-w-[58ch]">Lê e organiza logs de eventos do Windows (via wevtutil) ou de caminhos informados, facilitando a investigação de falhas. Inclui filtros por severidade para erros, avisos e eventos críticos.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">wevtutil</span><span class="tag">Parsing de logs</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/Error-Log-Analyzer" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/error-log-analyzer.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/error-log-analyzer.png" alt="Captura do Error Log Analyzer em execução" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>saída sintética de exemplo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><i>severidade  origem          id</i>
-<em>crítico</em>      Kernel-Power    41
-<em>erro</em>         Disk            7
-<b>aviso</b>        Dhcp            1002
-<i>filtro ativo:</i> erro + crítico</code></pre></figure></article>
-          <article class="project-panel" data-panel="pin" hidden><p class="font-mono text-xs text-earth">PROJETO PRÓPRIO · SEGURANÇA</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Simulador de brute-force de PIN</h4><p class="mt-4 max-w-[58ch]">Simulador educacional que ataca por força bruta um PIN numérico de 4 dígitos e compara dois cenários: sem proteção e com bloqueio após tentativas erradas. Mostra, com tempo e número de tentativas, por que delays e lockouts importam.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Lockout</span><span class="tag">time.h</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/PIN-Brute-Force-Simulator" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/pin-brute-force.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/pin-brute-force.png" alt="Captura do simulador de brute-force de PIN em execução" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>sem proteção</b>
-<i>0000 ─▶ 9999</i>  tentativas ilimitadas
-
-<b>com bloqueio</b>
-<i>erro × N ─▶</i> <em>conta travada</em></code></pre></figure></article>
-          <article class="project-panel" data-panel="navegacao" hidden><p class="font-mono text-xs text-earth">PROJETO ACADÊMICO · ALGORITMOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Navegação robótica</h4><p class="mt-4 max-w-[58ch]">Calcula e gerencia rotas para um robô cartesiano, aplicando estruturas de dados e gerenciamento manual de memória.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Listas encadeadas</span><span class="tag">Alocação dinâmica</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/Navega-oRob-tica" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/navegacao-robotica.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/navegacao-robotica.png" alt="Captura ou diagrama do projeto de navegação robótica" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><i>origem</i> ─▶ <b>nó</b> ─▶ <b>nó</b> ─▶ <i>destino</i>
- (0,0)    (2,0)   (2,3)    (5,3)
-
-<em>malloc</em>() ao criar a rota
-<em>free</em>()   ao liberá-la</code></pre></figure></article>
-          <article class="project-panel" data-panel="banco" hidden><p class="font-mono text-xs text-earth">PROJETO ACADÊMICO · SISTEMA BANCÁRIO</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Banco Malvader</h4><p class="mt-4 max-w-[58ch]">Sistema em C para gerenciamento bancário que simula contas, saques e depósitos.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">C</span><span class="tag">Estruturação de dados</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/BANCO-MALVADER" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/banco-malvader.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/banco-malvader.png" alt="Captura do sistema Banco Malvader em execução" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>conta</b> ─┬─ depositar(valor)
-       ├─ sacar(valor)
-       └─ <i>saldo suficiente?</i></code></pre></figure></article>
-          <article class="project-panel" data-panel="truco" hidden><p class="font-mono text-xs text-earth">APLICATIVO MOBILE</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Marcador de pontos de Truco</h4><p class="mt-4 max-w-[58ch]">Aplicativo para acompanhar a pontuação das equipes durante partidas de Truco.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Mobile</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/limnte/MarcadorPontosTruco" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/marcador-truco.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/marcador-truco.png" alt="Captura da interface do aplicativo Marcador de Truco" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>Equipe A</b>   ▮▮▮▮▮  <em>5</em>
-<b>Equipe B</b>   ▮▮▮    <em>3</em>
-
-<i>+  /  −  por equipe</i></code></pre></figure></article>
-          <article class="project-panel" data-panel="livraria" hidden><p class="font-mono text-xs text-earth">PROJETO EM GRUPO · APLICAÇÃO DESKTOP</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Sistema de Livraria</h4><p class="mt-4 max-w-[58ch]">Aplicação desktop em Java para cadastro e consulta de clientes e funcionários de uma livraria, com interface Swing e dados em MySQL via JDBC. Valida CPF único e bloqueia exclusões que apagariam o histórico de compras.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">Java</span><span class="tag">Swing</span><span class="tag">JDBC</span><span class="tag">MySQL</span><span class="tag">Maven</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/FlashTR5/Sistema-de-Livraria" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/sistema-livraria.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/sistema-livraria.png" alt="Captura da aplicação Sistema de Livraria" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>Cliente</b> 1 ─── N <b>Compra</b> N ─── 1 <b>Funcionário</b>
-
-<i>CPF único</i>
-<i>exclusão bloqueada se há histórico</i></code></pre></figure></article>
-          <article class="project-panel" data-panel="banco-dados" hidden><p class="font-mono text-xs text-earth">PROJETO EM GRUPO · MODELAGEM DE DADOS</p><h4 class="mt-3 font-serif text-ivory text-3xl md:text-4xl">Gestão de contas e operações bancárias</h4><p class="mt-4 max-w-[58ch]">Banco de dados relacional para um sistema bancário, cobrindo clientes, contas, cartões, transações e empréstimos. Inclui normalização até a 3FN, restrições de integridade e documentação com dicionário de dados.</p><div class="mt-6 flex flex-wrap gap-2"><span class="tag">SQL</span><span class="tag">MySQL 8</span><span class="tag">Modelagem relacional</span><span class="tag">3FN</span></div><a class="link-u mt-7 inline-block font-head text-sm text-ivory" href="https://github.com/FlashTR5/Sistema-de-Gestao-de-Contas-e-Operacoes-Bancarias" target="_blank" rel="noopener">Abrir repositório ↗</a><!-- PROVA VISUAL: adicione o arquivo img/projetos/gestao-bancaria.png; o esquema abaixo fica como alternativa se a imagem ainda não existir. --><figure class="fig"><img data-src="img/projetos/gestao-bancaria.png" alt="Diagrama ou captura do projeto de gestão bancária em SQL" loading="lazy" hidden onload="this.hidden=false; this.closest('figure').classList.add('has-photo')" onerror="this.hidden=true"><figcaption>esquema ilustrativo</figcaption><figcaption class="photo-caption">Captura do projeto</figcaption><pre><code><b>cliente</b> ─&lt; <b>conta</b> ─&lt; <b>transação</b>
-<b>conta</b> ─&lt; <b>cartão</b>
-<b>cliente</b> ─&lt; <b>empréstimo</b>
-
-<i>3FN · chaves estrangeiras · dicionário</i></code></pre></figure></article>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- Transição entre as duas seções -->
-<div aria-hidden="true" class="h-14 bg-gradient-to-b from-bg to-[#0D1511] flex justify-center"><span class="w-px h-full bg-gradient-to-b from-transparent to-[#83AFA1]/50"></span></div>
-
-<!-- CIBERSEGURANÇA -->
-<section id="ciberseguranca" class="cyber">
-  <div id="asc-hero" role="img" aria-label="Paisagem de montanhas e floresta ao entardecer, desenhada com caracteres de texto">
-    <pre class="asc asc-clouds" aria-hidden="true"></pre>
-    <pre class="asc asc-main" aria-hidden="true"></pre>
-    <div class="absolute inset-x-0 top-0 pointer-events-none">
-      <div class="max-w-6xl mx-auto px-6 pt-28 md:pt-36 grid md:grid-cols-12 gap-6 items-end reveal">
-        <h2 class="md:col-span-8 font-serif text-ivory text-5xl md:text-8xl leading-[.95] tracking-tight">Além da superfície</h2>
-        <p class="md:col-span-4 font-serif italic text-xl" style="color:var(--c-cyan)">Proteger o que construímos.</p>
-      </div>
-    </div>
-  </div>
-  <div class="max-w-6xl mx-auto px-6 pt-4 flex justify-between gap-4 font-mono text-[.7rem]" style="color:var(--c-sage)"><span>Paisagem em caracteres, desenho próprio.</span><span aria-hidden="true">~/floresta <span class="cur">▌</span></span></div>
-
-  <div class="max-w-6xl mx-auto px-6 pt-20 pb-20 md:pt-28 md:pb-24">
-    <div class="grid md:grid-cols-12 gap-14 items-center mb-20 reveal">
-      <div class="md:col-span-7">
-        <p class="mt-5 font-serif text-ivory text-3xl md:text-5xl leading-tight">Segurança começa com boas perguntas sobre sistemas, eventos e acessos.</p>
-        <p class="mt-5 max-w-[56ch] text-sm md:text-base">Meu interesse está em operações de segurança (SOC) e segurança ofensiva. Abaixo, o que estudo. Os projetos de segurança estão em Desenvolvimento e os certificados na seção seguinte.</p>
-      </div>
-      <div class="md:col-span-5"><svg id="dg" viewBox="0 0 400 360" class="w-full h-auto" role="img" aria-label="Diagrama: logs, rede, acesso, código e estudo convergem para detecção e resposta a incidentes">
-          <g fill="none" stroke="var(--c-forest)"><circle cx="200" cy="180" r="70"/><circle class="ring" cx="200" cy="180" r="130" stroke-dasharray="2 6"/></g>
-          <g class="dg-l" stroke="var(--c-moss)" stroke-width="1"><line x1="200" y1="180" x2="200" y2="40"/><line x1="200" y1="180" x2="340" y2="120"/><line x1="200" y1="180" x2="320" y2="290"/><line x1="200" y1="180" x2="80" y2="290"/><line x1="200" y1="180" x2="60" y2="120"/></g>
-          <g class="dg-f" stroke="var(--c-cyan)" stroke-width="1.2" stroke-dasharray="3 9" opacity=".8"><line x1="200" y1="40" x2="200" y2="180"/><line x1="340" y1="120" x2="200" y2="180"/><line x1="320" y1="290" x2="200" y2="180"/><line x1="80" y1="290" x2="200" y2="180"/><line x1="60" y1="120" x2="200" y2="180"/></g>
-          <g fill="var(--c-bg)" stroke="var(--c-sage)"><circle cx="200" cy="40" r="6"/><circle cx="340" cy="120" r="6"/><circle cx="320" cy="290" r="6"/><circle cx="80" cy="290" r="6"/><circle cx="60" cy="120" r="6"/></g>
-          <circle class="core" cx="200" cy="180" r="30" fill="var(--c-surface)" stroke="var(--c-cyan)"/>
-          <g font-family="JetBrains Mono, monospace" font-size="11" fill="var(--c-sage)" text-anchor="middle">
-            <text x="200" y="24">logs</text><text x="340" y="106">rede</text><text x="320" y="316">acesso</text><text x="80" y="316">código</text><text x="60" y="106">estudo</text>
-            <text x="200" y="176" fill="var(--c-ivory)" font-size="9">detecção</text><text x="200" y="188" fill="var(--c-ivory)" font-size="9">e resposta</text>
-          </g>
-        </svg>
-        <p class="mt-4 font-mono text-[.7rem]" style="color:var(--c-sage)">Mapa conceitual das minhas áreas. Ilustrativo, não é saída de ferramenta.</p></div>
-    </div>
-
-    <div class="grp reveal">
-      <div class="grp-h"><p class="ev-h"><span class="dot hollow"></span>Conhecimentos em estudo</p><p class="mt-3 text-sm">Fundamentos que venho estudando.</p><p class="mt-2 text-sm">Use as categorias ou as setas para navegar.</p></div>
-      <!-- ============ CONHECIMENTOS EM ESTUDO: COMO ATUALIZAR ============
-     Cada categoria tem 2 partes que andam juntas, na mesma ordem:
-       1) um botao dentro de <div class="kn-trail">  (item da trilha: numero + nome)
-       2) um painel <div class="kp"> dentro de <div class="kstage">  (conteudo)
-     ADICIONAR: copie um botao e um painel, aumente o data-i (0, 1, 2, ...) nos dois e ajuste o numero (01, 02, ...) do botao.
-     EDITAR: nome em <h3 class="kp-h">, descricao em <p class="kp-d"> e as linhas de <dl class="kp-l">
-       (Conhecimentos / Ferramentas / Relacionado). Apague a linha <div> do <dl> que nao quiser mostrar.
-     CONTADOR: o script calcula "01 / 0N" sozinho. So o texto inicial do <span class="kn-count"> e fixo: atualize para "01 / 0N".
-     INGLES: acrescente cada texto novo no dicionario "translations" (procure por "const translations") no formato 'texto em PT':'text in EN'.
-     SCRIPT: nao precisa mudar (procure por "Conhecimentos em estudo: navegacao com push-in"). Funciona com ate 9 categorias.
-     Inclua so conhecimentos e ferramentas que voce realmente estudou ou usou.
-     ================================================================== -->
-      <div id="kn" aria-label="Conhecimentos em estudo">
-        <div class="kn-trail"><button type="button" data-i="0" aria-current="step"><span class="n">01</span><span class="t">Redes</span></button><button type="button" data-i="1"><span class="n">02</span><span class="t">Firewall e Controle de Acesso</span></button><button type="button" data-i="2"><span class="n">03</span><span class="t">Sistemas e Permissões</span></button><button type="button" data-i="3"><span class="n">04</span><span class="t">Sistemas Operacionais</span></button><button type="button" data-i="4"><span class="n">05</span><span class="t">Ferramentas de Segurança</span></button></div>
-        <div class="kstage">
-          <div class="kp on" data-i="0" role="group" aria-label="1 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Redes</h3><p class="kp-d">Como os dispositivos se comunicam e quais serviços ficam expostos.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">TCP/IP</span><span class="tag">Portas e serviços</span></div></dd></div></dl></div>
-          <div class="kp" data-i="1" role="group" aria-label="2 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Firewall e Controle de Acesso</h3><p class="kp-d">Quem pode acessar o quê, e como regras e credenciais limitam esse acesso.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">Conceitos de firewall</span><span class="tag">Controle de acesso</span></div></dd></div><div><dt>Relacionado</dt><dd><p>Simulador de brute-force de PIN, projeto próprio sobre a importância de credenciais robustas.</p></dd></div></dl></div>
-          <div class="kp" data-i="2" role="group" aria-label="3 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Sistemas e Permissões</h3><p class="kp-d">Como usuários e permissões definem o que cada conta pode fazer.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">Usuários e permissões</span><span class="tag">Boas práticas de segurança</span></div></dd></div></dl></div>
-          <div class="kp" data-i="3" role="group" aria-label="4 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Sistemas Operacionais</h3><p class="kp-d">O ambiente onde tudo executa e onde ficam os registros do que acontece.</p><dl class="kp-l"><div><dt>Conhecimentos</dt><dd><div class="tags"><span class="tag">Fundamentos de sistemas operacionais</span><span class="tag">Logs de eventos do Windows</span></div></dd></div><div><dt>Ferramentas</dt><dd><div class="tags"><span class="tag">wevtutil</span></div></dd></div><div><dt>Relacionado</dt><dd><p>Error Log Analyzer, projeto próprio em C que lê e filtra eventos do Windows por severidade.</p></dd></div></dl></div>
-          <div class="kp" data-i="4" role="group" aria-label="5 / 5"><p class="kp-tag">em estudo</p><h3 class="kp-h">Ferramentas de Segurança</h3><p class="kp-d">Ferramentas apresentadas na trilha Cyber Security 101, em contexto de estudo.</p><dl class="kp-l"><div><dt>Ferramentas</dt><dd><div class="tags"><span class="tag">Nmap</span><span class="tag">Wireshark</span><span class="tag">Metasploit</span></div></dd></div><div><dt>Relacionado</dt><dd><p>Cyber Security 101, trilha da TryHackMe.</p></dd></div></dl></div>
-          </div>
-        <div class="kn-ctl"><button type="button" data-prev disabled><span aria-hidden="true">←</span> <span>Anterior</span></button><span class="kn-count" aria-live="polite">01 / 05</span><button type="button" data-next><span>Próxima</span> <span aria-hidden="true">→</span></button></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CERTIFICATES & LEARNING -->
-<section id="certificados" class="cyber pb-24 md:pb-32 scroll-mt-24">
-  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 md:gap-14">
-    <div class="md:col-span-4 reveal"><div class="md:sticky md:top-24">
-      <h2 class="font-serif text-ivory text-4xl md:text-5xl leading-[1.02] tracking-tight">Certificados e Aprendizado</h2>
-      <p class="mt-4 text-sm max-w-[34ch]">Trilhas e certificados concluídos. Selecione um item para abrir o certificado, quando disponível.</p>
-    </div></div>
-    <div class="md:col-span-8 reveal">
-        <div class="cl" data-cert="img/certificados/tic-git-github.jpg" data-title="Git e GitHub · TIC em Trilhas, UCB"><span class="cl-d">10 set 2026</span><div><h4>Git e GitHub</h4><p class="cl-m"><span>TIC em Trilhas, UCB</span> · <span>30 h</span> · <span>Desenvolvimento</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
-        <div class="cl" data-cert="img/certificados/tic-colaborativo-github.jpg" data-title="Desenvolvimento Colaborativo em GitHub · TIC em Trilhas, UCB"><span class="cl-d">15 jun 2026</span><div><h4>Desenvolvimento Colaborativo em GitHub</h4><p class="cl-m"><span>TIC em Trilhas, UCB</span> · <span>30 h</span> · <span>Desenvolvimento</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
-        <div class="cl" data-cert="img/certificados/opswat-icip.png" data-title="Introduction to Critical Infrastructure Protection · OPSWAT"><span class="cl-d">20 mai 2026</span><div><h4>Introduction to Critical Infrastructure Protection</h4><p class="cl-m"><span>OPSWAT</span> · <span>Cibersegurança</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
-        <div class="cl" data-cert="img/certificados/thm-pre-security.jpg" data-title="Pre Security · TryHackMe"><span class="cl-d">8 fev 2026</span><div><h4>Pre Security</h4><p class="cl-m"><span>TryHackMe</span> · <span>7h38</span> · <span>Cibersegurança</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
-        <div class="cl"><span class="cl-d">—</span><div><h4>Cyber Security 101</h4><p class="cl-m"><span>TryHackMe</span> · <span>Cibersegurança</span></p></div><span></span></div>
-        <div class="cl" data-cert="img/certificados/tic-ciencia-dados.jpg" data-title="Ciência de Dados: Fundamentos · TIC em Trilhas, UCB"><span class="cl-d">4 jul 2025</span><div><h4>Ciência de Dados: Fundamentos</h4><p class="cl-m"><span>TIC em Trilhas, UCB</span> · <span>30 h</span> · <span>Dados</span></p></div><button type="button" class="link-u cl-a">Ver certificado</button></div>
-        </div>
-  </div>
-</section>
-
-<!-- CONTATO -->
-<section id="contato" class="py-32 md:py-44">
-  <div class="max-w-6xl mx-auto px-6 reveal">
-    <h2 class="font-serif text-ivory max-w-3xl text-5xl md:text-7xl leading-tight">Vamos conversar sobre segurança e código.</h2>
-    <p class="mt-8 max-w-[48ch]">Estou disponível para estágio em desenvolvimento, pentest ou SOC. Escreva uma mensagem e respondo em breve.</p>
-    <a href="mailto:gabe.limtee@gmail.com" class="btn mt-10 inline-block bg-ivory text-bg font-head text-sm px-8 py-3.5 rounded-sm hover:bg-stone">gabe.limtee@gmail.com</a>
-    <ul class="mt-10 flex gap-8 font-head text-sm">
-      <li><a class="link-u" href="https://github.com/limnte" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a class="link-u" href="https://www.linkedin.com/in/gabelimte/" target="_blank" rel="noopener">LinkedIn</a></li>
-    </ul>
-    <div class="mt-16 border-t border-sage/20 pt-9">
-      <p class="font-mono text-xs text-sage">Currículo</p>
-      <p class="mt-2 text-sm">Formação, projetos, tecnologias e trilhas de estudo.</p>
-      <!-- ============================================================
-     ATUALIZAR CURRÍCULO (faça isto sempre que o currículo mudar)
-     1. Salve o novo PDF em:   docs/Gabriel_Lima_Leite_Curriculo.pdf   -> usado no botão "Baixar currículo"
-     2. Gere uma imagem da 1ª página e salve em: docs/Gabriel_Lima_Leite_Curriculo.png   -> usada no botão "Abrir currículo"
-        (ex.: pdftoppm -r 130 -png -singlefile docs/Gabriel_Lima_Leite_Curriculo.pdf docs/Gabriel_Lima_Leite_Curriculo)
-     Se mudar os nomes dos arquivos, ajuste os dois links abaixo.
-     ============================================================ -->
-      <div class="mt-5 flex flex-wrap gap-3">
-        <a data-cert="docs/Gabriel_Lima_Leite_Curriculo.png" data-title="Curriculo" target="_blank" rel="noopener" class="btn inline-block border border-ivory/40 text-ivory font-head text-sm px-7 py-3 rounded-sm hover:bg-ivory hover:text-bg">Abrir currículo</a>
-        <a href="docs/Gabriel_Lima_Leite_Curriculo.pdf" download class="btn inline-block text-sage font-head text-sm px-7 py-3 rounded-sm border border-sage/30 hover:border-sage hover:text-ivory">Baixar currículo ↓</a>
-      </div>
-    </div>
-  </div>
-</section>
+  <section id="projects" class="mx-auto max-w-6xl px-5 py-24"><h2 class="text-3xl font-semibold tracking-tight">Projects</h2><p class="mt-3 max-w-xl text-soft">Few of them, with what each one solves and where it is still limited.</p><div class="mt-12"><div class="grid gap-6 md:grid-cols-6">
+<article class="rounded-lg bg-surface p-8 md:col-span-6 md:p-12"><p class="font-mono text-xs text-accent-text">C · Windows logs · Cybersecurity track</p><h2 class="mt-3 text-2xl font-semibold" style="view-transition-name:ela-title">Error Log Analyzer</h2><p class="mt-4 max-w-2xl text-soft">A C tool that reads Windows events via <code class="font-mono text-sm text-ink">wevtutil</code> or from a given path and filters by severity: errors, warnings and critical events.</p><p class="mt-6 flex flex-wrap gap-x-6 gap-y-2"><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="project-error-log-analyzer.html">Read the case study</a><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/limnte/Error-Log-Analyzer">View on GitHub</a></p></article>
+<article class="rounded-lg bg-surface p-8 md:col-span-4"><p class="font-mono text-xs text-accent-text">C · authentication · Cybersecurity track</p><h2 class="mt-3 text-2xl font-semibold" style="view-transition-name:pin-title">PIN Brute-Force Simulator</h2><p class="mt-4 max-w-2xl text-soft">A local brute-force simulator against a 4-digit PIN, with and without a lockout after wrong attempts.</p><p class="mt-6 flex flex-wrap gap-x-6 gap-y-2"><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="project-pin-brute-force-simulator.html">Read the case study</a><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/limnte/PIN-Brute-Force-Simulator">View on GitHub</a></p></article>
+<article class="rounded-lg border border-line p-8 md:col-span-2"><p class="font-mono text-xs text-accent-text">Java · MySQL · Development track</p><h2 class="mt-3 text-2xl font-semibold">Sistema de Livraria</h2><p class="mt-2 text-sm text-quiet">Group academic project. My part: employee CRUD and menus.</p><p class="mt-4 max-w-2xl text-soft">Desktop application with Swing and JDBC, built in layers.</p><p class="mt-6 flex flex-wrap gap-x-6 gap-y-2"><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/FlashTR5/Sistema-de-Livraria">View on GitHub</a></p></article>
+<article class="rounded-lg border border-line p-8 md:col-span-3"><p class="font-mono text-xs text-accent-text">MySQL · modeling · Development track</p><h2 class="mt-3 text-2xl font-semibold">Gestão de Contas e Operações Bancárias</h2><p class="mt-2 text-sm text-quiet">Group academic project. I wrote part of the code and SQL in all stages.</p><p class="mt-4 max-w-2xl text-soft">Relational database for a banking system, normalized up to 3NF, with specialization, a weak entity and status history.</p><p class="mt-6 flex flex-wrap gap-x-6 gap-y-2"><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/FlashTR5/Sistema-de-Gestao-de-Contas-e-Operacoes-Bancarias">View on GitHub</a></p></article>
+<ul class="divide-y divide-line self-start rounded-lg bg-raised md:col-span-3">
+<li class="p-5"><a class="font-medium hover:text-accent-text" href="https://github.com/limnte/BANCO-MALVADER">Banco Malvader</a><p class="mt-1 text-sm text-soft">Accounts, withdrawals and deposits in C. Academic project.</p></li>
+<li class="p-5"><a class="font-medium hover:text-accent-text" href="https://github.com/limnte/Navega-oRob-tica">Navegação Robótica</a><p class="mt-1 text-sm text-soft">Routes for a Cartesian robot with linked lists and dynamic allocation.</p></li>
+<li class="p-5"><a class="font-medium hover:text-accent-text" href="https://github.com/limnte/MarcadorPontosTruco">Marcador de Pontos de Truco</a><p class="mt-1 text-sm text-soft">Flutter/Dart app to keep score in matches.</p></li></ul></div></div><p class="mt-10"><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="projects.html">All projects</a></p></section>
 </main>
+<footer class="border-t border-line py-8 text-center text-sm text-quiet">Gabriel Lima Leite · Brasília, DF</footer>
 
-<footer class="border-t border-sage/10 py-8">
-  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between gap-2 font-mono text-xs text-sage">
-    <span>© <span id="year">2026</span> Gabriel Lima Leite</span><span>Brasília, DF</span>
-  </div>
-</footer>
-
-<dialog id="cert" aria-label="Certificado">
-  <button type="button" data-close class="cert-x">Fechar</button>
-  <img alt="">
-  <p data-cap class="mt-3 text-center font-mono text-xs text-sage"></p>
-</dialog>
-
-<dialog id="project-preview" aria-label="Imagem do projeto ampliada">
-  <button type="button" data-close-project class="cert-x">Fechar</button>
-  <img alt="">
-  <p id="project-preview-caption" class="mt-3 text-center font-mono text-xs text-sage"></p>
+<dialog id="term" aria-label="Navigation terminal" class="m-auto w-[min(32rem,92vw)] rounded-lg border border-edge bg-deep p-5 text-ink">
+  <form id="term-form" autocomplete="off" class="font-mono text-sm">
+    <label for="term-in" class="flex items-center gap-2"><span class="text-accent-text" aria-hidden="true">$</span><span class="sr-only">Command</span>
+      <input id="term-in" class="w-full bg-transparent outline-none" placeholder="type help" spellcheck="false"></label>
+    <p id="term-out" class="mt-4 whitespace-pre-wrap text-soft" aria-live="polite">Commands: home, about, dev, cyber, projects, contact, resume, help. Esc closes.</p>
+  </form>
 </dialog>
 
 <script>
-  // Menu mobile
-  const menu = document.getElementById('menu'), openBtn = document.getElementById('open');
-  const setMenu = o => { menu.classList.toggle('closed', !o); openBtn.setAttribute('aria-expanded', o); document.body.style.overflow = o ? 'hidden' : ''; };
-  openBtn.onclick = () => setMenu(true);
-  document.getElementById('close').onclick = () => setMenu(false);
-  menu.querySelectorAll('a').forEach(a => a.onclick = () => setMenu(false));
-  addEventListener('keydown', e => e.key === 'Escape' && setMenu(false));
-
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Alternância de idioma: traduz a interface e o conteúdo editorial disponível.
-  const languageButton = document.getElementById('language-toggle');
-  const translations = {
-    'Deslize para ver mais projetos →':'Swipe to see more projects →',
-    'Pre Security · TryHackMe':'Pre Security · TryHackMe','Introduction to Critical Infrastructure Protection · OPSWAT':'Introduction to Critical Infrastructure Protection · OPSWAT',
-    'A arte de construir':'The art of building','Além da superfície':'Beyond the surface','Proteger o que construímos.':'Protecting what we build.','Certificados e Aprendizado':'Certificates & Learning','Ir para o conteúdo':'Skip to content','Java · SQL · Em grupo':'Java · SQL · Group project','MySQL · Em grupo':'MySQL · Group project','Parsing de logs':'Log parsing','PROJETO PRÓPRIO · SEGURANÇA':'PERSONAL PROJECT · SECURITY','Simulador de brute-force de PIN':'PIN brute-force simulator','Simulador educacional que ataca por força bruta um PIN numérico de 4 dígitos e compara dois cenários: sem proteção e com bloqueio após tentativas erradas. Mostra, com tempo e número de tentativas, por que delays e lockouts importam.':'Educational simulator that brute-forces a 4-digit numeric PIN and compares two scenarios: without protection and with lockout after failed attempts. It shows, with time and number of attempts, why delays and lockouts matter.','Alocação dinâmica':'Dynamic allocation','Estruturação de dados':'Data structuring','Gestão de contas e operações bancárias':'Account management and banking operations','código':'code','detecção':'detection','e resposta':'and response','Certificado':'Certificate','Rolar para a seção Sobre':'Scroll to the About section','Código-fonte exibido em uma tela, em tons escuros de verde':'Source code shown on a screen, in dark green tones','Paisagem de montanhas e floresta ao entardecer, desenhada com caracteres de texto':'Landscape of mountains and forest at dusk, drawn with text characters','Diagrama: logs, rede, acesso, código e estudo convergem para detecção e resposta a incidentes':'Diagram: logs, network, access, code and study converge into incident detection and response','Git e GitHub · TIC em Trilhas, UCB':'Git and GitHub · TIC em Trilhas, UCB','Desenvolvimento Colaborativo em GitHub · TIC em Trilhas, UCB':'Collaborative Development with GitHub · TIC em Trilhas, UCB','Ciência de Dados: Fundamentos · TIC em Trilhas, UCB':'Data Science: Fundamentals · TIC em Trilhas, UCB',
-    'role para explorar':'scroll to explore',
-    'Certificados':'Certificates',
-    'Gosto de transformar uma ideia em algo que funciona. Começo pela lógica: como os dados se organizam, onde o programa pode falhar e como deixar o código claro para quem vier depois.':'I like turning an idea into something that works. I start with the logic: how the data is organized, where the program can fail and how to leave the code clear for whoever comes next.','Estudo Engenharia de Software e construo, sobretudo, projetos da faculdade e pessoais, alguns em grupo. Me interessa a arquitetura de um sistema tanto quanto a interface que a pessoa usa: código organizado costuma dar uma experiência que simplesmente funciona.':'I study Software Engineering and mostly build university and personal projects, some in teams. I care about a system’s architecture as much as the interface people use: organized code tends to give an experience that simply works.','Como os dispositivos se comunicam e quais serviços ficam expostos.':'How devices communicate and which services are exposed.','TCP/IP':'TCP/IP','Portas e serviços':'Ports and services','Conhecimentos':'Knowledge','Firewall e Controle de Acesso':'Firewalls and Access Control','Quem pode acessar o quê, e como regras e credenciais limitam esse acesso.':'Who can access what, and how rules and credentials limit that access.','Conceitos de firewall':'Firewall concepts','Controle de acesso':'Access control','Simulador de brute-force de PIN, projeto próprio sobre a importância de credenciais robustas.':'PIN brute-force simulator, a personal project on the importance of strong credentials.','Relacionado':'Related','Sistemas e Permissões':'Systems and Permissions','Como usuários e permissões definem o que cada conta pode fazer.':'How users and permissions define what each account can do.','Usuários e permissões':'Users and permissions','Boas práticas de segurança':'Security best practices','Sistemas Operacionais':'Operating Systems','O ambiente onde tudo executa e onde ficam os registros do que acontece.':'The environment where everything runs and where records of what happens are kept.','Fundamentos de sistemas operacionais':'Operating systems fundamentals','Logs de eventos do Windows':'Windows event logs','Ferramentas':'Tools','Error Log Analyzer, projeto próprio em C que lê e filtra eventos do Windows por severidade.':'Error Log Analyzer, a personal project in C that reads and filters Windows events by severity.','Ferramentas de Segurança':'Security Tools','Ferramentas apresentadas na trilha Cyber Security 101, em contexto de estudo.':'Tools introduced in the Cyber Security 101 learning path, as part of my studies.','Cyber Security 101, trilha da TryHackMe.':'Cyber Security 101, a TryHackMe learning path.','em estudo':'in study','Anterior':'Previous','Próxima':'Next','Use as categorias ou as setas para navegar.':'Use the categories or the arrows to navigate.','Dados':'Data','Git e GitHub':'Git and GitHub','10 set 2026':'10 Sep 2026','15 jun 2026':'15 Jun 2026','20 mai 2026':'20 May 2026','8 fev 2026':'8 Feb 2026','4 jul 2025':'4 Jul 2025','Trilhas e certificados concluídos. Selecione um item para abrir o certificado, quando disponível.':'Completed learning paths and certificates. Select an item to open the certificate, when available.',
-    'Firewall e controle de acesso':'Firewalls and access control','Conceitos de firewall e de controle de acesso.':'Firewall and access control concepts.','Fundamentos de TCP/IP, portas e serviços.':'Fundamentals of TCP/IP, ports and services.','Sistemas operacionais':'Operating systems','Fundamentos de sistemas operacionais.':'Operating systems fundamentals.',
-    'Ferramentas de segurança':'Security tools','Ferramentas apresentadas na trilha Cyber Security 101.':'Tools introduced in the Cyber Security 101 learning path.','Certificados abrem na própria página, quando disponíveis.':'Certificates open on this page, when available.',
-    'Concluída em fevereiro de 2026 · 7h38':'Completed in February 2026 · 7h38','Concluído em maio de 2026':'Completed in May 2026','Proteção de infraestrutura crítica.':'Critical infrastructure protection.',
-    'Sobre':'About','Desenvolvimento':'Development','Cibersegurança':'Cybersecurity','Contato':'Contact','Menu':'Menu','Fechar':'Close',
-    'Brasília, DF · Engenharia de Software, UCB':'Brasília, Brazil · Software Engineering, UCB',
-    'Estudante de Engenharia de Software buscando estágio em desenvolvimento, SOC ou pentest.':'Software Engineering student seeking an internship in software development, a SOC or pentesting.',
-    'Ver projetos':'Explore projects','01 / SOBRE MIM':'01 / ABOUT ME',
-    'Entender como as coisas funcionam. Construir com cuidado. Proteger o que importa.':'Understand how things work. Build with care. Protect what matters.',
-    'Sou estudante do 4º semestre de Engenharia de Software na Universidade Católica de Brasília. Em C, gosto de trabalhar perto da memória, das estruturas de dados e dos arquivos.':'I am a fourth-semester Software Engineering student at the Catholic University of Brasília. In C, I enjoy working close to memory, data structures and files.',
-    'Desenvolvimento e cibersegurança são duas perspectivas que me interessam: criar sistemas e investigar como torná-los mais confiáveis. Tenho explorado essas ideias em projetos próprios, trabalhos acadêmicos e trilhas de estudo.':'Development and cybersecurity are two perspectives that interest me: building systems and exploring how to make them more reliable. I have explored these ideas through personal projects, academic work and learning paths.',
-    'Busco uma oportunidade de estágio em desenvolvimento, pentest ou SOC para aprender em equipe e contribuir com soluções bem pensadas.':'I am looking for an internship in software development, pentesting or a SOC to learn as part of a team and contribute thoughtful solutions.',
-    'CURIOSIDADE · MÉTODO · CONSTRUÇÃO':'CURIOSITY · METHOD · BUILDING','02 / DESENVOLVIMENTO':'02 / DEVELOPMENT',
-    'Da lógica próxima à máquina às aplicações que resolvem problemas reais: projetos acadêmicos e pessoais que mostram meu percurso construindo software.':'From low-level logic to applications that solve real problems: academic and personal projects that show my path as a software builder.',
-    'Projetos selecionados':'Selected projects','Todos os repositórios ↗':'All repositories ↗','Explore cada projeto para ver um resumo e as tecnologias utilizadas.':'Select a project to see a short overview and the technologies used.',
-    'Segurança':'Security','Acadêmico':'Academic','Abrir repositório ↗':'Open repository ↗','PROJETO ACADÊMICO · ALGORITMOS':'ACADEMIC PROJECT · ALGORITHMS','PROJETO ACADÊMICO · SISTEMA BANCÁRIO':'ACADEMIC PROJECT · BANKING SYSTEM','APLICATIVO MOBILE':'MOBILE APP','PROJETO EM GRUPO · APLICAÇÃO DESKTOP':'TEAM PROJECT · DESKTOP APP','PROJETO EM GRUPO · MODELAGEM DE DADOS':'TEAM PROJECT · DATA MODELING',
-    'FERRAMENTA · ANÁLISE DE EVENTOS':'TOOL · EVENT ANALYSIS','Lê e organiza logs de eventos do Windows (via wevtutil) ou de caminhos informados, facilitando a investigação de falhas. Inclui filtros por severidade para erros, avisos e eventos críticos.':'Reads and organizes Windows event logs (using wevtutil) or user-provided files to support troubleshooting. Includes severity filters for errors, warnings and critical events.',
-    'Calcula e gerencia rotas para um robô cartesiano, aplicando estruturas de dados e gerenciamento manual de memória.':'Calculates and manages routes for a Cartesian robot using data structures and manual memory management.',
-    'Sistema em C para gerenciamento bancário que simula contas, saques e depósitos.':'A C banking management system that simulates accounts, withdrawals and deposits.',
-    'Aplicativo para acompanhar a pontuação das equipes durante partidas de Truco.':'An app for keeping score between teams during Truco games.',
-    'Aplicação desktop em Java para cadastro e consulta de clientes e funcionários de uma livraria, com interface Swing e dados em MySQL via JDBC. Valida CPF único e bloqueia exclusões que apagariam o histórico de compras.':'A Java desktop app for managing and searching bookstore customers and staff, with a Swing interface and MySQL data through JDBC. Validates unique CPF numbers and prevents deletions that would erase purchase history.',
-    'Banco de dados relacional para um sistema bancário, cobrindo clientes, contas, cartões, transações e empréstimos. Inclui normalização até a 3FN, restrições de integridade e documentação com dicionário de dados.':'A relational database for a banking system covering customers, accounts, cards, transactions and loans. Includes normalization through 3NF, integrity constraints and a data dictionary.',
-    '03 / CIBERSEGURANÇA':'03 / CYBERSECURITY','Protecting what we build.':'Protecting what we build.','OBSERVAR → INVESTIGAR → RESPONDER':'OBSERVE → INVESTIGATE → RESPOND',
-    'Segurança começa com boas perguntas sobre sistemas, eventos e acessos.':'Security begins with good questions about systems, events and access.',
-    'Meu interesse está em operações de segurança e segurança ofensiva. Os elementos abaixo distinguem a prática demonstrada em projetos dos conhecimentos desenvolvidos em cursos e estudos.':'My interests include security operations and offensive security. The sections below distinguish hands-on project work from knowledge developed through courses and study.',
-    'Mapa conceitual das minhas áreas. Ilustrativo, não é saída de ferramenta.':'A conceptual map of my areas of interest. Illustrative; not generated by a security tool.',
-    'Meu objetivo é atuar em SOC e segurança ofensiva, contribuindo com a detecção e a resposta a incidentes. Abaixo, o que sustenta isso e o tipo de evidência de cada item.':'My goal is to work in a SOC and offensive security, contributing to incident detection and response. Below are the foundations and evidence for each area.',
-    'Análise de logs':'Log analysis','projeto':'project','estudo':'study','Segurança ofensiva':'Offensive security','Redes':'Networking','Sistemas e permissões':'Systems and permissions','Programação e automação':'Programming and automation','aplicado em projeto':'used in a project','estudado':'studied',
-    'Projetos, trilhas e cursos':'Projects, learning paths and courses','Clique em uma trilha ou curso para ver o certificado.':'Select a learning path or course to view its certificate.','projeto próprio':'personal project','trilha educacional':'learning path','curso':'course','Repositório':'Repository','Ver certificado':'View certificate','Pre Security':'Pre Security','Cyber Security 101':'Cyber Security 101',
-    'Vamos conversar sobre segurança e código.':'Let’s talk about security and code.','Estou disponível para estágio em desenvolvimento, pentest ou SOC. Escreva uma mensagem e respondo em breve.':'I am available for a development, pentest or SOC internship. Send me a message and I will get back to you soon.','CURRÍCULO':'RESUME','Formação, projetos, tecnologias e trilhas de estudo.':'Education, projects, technologies and learning paths.','Abrir currículo':'Open resume','Baixar currículo ↓':'Download resume ↓',
-    'Error Log Analyzer':'Error Log Analyzer','Simulador de brute-force':'Brute-force simulator','Navegação robótica':'Robotic navigation','Banco Malvader':'Malvader Bank','Marcador de Truco':'Truco scorekeeper','Sistema de Livraria':'Bookstore system','Gestão bancária (SQL)':'Banking database (SQL)',
-    'Simulador de força bruta contra PIN, para estudar a importância de credenciais robustas.':'A PIN brute-force simulator exploring the importance of strong credentials.',
-    'Fundamentos de TCP/IP, portas e serviços, firewall e controle de acesso.':'Fundamentals of TCP/IP, ports and services, firewalls and access control.',
-    'Projetos próprios':'Personal projects','Código que escrevi, com repositório público.':'Code I wrote, with a public repository.','Conhecimentos em estudo':'Knowledge in study','Fundamentos que venho estudando.':'Fundamentals I am studying.','Trilhas e cursos concluídos':'Completed paths and courses','Objetivo':'Goal','Método':'Method',
-'Acelerar a investigação de falhas lendo eventos do Windows em um só lugar.':'Speed up troubleshooting by reading Windows events in one place.','Lê logs via wevtutil ou de um caminho informado e filtra por severidade: erros, avisos e eventos críticos.':'Reads logs through wevtutil or from a given path and filters by severity: errors, warnings and critical events.','Estudar a importância de credenciais robustas e de limites de tentativas.':'Study the importance of strong credentials and attempt limits.','Ataca por força bruta um PIN de 4 dígitos e compara a execução sem proteção com a execução com bloqueio após tentativas erradas.':'Brute-forces a four-digit PIN and compares an unprotected run with one that locks out after failed attempts.',
-'Meu interesse está em operações de segurança (SOC) e segurança ofensiva. Abaixo, o que estudo. Os projetos de segurança estão em Desenvolvimento e os certificados na seção seguinte.':'My interests are security operations (SOC) and offensive security. Below, what I study. Security projects are under Development and certificates in the next section.','Vistas na trilha Cyber Security 101.':'Covered in the Cyber Security 101 learning path.','Trilhas TIC em Trilhas, UCB · 30 h cada':'TIC em Trilhas learning paths, UCB · 30 h each','Desenvolvimento Colaborativo em GitHub':'Collaborative Development with GitHub','Ciência de Dados: Fundamentos':'Data Science: Fundamentals',
-'Engenharia de Software, UCB':'Software Engineering, UCB','2025 a 2028':'2025 to 2028','4º semestre':'4th semester','Código que escrevi em C, Java, Dart e SQL.':'Code I wrote in C, Java, Dart and SQL.','Projetos da faculdade e pessoais, alguns feitos em grupo.':'University and personal projects, some built in teams.','Currículo':'Resume','Paisagem em caracteres, desenho próprio.':'Landscape drawn in text characters, my own drawing.',
-'Ferramentas vistas na trilha Cyber Security 101.':'Tools covered in the Cyber Security 101 learning path.','Aplicado em projeto':'Applied in projects','Em estudo':'In study','saída sintética de exemplo':'synthetic sample output','esquema ilustrativo':'illustrative diagram',
-    'Gerenciamento básico de usuários e permissões, e boas práticas de segurança.':'Basic user and permissions management, and security best practices.',
-    'C para ferramentas de análise e automação de verificações.':'C for analysis tools and automating checks.',
-    'Simulador educacional em C de força bruta contra PIN de 4 dígitos, comparando a execução sem proteção e com bloqueio por tentativas.':'An educational C simulator for brute-forcing a four-digit PIN, comparing an unprotected run with an attempt lockout.',
-    'Trilha da TryHackMe com ferramentas como Nmap, Wireshark e Metasploit.':'TryHackMe learning path covering tools such as Nmap, Wireshark and Metasploit.',
-    'Proteção de infraestrutura crítica, concluído em maio de 2026.':'Critical infrastructure protection, completed in May 2026.',
-    'Análise de logs de eventos do Windows com filtros por severidade.':'Windows event log analysis with severity filters.',
-    'Projetos acadêmicos':'Academic projects','Projeto próprio':'Personal project','projeto em grupo':'team project',
-    'Navegação robótica':'Robotic navigation','Banco Malvader':'Malvader Bank','Marcador de pontos de Truco':'Truco point scorekeeper',
-    'Pre Security e Cyber Security 101':'Pre Security and Cyber Security 101','Introduction to Critical Infrastructure Protection':'Introduction to Critical Infrastructure Protection',
-    'curso':'course','trilha UCB':'UCB learning path','trilha educacional':'learning path','No GitHub':'On GitHub','Todos os repositórios':'All repositories',
-    'no Error Log Analyzer.':'in the Error Log Analyzer.','Fundamentos de TCP/IP, portas e serviços, firewall e controle de acesso.':'Fundamentals of TCP/IP, ports and services, firewalls and access control.',
-    'Abaixo, o que sustenta isso e o tipo de evidência de cada item.':'Below are the foundations and evidence for each area.',
-    'Lê e organiza logs de eventos do Windows (via wevtutil) ou de caminhos informados pelo usuário, para acelerar a investigação de falhas.':'Reads and organizes Windows event logs (using wevtutil) or user-provided files to support troubleshooting.',
-    'Escrito em C, com baixo uso de memória':'Written in C with low memory use','Filtros por severidade: erros, avisos e eventos críticos':'Severity filters: errors, warnings and critical events',
-    'Clique para ver o certificado.':'Select to view the certificate.','Clique em uma tecnologia para destacar os projetos que a usam.':'Select a technology to highlight projects that use it.',
-    'usado em projetos':'used in projects','Brasília, DF':'Brasília, Brazil','Bacharelado':'Bachelor’s degree','Em andamento':'In progress',
-    'Pensamento analítico · Resolução estruturada de problemas · Aprendizado rápido':'Analytical thinking · Structured problem-solving · Fast learner',
-    'Captura do projeto':'Project screenshot'
-  };
-  const originalTranslations = new Map(); // pares idênticos (nomes oficiais) só protegem o texto; nunca sobrescrevem uma tradução real
-  Object.entries(translations).forEach(([pt, en]) => { if (pt !== en || !originalTranslations.has(en)) originalTranslations.set(en, pt); });
-  let currentLanguage = 'pt';
-  languageButton.addEventListener('click', () => {
-    currentLanguage = currentLanguage === 'pt' ? 'en' : 'pt';
-    const dictionary = currentLanguage === 'en' ? translations : originalTranslations;
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
-    const map = new Map(dictionary instanceof Map ? [...dictionary.entries()] : Object.entries(dictionary));
-    const rx = new RegExp([...map.keys()].sort((a,b) => b.length - a.length).map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g'); // uma única passada: evita traduzir de novo o que já foi traduzido
-    const swap = v => { const t = v.trim(); return map.has(t) ? v.replace(t, map.get(t)) : v.replace(rx, m => map.get(m)); };
-    nodes.forEach(node => { node.nodeValue = swap(node.nodeValue); });
-    document.querySelectorAll('[aria-label],[data-title],[alt]').forEach(el => { if (el.id === 'language-toggle') return; ['aria-label', 'data-title', 'alt'].forEach(a => { const v = el.getAttribute(a); if (v && v.trim()) el.setAttribute(a, swap(v)); }); });
-    document.documentElement.lang = currentLanguage === 'en' ? 'en' : 'pt-BR';
-    languageButton.setAttribute('aria-label', currentLanguage === 'en' ? 'Change language to Portuguese' : 'Mudar idioma para inglês');
-    document.title = currentLanguage === 'en' ? 'Gabriel Lima Leite — Development and Cybersecurity' : 'Gabriel Lima Leite — Desenvolvimento e Cibersegurança';
-    document.querySelector('meta[name="description"]').content = currentLanguage === 'en' ? 'Software Engineering student focused on development, SOC and offensive security. Brasília, Brazil.' : 'Estudante de Engenharia de Software com foco em desenvolvimento, SOC e segurança ofensiva. Brasília, DF.';
+(() => {
+  const d = document.getElementById('term'), i = document.getElementById('term-in'), o = document.getElementById('term-out');
+  const go = { home: 'index.html', about: 'about.html', dev: 'development.html', cyber: 'cybersecurity.html', projects: 'projects.html', contact: 'contact.html', resume: '../curriculo.pdf' };
+  const open = () => { d.showModal(); i.value = ''; i.focus(); };
+  document.getElementById('open-term').addEventListener('click', open);
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !d.open && !/input|textarea/i.test(e.target.tagName)) { e.preventDefault(); open(); }
   });
-
-  const hdr = document.querySelector('header'), sob = document.getElementById('sobre');
-  const navBg = () => hdr.classList.toggle('solid', sob.getBoundingClientRect().top <= 80);
-  addEventListener('scroll', navBg, { passive:true }); navBg();
-
-
-  // Paisagem ASCII: gerada em caracteres reais para preencher a tela, em qualquer largura.
-  (() => {
-    const host = document.getElementById('asc-hero'); if (!host) return;
-    const pre = host.querySelector('.asc-main'), sky = host.querySelector('.asc-clouds');
-    const prng = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-    const esc = c => c === '<' ? '&lt;' : c === '&' ? '&amp;' : c;
-    let last = '';
-    function build() {
-      const w = host.clientWidth, h = host.clientHeight, fs = w < 700 ? 10 : 13, lh = Math.round(fs * 1.15);
-      const m = document.createElement('span'); m.style.cssText = `position:absolute;visibility:hidden;font:400 ${fs}px 'JetBrains Mono',monospace`; m.textContent = 'M'.repeat(50);
-      document.body.appendChild(m); const cw = m.getBoundingClientRect().width / 50; m.remove();
-      const W = Math.ceil(w / cw) + 1, H = Math.floor(h / lh), key = W + 'x' + H + 'x' + fs; if (key === last) return; last = key;
-      pre.style.fontSize = sky.style.fontSize = fs + 'px'; pre.style.lineHeight = sky.style.lineHeight = lh + 'px';
-      const R = prng(7), K = Math.min(H / 30, W / 55);
-      const g = Array.from({ length: H }, () => Array.from({ length: W }, () => [' ', null]));
-      const put = (x, y, c, p) => { if (x >= 0 && x < W && y >= 0 && y < H) g[y][x] = [c, c === ' ' ? null : p]; };
-      for (let i = 0; i < W * H / 110; i++) put(Math.floor(R() * W), Math.floor(R() * H / 3), ".'.*"[Math.floor(R() * 4)], 'st|' + (R() * 9).toFixed(1));
-      put(Math.floor(W * .8), Math.floor(H * .12), 'o', 'mn');
-      const ridge = (base, amps, peaks, pl, fill) => {
-        const ys = [];
-        for (let x = 0; x < W; x++) {
-          const u = x / W * 120; let hh = base + amps.reduce((t, [a, f, ph]) => t + a * Math.sin(u / f + ph), 0);
-          peaks.forEach(([cx, ph, wd]) => { hh += ph * Math.max(0, 1 - Math.abs(u - cx) / wd); });
-          ys.push(H - 1 - Math.floor(hh * K));
-        }
-        for (let x = 1; x < W; x++) ys[x] = Math.min(Math.max(ys[x], ys[x - 1] - 1), ys[x - 1] + 1);
-        for (let x = W - 2; x >= 0; x--) ys[x] = Math.min(Math.max(ys[x], ys[x + 1] - 1), ys[x + 1] + 1);
-        for (let x = 0; x < W; x++) {
-          const y0 = ys[x], l = x ? ys[x - 1] : y0, r = x < W - 1 ? ys[x + 1] : y0;
-          for (let y = y0 + 1; y < H; y++) put(x, y, fill(x, y), pl);
-          put(x, y0, (l > y0 && r > y0) ? '^' : (l < y0 && r < y0) ? '_' : r < y0 ? '/' : r > y0 ? '\\' : '_', pl);
-        }
-      };
-      ridge(8, [[1.2, 11, 0], [1, 5.3, 1]], [[30, 6, 26], [84, 12, 30]], 'p0', (x, y) => (x + y) % 4 ? ' ' : '.');
-      ridge(5, [[1.5, 8, 2], [.8, 3.1, .5]], [[56, 6, 30], [108, 6, 20]], 'p1', (x, y) => (x * 3 + y) % 3 ? ' ' : ':');
-      ridge(3, [[1.2, 6, 1]], [], 'p2', (x, y) => (x + y) % 6 ? ' ' : ';');
-      const tree = (x, base, hh, pl, inner) => {
-        for (let k = 0; k < hh; k++) {
-          const y = base - hh + 1 + k, half = k >> 1;
-          if (k === 0) put(x, y, '^', pl); else if (half === 0) put(x, y, '|', pl);
-          else { for (let xx = x - half + 1; xx < x + half; xx++) put(xx, y, (xx + y) % 2 ? ' ' : inner, pl); put(x - half, y, '/', pl); put(x + half, y, '\\', pl); }
-        }
-        put(x, base + 1, '|', pl);
-      };
-      const step = W > 100 ? 4 : 5, mids = [];
-      for (let x = 2; x < W - 2; x += step) mids.push([x + Math.floor(R() * 3) - 1, H - 5 + Math.floor(R() * 3), Math.max(3, Math.round((3 + Math.floor(R() * 4)) * K))]);
-      mids.sort((a, b) => a[1] - b[1]).forEach(([x, b, hh]) => tree(x, b, hh, 'p2', ':'));
-      for (const y of [H - 2, H - 1]) for (let x = 0; x < W; x++) if (R() < .62) put(x, y, ",.'\"`;:"[Math.floor(R() * 7)], y === H - 1 ? 'p3' : 'p2');
-      const fgN = W > 100 ? 3 : 2;
-      [[.03, 13], [.09, 9], [.15, 11]].slice(0, fgN).concat([[.97, 12], [.90, 8], [.83, 10]].slice(0, fgN)).forEach(([f, hh]) => tree(Math.floor(f * (W - 1)), H - 3, Math.round(hh * K), 'p3', '#'));
-      for (let i = 0, n = Math.max(6, Math.floor(W / 14)); i < n; i++) { const x = Math.floor(R() * W), y = H - 4 - Math.floor(R() * 6); if (g[y] && g[y][x][0] === ' ') put(x, y, '*', 'ff|' + (R() * 6).toFixed(1)); }
-      pre.innerHTML = g.map(row => {
-        for (let i = 0; i < W; i++) if (row[i][0] === ' ') {
-          let j = i - 1; while (j >= 0 && row[j][0] === ' ') j--;
-          let k = i + 1; while (k < W && row[k][0] === ' ') k++;
-          if (j >= 0 && k < W && k - j <= 4 && row[j][1] === row[k][1] && /^p[123]$/.test(row[j][1])) row[i] = [' ', '~' + row[j][1]];
-        }
-        let out = '', cur = null, buf = '', start = 0;
-        const flush = () => { if (!buf) return; if (cur) { const [cls, d] = cur.split('|'); const st = d !== undefined ? ` style="animation-delay:-${d}s"` : (cls === 'p0' || cls === 'p1') ? ` style="--x:${start}"` : ''; out += `<span class="${cls}"${st}>${buf}</span>`; } else out += buf; buf = ''; };
-        for (let x = 0; x < W; x++) { let [c, pl] = row[x]; if (pl && pl[0] === '~') pl = pl.slice(1); if (pl !== cur) { flush(); cur = pl; start = x; } buf += esc(c); }
-        flush(); return out;
-      }).join('\n');
-      // nuvens: camada separada, deriva muito devagar
-      const Wc = Math.ceil(w * 1.24 / cw) + 1, rows = Array.from({ length: H }, () => Array(Wc).fill(' '));
-      const R2 = prng(21), write = (x, y, t) => [...t].forEach((c, i) => { if (y >= 0 && y < H && x + i < Wc) rows[y][x + i] = c; });
-      for (let i = 0, n = Math.max(3, Math.floor(Wc / 45)); i < n; i++) {
-        const len = 10 + Math.floor(R2() * 16), x = Math.floor(R2() * (Wc - len - 8)), y = Math.floor(H * (.33 + R2() * .17));
-        write(x + 1, y, ' .-' + '~'.repeat(len) + '-. '); write(x, y + 1, "'-" + '_'.repeat(len + 2) + "-'");
-      }
-      sky.textContent = rows.map(r => r.join('').replace(/\s+$/, '')).join('\n');
-    }
-    let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
-    build(); if (document.fonts) document.fonts.ready.then(() => { last = ''; build(); });
-  })();
-
-  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Reveal ao rolar
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), { threshold: .12 });
-  document.querySelectorAll('.reveal').forEach(el => calm ? el.classList.add('on') : io.observe(el));
-
-  // Parallax discreto
-  if (!calm) {
-    const items = [...document.querySelectorAll('[data-parallax]')];
-    let tick = false;
-    const run = () => { items.forEach(el => { const r = el.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
-      el.style.setProperty('--py', ((r.top + r.height / 2 - innerHeight / 2) * -0.06).toFixed(1) + 'px'); }); tick = false; };
-    addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(run); } }, { passive: true });
-    run();
-  }
-
-  // Projetos: troca de painel animada; tags de tecnologia apontam para projetos relacionados
-  const choices = [...document.querySelectorAll('.project-choice')];
-  const panels = [...document.querySelectorAll('.project-panel')];
-  const select = choice => {
-    choices.forEach(c => c.setAttribute('aria-current', String(c === choice)));
-    panels.forEach(p => { p.hidden = p.dataset.panel !== choice.dataset.project; });
-    const activePanel = panels.find(p => p.dataset.panel === choice.dataset.project);
-    const proofImage = activePanel?.querySelector('.fig img[data-src]');
-    if (proofImage && !proofImage.dataset.requested) {
-      proofImage.dataset.requested = 'true';
-      proofImage.loading = 'eager';
-      proofImage.src = proofImage.dataset.src;
-    }
-  };
-  const initialChoice = choices.find(c => c.getAttribute('aria-current') === 'true');
-  if (initialChoice) select(initialChoice);
-  choices.forEach((c, i) => {
-    c.addEventListener('click', () => select(c));
-    c.addEventListener('keydown', e => {
-      const n = choices.length;
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); choices[(i + 1) % n].focus(); }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); choices[(i - 1 + n) % n].focus(); }
-    });
+  d.addEventListener('click', e => { if (e.target === d) d.close(); });
+  document.getElementById('term-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const c = i.value.trim().toLowerCase();
+    if (go[c]) { d.close(); location.href = go[c]; }
+    else o.textContent = c === 'help' || c === '' ? 'Commands: home, about, dev, cyber, projects, contact, resume, help.' : 'Command not found: ' + c + '. Type help.';
+    i.value = '';
   });
-  document.querySelectorAll('button.tag[data-p]').forEach(t => t.addEventListener('click', () => {
-    const on = t.getAttribute('aria-pressed') !== 'true';
-    document.querySelectorAll('button.tag[aria-pressed]').forEach(x => x.setAttribute('aria-pressed', 'false'));
-    t.setAttribute('aria-pressed', on);
-    const ids = t.dataset.p.split(' ');
-    choices.forEach(c => c.classList.toggle('dim', on && !ids.includes(c.dataset.project)));
-    const cur = choices.find(c => c.getAttribute('aria-current') === 'true');
-    if (on && !ids.includes(cur.dataset.project)) select(choices.find(c => ids.includes(c.dataset.project)));
-  }));
-
-  // Certificados em lightbox
-  const dlg = document.getElementById('cert');
-  const cimg = dlg.querySelector('img'), ccap = dlg.querySelector('[data-cap]');
-  let lastFocus = null;
-  document.querySelectorAll('[data-cert]').forEach(r => r.addEventListener('click', () => {
-    lastFocus = document.activeElement;
-    cimg.src = r.dataset.cert; cimg.alt = (document.documentElement.lang === 'en' ? 'Certificate: ' : 'Certificado: ') + r.dataset.title; ccap.textContent = r.dataset.title;
-    dlg.showModal();
-  }));
-  dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('[data-close]')) dlg.close(); });
-  dlg.addEventListener('close', () => { if (lastFocus) lastFocus.focus(); });
-
-  // Capturas dos projetos usam o mesmo visualizador animado dos certificados.
-  const projectPreview = document.getElementById('project-preview');
-  const previewImage = projectPreview.querySelector('img');
-  const previewCaption = projectPreview.querySelector('#project-preview-caption');
-  let lastProjectImage = null;
-  const showProjectImage = image => {
-    lastProjectImage = image;
-    previewImage.src = image.currentSrc || image.src;
-    previewImage.alt = image.alt;
-    previewCaption.textContent = image.closest('.project-panel').querySelector('h4').textContent;
-    projectPreview.showModal();
-  };
-  document.querySelectorAll('.project-panel .fig img[data-src]').forEach(image => {
-    image.addEventListener('load', () => {
-      image.tabIndex = 0;
-      image.setAttribute('role', 'button');
-      image.setAttribute('aria-label', (document.documentElement.lang === 'en' ? 'Enlarge image: ' : 'Ampliar imagem: ') + image.alt);
-    });
-    image.addEventListener('click', () => showProjectImage(image));
-    image.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); showProjectImage(image); }
-    });
-    if (image.complete && image.naturalWidth) image.dispatchEvent(new Event('load'));
-  });
-  projectPreview.addEventListener('click', event => {
-    if (event.target === projectPreview || event.target.closest('[data-close-project]')) projectPreview.close();
-  });
-  projectPreview.addEventListener('close', () => { if (lastProjectImage) lastProjectImage.focus(); });
-
-  // Conhecimentos em estudo: navegacao com push-in (para adicionar categorias, veja o comentario "COMO ATUALIZAR" no HTML)
-  (() => {
-    const kn = document.getElementById('kn'); if (!kn) return;
-    const bt = [...kn.querySelectorAll('.kn-trail button')], ps = [...kn.querySelectorAll('.kp')];
-    const prev = kn.querySelector('[data-prev]'), next = kn.querySelector('[data-next]'), cnt = kn.querySelector('.kn-count');
-    let idx = 0, busy = false, pend = null;
-    const ui = () => { bt.forEach((b, i) => i === idx ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
-      prev.disabled = idx === 0; next.disabled = idx === ps.length - 1; cnt.textContent = '0' + (idx + 1) + ' / 0' + ps.length; };
-    const swap = (o, n) => { o.classList.remove('on'); n.classList.add('on'); };
-    function go(n) {
-      if (n === idx || n < 0 || n >= ps.length) return;
-      if (busy) { pend = n; return; }
-      const dir = n > idx ? 1 : -1, out = ps[idx], inn = ps[n]; idx = n; ui();
-      if (calm) return swap(out, inn);
-      busy = true;
-      out.animate([{ opacity: 1, transform: 'none', filter: 'blur(0)' }, { opacity: 0, transform: dir > 0 ? 'scale(1.07) translateY(-10px)' : 'scale(.95) translateY(14px)', filter: 'blur(2px)' }], { duration: 220, easing: 'ease-in' }).finished
-        .then(() => { swap(out, inn); return inn.animate([{ opacity: 0, transform: dir > 0 ? 'scale(.93) translateY(22px)' : 'scale(1.06) translateY(-14px)', filter: 'blur(2px)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }], { duration: 480, easing: 'cubic-bezier(.22,1,.36,1)' }).finished; })
-        .catch(() => swap(out, inn)).finally(() => { busy = false; if (pend !== null) { const p = pend; pend = null; go(p); } });
-    }
-    bt.forEach((b, i) => b.addEventListener('click', () => go(i)));
-    prev.addEventListener('click', () => go(idx - 1)); next.addEventListener('click', () => go(idx + 1));
-    kn.addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(idx + 1); else if (e.key === 'ArrowLeft') go(idx - 1); });
-  })();
-
-  // Hero: movimento suave da foto com o mouse (só em telas com mouse e sem prefers-reduced-motion)
-  (() => {
-    const hero = document.getElementById('top');
-    if (!hero || calm || !matchMedia('(pointer:fine)').matches) return;
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
-    const step = () => { raf = 0; cx += (tx - cx) * .06; cy += (ty - cy) * .06;
-      hero.style.setProperty('--mx', cx.toFixed(2) + 'px'); hero.style.setProperty('--my', cy.toFixed(2) + 'px');
-      if (Math.abs(tx - cx) > .05 || Math.abs(ty - cy) > .05) raf = requestAnimationFrame(step); };
-    const run = () => { if (!raf) raf = requestAnimationFrame(step); };
-    hero.addEventListener('pointermove', e => { const r = hero.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width - .5) * -30; ty = ((e.clientY - r.top) / r.height - .5) * -18; run(); });
-    hero.addEventListener('pointerleave', () => { tx = ty = 0; run(); });
-  })();
-
-  // Diagrama: linhas só animam quando visíveis
-  const dg = document.getElementById('dg');
-  if (dg && !calm) new IntersectionObserver(([e]) => dg.classList.toggle('live', e.isIntersecting)).observe(dg);
-
-  // Menu de projetos e trilha de conhecimentos (celular): indica que há mais itens à direita
-  (() => {
-    document.querySelectorAll('.project-menu, .kn-trail').forEach(nav => {
-      const upd = () => nav.classList.toggle('has-more', nav.scrollWidth - nav.clientWidth - nav.scrollLeft > 6);
-      nav.addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
-    });
-  })();
+})();
 </script>
 </body>
 </html>

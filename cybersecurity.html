@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cybersecurity | Gabriel Lima Leite</title>
+<meta name="description" content="Estudos, projetos e base técnica de Gabriel Lima Leite em segurança: logs, autenticação, redes e controle de acesso.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+<style type="text/tailwindcss">
+@theme {
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --color-deep: #101010;
+  --color-base: #141414;
+  --color-raised: #1a1a1a;
+  --color-surface: #202020;
+  --color-line: #292929;
+  --color-edge: #333333;
+  --color-ink: #f5f5f5;
+  --color-soft: #a1a1aa;
+  --color-quiet: #8a8a8a;
+  --color-accent: #6d28d9;
+  --color-accent-text: #a78bfa;
+}
+@view-transition { navigation: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { background: var(--color-base); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; border-radius: 4px; }
+.rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+dialog::backdrop { background: rgb(0 0 0 / .6); }
+dialog[open] { animation: rise .25s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, dialog[open] { animation: none; }
+  * { transition: none !important; }
+  @view-transition { navigation: none; }
+}
+</style>
+</head>
+<body class="font-sans antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2">Ir para o conteúdo</a>
+
+<header class="sticky top-0 z-40 border-b border-line bg-base/90 backdrop-blur">
+  <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
+    <a href="index.html" class="font-semibold tracking-tight">Gabriel Lima Leite</a>
+    <nav aria-label="Principal" class="flex items-center gap-5 text-sm text-soft">
+      <a class="hover:text-ink" href="index.html#sobre">Sobre</a>
+      <a class="hover:text-ink" href="development.html">Development</a>
+      <a class="text-ink underline decoration-accent-text decoration-2 underline-offset-8" href="cybersecurity.html" aria-current="page">Cybersecurity</a>
+      <a class="hover:text-ink" href="projects.html">Projects</a>
+      <a class="hover:text-ink" href="index.html#contato">Contato</a>
+      <button id="open-term" type="button" aria-label="Abrir terminal de navegação (atalho: /)" class="rounded border border-edge px-2 py-1 font-mono text-xs text-accent-text transition-colors hover:border-accent-text">&gt;_</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="relative overflow-hidden bg-deep">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(50rem_24rem_at_85%_0%,rgb(109_40_217/.12),transparent_70%)]" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl px-5 pb-20 pt-20 md:pt-28">
+      <h1 class="rise max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl" style="--i:0">Segurança começa em entender o que o sistema registra.</h1>
+      <p class="rise mt-6 max-w-xl text-lg text-soft" style="--i:1">Estudo segurança a partir de logs, autenticação e redes, e transformo o que aprendo em ferramentas pequenas que eu mesmo consigo explicar. Meu objetivo é atuar em SOC e segurança ofensiva, contribuindo com detecção e resposta a incidentes.</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-24">
+    <h2 class="text-3xl font-semibold tracking-tight">Projetos de segurança</h2>
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      <article class="rounded-lg bg-surface p-8">
+        <p class="font-mono text-xs text-accent-text">C · logs do Windows</p>
+        <h3 class="mt-3 text-2xl font-semibold">Error Log Analyzer</h3>
+        <dl class="mt-5 space-y-4 text-soft">
+          <div><dt class="font-medium text-ink">Problema</dt><dd class="mt-1">Diagnosticar falhas exige extrair eventos de log e separar o que é crítico do restante.</dd></div>
+          <div><dt class="font-medium text-ink">Solução</dt><dd class="mt-1">Uma ferramenta em C que lê eventos via <code class="font-mono text-sm text-ink">wevtutil</code> ou de um caminho informado e filtra por severidade.</dd></div>
+          <div><dt class="font-medium text-ink">Por que C</dt><dd class="mt-1">Pouco uso de memória e execução rápida.</dd></div>
+        </dl>
+        <p class="mt-6 flex flex-wrap gap-x-6 gap-y-2"><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="project-error-log-analyzer.html">Ler o estudo de caso</a><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/limnte/Error-Log-Analyzer">Ver no GitHub</a></p>
+      </article>
+
+      <article class="rounded-lg bg-surface p-8">
+        <p class="font-mono text-xs text-accent-text">C · autenticação</p>
+        <h3 class="mt-3 text-2xl font-semibold">PIN Brute-Force Simulator</h3>
+        <dl class="mt-5 space-y-4 text-soft">
+          <div><dt class="font-medium text-ink">Problema</dt><dd class="mt-1">Mostrar na prática por que tentativas ilimitadas tornam um PIN de 4 dígitos frágil.</dd></div>
+          <div><dt class="font-medium text-ink">Solução</dt><dd class="mt-1">Simulador local, sem rede, que testa as 10.000 combinações embaralhadas e compara o ataque sem bloqueio com o ataque com delay após tentativas erradas.</dd></div>
+          <div><dt class="font-medium text-ink">Limite e próximo passo</dt><dd class="mt-1">O delay é fixo. Torná-lo progressivo e adicionar bloqueio permanente são as melhorias que quero fazer.</dd></div>
+        </dl>
+        <a class="mt-6 inline-block text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/limnte/PIN-Brute-Force-Simulator">Ver no GitHub</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="bg-raised">
+    <div class="mx-auto grid max-w-6xl gap-12 px-5 py-24 md:grid-cols-2">
+      <div>
+        <h2 class="text-3xl font-semibold tracking-tight">Base técnica</h2>
+        <ul class="mt-8 space-y-3 text-soft">
+          <li>Fundamentos de TCP/IP, portas e serviços</li>
+          <li>Conceitos de firewall e controle de acesso</li>
+          <li>Gerenciamento básico de usuários e permissões</li>
+          <li>Análise de logs de eventos do Windows com <code class="font-mono text-sm text-ink">wevtutil</code></li>
+          <li>Parsing de logs e estruturação de dados para análise</li>
+        </ul>
+        <p class="mt-6 font-mono text-xs text-quiet">Exemplo de consulta de eventos do Windows:</p>
+        <pre class="mt-2 overflow-x-auto rounded bg-deep p-4 font-mono text-sm text-ink"><code>wevtutil qe System /c:5 /f:text</code></pre>
+      </div>
+      <div>
+        <h2 class="text-3xl font-semibold tracking-tight">Estudos e certificados</h2>
+        <ul class="mt-8 divide-y divide-line">
+          <li class="py-4"><p class="font-medium">Cyber Security 101</p><p class="mt-1 text-sm text-soft">TryHackMe</p></li>
+          <li class="py-4"><p class="font-medium">Pre Security</p><p class="mt-1 text-sm text-soft">TryHackMe</p></li>
+          <li class="py-4"><p class="font-medium">Introduction to Critical Infrastructure Protection (ICIP)</p><p class="mt-1 text-sm text-soft">OPSWAT</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-24">
+    <h2 class="text-3xl font-semibold tracking-tight">Vamos conversar</h2>
+    <p class="mt-3 max-w-xl text-soft">Estou buscando um estágio em SOC ou segurança ofensiva, e também em desenvolvimento.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="mailto:gabe.limtee@gmail.com" class="rounded bg-accent px-5 py-2.5 font-medium text-white transition-colors hover:bg-[#7c3aed]">Enviar e-mail</a>
+      <a href="curriculo.pdf" class="rounded border border-edge px-5 py-2.5 transition-colors hover:border-accent-text">Baixar currículo</a>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-line py-8 text-center text-sm text-quiet">Gabriel Lima Leite · Brasília, DF</footer>
+
+<dialog id="term" aria-label="Terminal de navegação" class="m-auto w-[min(32rem,92vw)] rounded-lg border border-edge bg-deep p-5 text-ink">
+  <form id="term-form" autocomplete="off" class="font-mono text-sm">
+    <label for="term-in" class="flex items-center gap-2"><span class="text-accent-text" aria-hidden="true">$</span><span class="sr-only">Comando</span>
+      <input id="term-in" class="w-full bg-transparent outline-none" placeholder="digite help" spellcheck="false"></label>
+    <p id="term-out" class="mt-4 whitespace-pre-wrap text-soft" aria-live="polite">Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help. Esc fecha.</p>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const d = document.getElementById('term'), i = document.getElementById('term-in'), o = document.getElementById('term-out');
+  const go = { home: 'index.html', sobre: 'index.html#sobre', dev: 'development.html', cyber: 'cybersecurity.html', projetos: 'projects.html', contato: 'index.html#contato', curriculo: 'curriculo.pdf' };
+  const open = () => { d.showModal(); i.value = ''; i.focus(); };
+  document.getElementById('open-term').addEventListener('click', open);
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !d.open && !/input|textarea/i.test(e.target.tagName)) { e.preventDefault(); open(); }
+  });
+  d.addEventListener('click', e => { if (e.target === d) d.close(); });
+  document.getElementById('term-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const c = i.value.trim().toLowerCase();
+    if (go[c]) { d.close(); location.href = go[c]; }
+    else o.textContent = c === 'help' || c === '' ? 'Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help.' : 'Comando não encontrado: ' + c + '. Digite help.';
+    i.value = '';
+  });
+})();
+</script>
+</body>
+</html>

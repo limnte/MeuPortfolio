@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Error Log Analyzer | Gabriel Lima Leite</title>
+<meta name="description" content="Estudo de caso: ferramenta em C para extrair, filtrar e organizar eventos de log do Windows.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+<style type="text/tailwindcss">
+@theme {
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --color-deep: #101010;
+  --color-base: #141414;
+  --color-raised: #1a1a1a;
+  --color-surface: #202020;
+  --color-line: #292929;
+  --color-edge: #333333;
+  --color-ink: #f5f5f5;
+  --color-soft: #a1a1aa;
+  --color-quiet: #8a8a8a;
+  --color-accent: #6d28d9;
+  --color-accent-text: #a78bfa;
+}
+@view-transition { navigation: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { background: var(--color-base); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; border-radius: 4px; }
+.rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+dialog::backdrop { background: rgb(0 0 0 / .6); }
+dialog[open] { animation: rise .25s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, dialog[open] { animation: none; }
+  * { transition: none !important; }
+  @view-transition { navigation: none; }
+}
+</style>
+</head>
+<body class="font-sans antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2">Ir para o conteúdo</a>
+
+<header class="sticky top-0 z-40 border-b border-line bg-base/90 backdrop-blur">
+  <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
+    <a href="index.html" class="font-semibold tracking-tight">Gabriel Lima Leite</a>
+    <nav aria-label="Principal" class="flex items-center gap-5 text-sm text-soft">
+      <a class="hover:text-ink" href="index.html#sobre">Sobre</a>
+      <a class="hover:text-ink" href="development.html">Development</a>
+      <a class="hover:text-ink" href="cybersecurity.html">Cybersecurity</a>
+      <a class="text-ink underline decoration-accent-text decoration-2 underline-offset-8" href="projects.html" aria-current="page">Projects</a>
+      <a class="hover:text-ink" href="index.html#contato">Contato</a>
+      <button id="open-term" type="button" aria-label="Abrir terminal de navegação (atalho: /)" class="rounded border border-edge px-2 py-1 font-mono text-xs text-accent-text transition-colors hover:border-accent-text">&gt;_</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="bg-deep">
+    <div class="mx-auto max-w-6xl px-5 pb-16 pt-16 md:pt-24">
+      <p class="font-mono text-xs text-accent-text">C · logs do Windows · trilha Cybersecurity</p>
+      <h1 class="rise mt-4 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl" style="view-transition-name:ela-title">Error Log Analyzer</h1>
+      <p class="mt-6 max-w-xl text-lg text-soft">Uma ferramenta leve em C que extrai eventos de log e organiza as informações críticas de forma clara.</p>
+    </div>
+  </section>
+  <div class="mx-auto grid max-w-6xl gap-12 px-5 py-16 md:grid-cols-[12rem_1fr]">
+    <nav aria-label="Nesta página" class="text-sm text-soft md:sticky md:top-24 md:self-start"><ul class="flex flex-wrap gap-x-5 gap-y-2 md:block md:space-y-2"><li><a class="hover:text-ink" href="#problema">Problema</a></li><li><a class="hover:text-ink" href="#solucao">Solução</a></li><li><a class="hover:text-ink" href="#entrada">De onde vêm os logs</a></li><li><a class="hover:text-ink" href="#por-que-c">Por que C</a></li></ul></nav>
+    <div class="max-w-2xl">
+      <section id="problema" class="border-t border-line py-10"><h2 class="text-2xl font-semibold tracking-tight">Problema</h2><div class="mt-4 space-y-4 text-soft"><p>Diagnosticar uma falha no sistema exige extrair os eventos de log e separar o que é crítico do restante.</p></div></section>
+      <section id="solucao" class="border-t border-line py-10"><h2 class="text-2xl font-semibold tracking-tight">Solução</h2><div class="mt-4 space-y-4 text-soft"><p>O Error Log Analyzer lê e processa logs e permite analisar, filtrar e visualizar os erros do sistema. O filtro é por severidade: erros, avisos e eventos críticos.</p></div></section>
+      <section id="entrada" class="border-t border-line py-10"><h2 class="text-2xl font-semibold tracking-tight">De onde vêm os logs</h2><div class="mt-4 space-y-4 text-soft"><p>A ferramenta lê os logs de eventos do Windows, obtidos com <code class="font-mono text-sm text-ink">wevtutil</code>, ou arquivos de log em um caminho informado por quem a usa.</p></div></section>
+      <section id="por-que-c" class="border-t border-line py-10"><h2 class="text-2xl font-semibold tracking-tight">Por que C</h2><div class="mt-4 space-y-4 text-soft"><p>Foi escrita em C para usar pouca memória e executar rápido, o que combina com uma ferramenta leve e eficiente.</p><p><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/limnte/Error-Log-Analyzer">Ver no GitHub</a> · <a class="text-accent-text underline underline-offset-4 hover:text-ink" href="projects.html">Voltar aos projetos</a></p></div></section>
+    </div>
+  </div>
+</main>
+
+<footer class="border-t border-line py-8 text-center text-sm text-quiet">Gabriel Lima Leite · Brasília, DF</footer>
+
+<dialog id="term" aria-label="Terminal de navegação" class="m-auto w-[min(32rem,92vw)] rounded-lg border border-edge bg-deep p-5 text-ink">
+  <form id="term-form" autocomplete="off" class="font-mono text-sm">
+    <label for="term-in" class="flex items-center gap-2"><span class="text-accent-text" aria-hidden="true">$</span><span class="sr-only">Comando</span>
+      <input id="term-in" class="w-full bg-transparent outline-none" placeholder="digite help" spellcheck="false"></label>
+    <p id="term-out" class="mt-4 whitespace-pre-wrap text-soft" aria-live="polite">Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help. Esc fecha.</p>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const d = document.getElementById('term'), i = document.getElementById('term-in'), o = document.getElementById('term-out');
+  const go = { home: 'index.html', sobre: 'index.html#sobre', dev: 'development.html', cyber: 'cybersecurity.html', projetos: 'projects.html', contato: 'index.html#contato', curriculo: 'curriculo.pdf' };
+  const open = () => { d.showModal(); i.value = ''; i.focus(); };
+  document.getElementById('open-term').addEventListener('click', open);
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !d.open && !/input|textarea/i.test(e.target.tagName)) { e.preventDefault(); open(); }
+  });
+  d.addEventListener('click', e => { if (e.target === d) d.close(); });
+  document.getElementById('term-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const c = i.value.trim().toLowerCase();
+    if (go[c]) { d.close(); location.href = go[c]; }
+    else o.textContent = c === 'help' || c === '' ? 'Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help.' : 'Comando não encontrado: ' + c + '. Digite help.';
+    i.value = '';
+  });
+})();
+</script>
+</body>
+</html>

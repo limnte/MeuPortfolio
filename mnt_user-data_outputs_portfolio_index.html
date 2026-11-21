@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gabriel Lima Leite | Desenvolvimento e segurança</title>
+<meta name="description" content="Estudante de Engenharia de Software na UCB, em busca de estágio em desenvolvimento, SOC, suporte de TI e cibersegurança.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Pré-visualização imediata. Para produção, trocar por Tailwind CLI e copiar o bloco @theme para src/input.css -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+<style type="text/tailwindcss">
+@theme {
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --color-deep: #101010;
+  --color-base: #141414;
+  --color-raised: #1a1a1a;
+  --color-surface: #202020;
+  --color-line: #292929;
+  --color-edge: #333333;
+  --color-ink: #f5f5f5;
+  --color-soft: #a1a1aa;
+  --color-quiet: #8a8a8a;
+  --color-accent: #6d28d9;
+  --color-accent-text: #a78bfa;
+}
+@view-transition { navigation: auto; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { background: var(--color-base); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; border-radius: 4px; }
+.rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+dialog::backdrop { background: rgb(0 0 0 / .6); }
+dialog[open] { animation: rise .25s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, dialog[open] { animation: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body class="font-sans antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2">Ir para o conteúdo</a>
+
+<header class="sticky top-0 z-40 border-b border-line bg-base/90 backdrop-blur">
+  <div class="mx-auto flex min-h-14 max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-5 py-2">
+    <a href="index.html" class="font-semibold tracking-tight">Gabriel Lima Leite</a>
+    <nav aria-label="Principal" class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-soft">
+      <a class="hover:text-ink" href="about.html">Sobre</a><a class="hover:text-ink" href="development.html">Development</a><a class="hover:text-ink" href="cybersecurity.html">Cybersecurity</a><a class="hover:text-ink" href="projects.html">Projects</a><a class="hover:text-ink" href="contact.html">Contato</a>
+      <button id="open-term" type="button" aria-label="Abrir terminal de navegação (atalho: /)" class="rounded border border-edge px-2 py-1 font-mono text-xs text-accent-text transition-colors hover:border-accent-text">&gt;_</button>
+      <span class="font-mono text-xs text-quiet"><span class="text-ink" lang="pt-BR">PT</span> / <a class="hover:text-ink" href="en/index.html" hreflang="en" lang="en">EN</a></span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="relative overflow-hidden bg-deep">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_30rem_at_15%_0%,rgb(109_40_217/.14),transparent_70%)]" aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-6xl gap-12 px-5 pb-24 pt-20 md:grid-cols-[1fr_16rem] md:pt-28">
+      <div>
+        <p class="rise text-soft" style="--i:0">Gabriel Lima Leite</p>
+        <h1 class="rise mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl" style="--i:1">Desenvolvimento e segurança, do código aos logs.</h1>
+        <p class="rise mt-4 text-lg text-quiet sm:text-2xl" style="--i:2">Engenharia de software com olhar de segurança.</p>
+        <p class="rise mt-8 max-w-xl text-soft" style="--i:3">Estudo Engenharia de Software e construo ferramentas em C, Java e SQL. Procuro estágio em desenvolvimento, SOC, suporte de TI ou cibersegurança, onde eu possa aprender com um time e contribuir desde cedo.</p>
+        <div class="rise mt-10 flex flex-wrap gap-3" style="--i:4">
+          <a href="#projetos" class="rounded bg-accent px-5 py-2.5 font-medium text-white transition-colors hover:bg-[#7c3aed]">Ver projetos</a>
+          <a href="curriculo.pdf" class="rounded border border-edge px-5 py-2.5 transition-colors hover:border-accent-text">Baixar currículo</a>
+          <a href="#contato" class="rounded px-5 py-2.5 text-soft transition-colors hover:text-ink">Entrar em contato</a>
+        </div>
+      </div>
+      <dl class="rise space-y-5 self-end border-l border-line pl-5 font-mono text-xs" style="--i:5">
+        <div><dt class="text-quiet">formação</dt><dd class="mt-1 text-ink">Engenharia de Software, UCB, 4º semestre</dd></div>
+        <div><dt class="text-quiet">local</dt><dd class="mt-1 text-ink">Brasília, DF</dd></div>
+        <div><dt class="text-quiet">status</dt><dd class="mt-1 flex items-center gap-2 text-ink"><span class="size-2 rounded-full bg-emerald-500" aria-hidden="true"></span>Buscando estágio</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="projetos" class="mx-auto max-w-6xl px-5 py-24">
+    <h2 class="text-3xl font-semibold tracking-tight">Projetos</h2>
+    <p class="mt-3 max-w-xl text-soft">Poucos, com o que cada um resolve e onde ainda é limitado.</p>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-6">
+      <article class="rounded-lg bg-surface p-8 md:col-span-6">
+        <p class="font-mono text-xs text-accent-text">C · logs do Windows · segurança</p>
+        <h3 class="mt-3 text-2xl font-semibold">Error Log Analyzer</h3>
+        <p class="mt-4 max-w-2xl text-soft">Ferramenta em C que lê eventos do Windows via <code class="font-mono text-sm text-ink">wevtutil</code> ou de um caminho informado e filtra por severidade: erros, avisos e eventos críticos. Escrita em C para usar pouca memória e executar rápido.</p>
+        <a class="mt-6 inline-block text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/limnte/Error-Log-Analyzer">Ver no GitHub</a>
+      </article>
+
+      <article class="rounded-lg bg-surface p-8 md:col-span-4">
+        <p class="font-mono text-xs text-accent-text">C · autenticação · estudo</p>
+        <h3 class="mt-3 text-xl font-semibold">PIN Brute-Force Simulator</h3>
+        <p class="mt-4 text-soft">Simula, só localmente, um ataque de força bruta contra um PIN de 4 dígitos, com e sem bloqueio após tentativas erradas. Mede tentativas e tempo para mostrar por que o delay importa. O bloqueio ainda é fixo; torná-lo progressivo é o próximo passo.</p>
+        <a class="mt-6 inline-block text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/limnte/PIN-Brute-Force-Simulator">Ver no GitHub</a>
+      </article>
+
+      <article class="rounded-lg border border-line p-8 md:col-span-2">
+        <p class="font-mono text-xs text-accent-text">Java · MySQL · grupo</p>
+        <h3 class="mt-3 text-xl font-semibold">Sistema de Livraria</h3>
+        <p class="mt-4 text-soft">Aplicação desktop com Swing e JDBC. Projeto acadêmico em grupo; fiz o CRUD de funcionários e os menus.</p>
+        <a class="mt-6 inline-block text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/FlashTR5/Sistema-de-Livraria">Ver no GitHub</a>
+      </article>
+
+      <article class="rounded-lg border border-line p-8 md:col-span-3">
+        <p class="font-mono text-xs text-accent-text">MySQL · modelagem · grupo</p>
+        <h3 class="mt-3 text-xl font-semibold">Gestão de Contas e Operações Bancárias</h3>
+        <p class="mt-4 text-soft">Banco relacional normalizado até a 3FN, com especialização, entidade fraca e histórico de status. Projeto acadêmico em grupo; escrevi parte do código e do SQL em todas as etapas.</p>
+        <a class="mt-6 inline-block text-accent-text underline underline-offset-4 hover:text-ink" href="https://github.com/FlashTR5/Sistema-de-Gestao-de-Contas-e-Operacoes-Bancarias">Ver no GitHub</a>
+      </article>
+
+      <ul class="divide-y divide-line self-start rounded-lg bg-raised md:col-span-3">
+        <li class="p-5"><a class="font-medium hover:text-accent-text" href="https://github.com/limnte/BANCO-MALVADER">Banco Malvader</a><p class="mt-1 text-sm text-soft">Contas, saques e depósitos em C. Projeto acadêmico.</p></li>
+        <li class="p-5"><a class="font-medium hover:text-accent-text" href="https://github.com/limnte/Navega-oRob-tica">Navegação Robótica</a><p class="mt-1 text-sm text-soft">Rotas de um robô cartesiano com listas encadeadas e alocação dinâmica.</p></li>
+        <li class="p-5"><a class="font-medium hover:text-accent-text" href="https://github.com/limnte/MarcadorPontosTruco">Marcador de Pontos de Truco</a><p class="mt-1 text-sm text-soft">App em Flutter/Dart para marcar partidas.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="sobre" class="bg-raised">
+    <div class="mx-auto grid max-w-6xl gap-10 px-5 py-24 md:grid-cols-[1fr_1.4fr]">
+      <h2 class="text-3xl font-semibold tracking-tight">Sobre</h2>
+      <div class="max-w-xl space-y-5 text-soft">
+        <p>Cursei o ensino médio até 2023 e hoje estou no 4º semestre de Engenharia de Software na UCB. Aprendo construindo: de estruturas de dados em C a logs de eventos, passando por banco de dados e Git.</p>
+        <p>Fora da faculdade, estudo segurança nas trilhas Pre Security e Cyber Security 101 da TryHackMe e no curso de proteção de infraestrutura crítica da OPSWAT.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="mx-auto max-w-6xl px-5 py-24">
+    <h2 class="text-3xl font-semibold tracking-tight">Contato</h2>
+    <p class="mt-3 max-w-xl text-soft">O e-mail é o caminho mais rápido.</p>
+    <ul class="mt-8 space-y-2">
+      <li><a class="text-accent-text underline underline-offset-4 hover:text-ink" href="mailto:gabe.limtee@gmail.com">gabe.limtee@gmail.com</a></li>
+      <li><a class="text-soft hover:text-ink" href="https://www.linkedin.com/in/gabelimte/">LinkedIn</a></li>
+      <li><a class="text-soft hover:text-ink" href="https://github.com/limnte">GitHub</a></li>
+      <li><a class="text-soft hover:text-ink" href="curriculo.pdf">Currículo em PDF</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="border-t border-line py-8 text-center text-sm text-quiet">Gabriel Lima Leite · Brasília, DF</footer>
+
+<dialog id="term" aria-label="Terminal de navegação" class="m-auto w-[min(32rem,92vw)] rounded-lg border border-edge bg-deep p-5 text-ink">
+  <form id="term-form" autocomplete="off" class="font-mono text-sm">
+    <label for="term-in" class="flex items-center gap-2"><span class="text-accent-text" aria-hidden="true">$</span><span class="sr-only">Comando</span>
+      <input id="term-in" class="w-full bg-transparent outline-none" placeholder="digite help" spellcheck="false"></label>
+    <p id="term-out" class="mt-4 whitespace-pre-wrap text-soft" aria-live="polite">Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help. Esc fecha.</p>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const d = document.getElementById('term'), i = document.getElementById('term-in'), o = document.getElementById('term-out');
+  const go = { home: 'index.html', sobre: 'about.html', dev: 'development.html', cyber: 'cybersecurity.html', projetos: 'projects.html', contato: 'contact.html', curriculo: 'curriculo.pdf' };
+  const open = () => { d.showModal(); i.value = ''; i.focus(); };
+  document.getElementById('open-term').addEventListener('click', open);
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !d.open && !/input|textarea/i.test(e.target.tagName)) { e.preventDefault(); open(); }
+  });
+  d.addEventListener('click', e => { if (e.target === d) d.close(); });
+  document.getElementById('term-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const c = i.value.trim().toLowerCase();
+    if (go[c]) { d.close(); location.href = go[c]; }
+    else o.textContent = c === 'help' || c === '' ? 'Comandos: home, sobre, dev, cyber, projetos, contato, curriculo, help.' : 'Comando não encontrado: ' + c + '. Digite help.';
+    i.value = '';
+  });
+})();
+</script>
+</body>
+</html>
